@@ -14,5 +14,22 @@ module.exports = {
       },
     },
   },
-  plugins: [],
-}
+  plugins: [require('daisyui')],
+  daisyui: {
+    themes: [
+      {
+        ovoflow: {
+          primary: '#516092',
+          secondary: '#ebadad',
+          accent: '#0817a0',
+          neutral: '#a8a29e',
+          'base-100': '#f3f4f6',
+          info: '#4bb7f1',
+          success: '#83ccae',
+          warning: '#ffc409',
+          error: '#d67c7c',
+        },
+      },
+    ],
+  },
+};
