@@ -1,3 +1,4 @@
+import LangaugeSwitcher from "@/components/LangaugeSwitcher";
 import styles from "@/styles/Login.module.css";
 import Head from "next/head";
 import Image from "next/image";
@@ -17,6 +18,7 @@ export default function Login() {
         <input className="input" placeholder="Password" type="password" />
         <button className="btn btn-secondary" type="button">Login</button>
       </form>
+      <LangaugeSwitcher />
     </main>
   </>
 }
