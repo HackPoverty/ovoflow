@@ -40,7 +40,7 @@ export default function FarmerChecklist() {
           <div className="flex-1 px-6 pb-6">
             {form}
           </div>
-          <div className="flex gap-2 px-6 py-3 sticky bottom-0 w-full bg-base-300">
+          <div className="flex gap-2 px-6 py-3 sticky bottom-0 w-full bg-base-100">
             <button className="btn btn-primary btn-outline flex-1" onClick={back} type="button">Back</button>
             <button className="btn btn-primary flex-1" onClick={next} type="button">Next</button>
           </div>
