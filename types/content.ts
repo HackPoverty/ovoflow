@@ -115,3 +115,48 @@ export type TechnicianVisit = {
   /** Checklist field: how clean the water is */
   fieldWaterCleanliness: Quality
 }
+
+export type FarmerJournal = {
+  /** The number of chickens that are alive */
+  fieldClosingStock?: number
+
+  /** The number of damaged eggs */
+  fieldDamagedEggs?: number
+
+  /** The percentage of eggs that are damaged */
+  fieldDamagedEggsPercentage_?: number
+
+  /** The total number of eggs produced */
+  fieldProducedEggs?: number
+
+  /** The number of large eggs */
+  fieldLargeEggs?: number
+
+  /** The number of medium eggs */
+  fieldMediumEggs?: number
+
+  /** The number of small eggs */
+  fieldSmallEggs?: number
+
+  /** The amoung of feed given to the birds (in "bags")
+   * FIXME: this should be in kgs later on
+   */
+  fieldGivenFeed?: number
+  fieldGramsPerBird?: number
+
+  /** The industry standard of grams per bird. A relatively static variable */
+  fieldGramPerBirdIndustrySta?: number
+
+  fieldHoursOfLight?: number
+  fieldInitialstock?: number
+  fieldLayFrequency?: number
+  fieldLayFrequencyIndustrySta?: number
+  fieldMortality?: number
+  fieldMortalityPercentage_?: number
+  fieldMortalityProlapse_?: number
+  fieldTotalMortality?: number
+  fieldWeightOfBird?: number
+
+  //* notes for organization */
+  fieldCommentdailycheck?: string
+}
