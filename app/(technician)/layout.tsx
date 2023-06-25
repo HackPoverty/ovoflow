@@ -5,7 +5,7 @@ export default function FarmerLayout({
 }) {
   return <div className="drawer">
   <input id="private-drawer" type="checkbox" className="drawer-toggle" />
-  <div className="drawer-content">
+  <div className="drawer-content flex flex-col h-screen">
     {children}
   </div>
   <div className="drawer-side z-30">
