@@ -39,7 +39,7 @@ export default function Login() {
     if (role === "FARMER") {
       replace("/dashboard")
     } else {
-      replace("/farmers")
+      replace("/technician")
     }
   }
 
