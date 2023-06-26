@@ -26,7 +26,7 @@ export default function FarmerLayout({
   </div>
   <div className="drawer-side z-30">
     <label htmlFor="private-drawer" className="drawer-overlay"></label>
-    <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
+    <ul className="menu p-4 w-60 h-full bg-base-200 text-base-content">
       <LogoutButton />
     </ul>
   </div>
