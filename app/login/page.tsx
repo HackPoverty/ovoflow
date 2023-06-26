@@ -33,6 +33,7 @@ export default function Login() {
       setError((status >= 400 && status < 500) ? "Incorrect username or password" : "Something went wrong, try again later")
       return;
     }
+    setError("")
     const auth = await response.json();
     const role = auth.role as Role;
     if (role === "FARMER") {
