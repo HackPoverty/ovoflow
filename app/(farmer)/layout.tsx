@@ -17,7 +17,6 @@ export default function FarmerLayout({
 
   const decoded = decodeToken(token);
   if (decoded.user.role !== "FARMER") {
-    cookieStore.delete("token")
     redirect("/login")
   }
 

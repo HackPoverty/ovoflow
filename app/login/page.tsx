@@ -2,10 +2,11 @@
 "use client"
 
 import LangaugeSwitcher from "@/components/LangaugeSwitcher";
+import { Role } from "@/lib/user";
 import styles from "@/styles/Login.module.css";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation"
 
 type LoginData = {
   username: string,
@@ -13,9 +14,9 @@ type LoginData = {
 }
 
 export default function Login() {
-  const router = useRouter();
-  const [error, setError] = useState(false);
-  const { register, handleSubmit, formState } = useForm<LoginData>({
+  const { replace } = useRouter();
+  const [error, setError] = useState("");
+  const { register, handleSubmit, formState: {isSubmitting} } = useForm<LoginData>({
     defaultValues: {
       username: "",
       password: ""
@@ -28,21 +29,31 @@ export default function Login() {
       body: JSON.stringify(data)
     })
     if (!response.ok) {
-      setError(true);
+      const status = response.status;
+      setError((status >= 400 && status < 500) ? "Incorrect username or password" : "Something went wrong, try again later")
+      return;
+    }
+    const auth = await response.json();
+    const role = auth.role as Role;
+    if (role === "FARMER") {
+      replace("/dashboard")
     } else {
-      router.replace("/");
+      replace("/farmers")
     }
   }
 
   return <main className={`${styles.fancy} px-6 min-h-screen flex flex-col gap-6 items-center justify-center`}>
     <div className="flex flex-col items-center gap-4">
-      <img src="/assets/ui/logo.svg" alt="Ovoflow Logo" />
+      <img src="/assets/ui/logo.svg" alt="Ovoflow Logo" className="h-[120px]" />
       <h1 className="text-3xl font-bold text-white">ovoflow</h1>
     </div>
+    {error && !isSubmitting && <div className="alert alert-error text-sm"><span>{error}</span></div>}
     <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit(onSubmit)}>
       <input {...register("username")} className="input" placeholder="Username" type="text" required />
       <input {...register("password")} className="input" placeholder="Password" type="password" required />
-      <button className="btn btn-secondary" type="submit" disabled={formState.isSubmitting}>Login</button>
+      <button className="btn btn-secondary disabled:btn-disabled" type="submit" disabled={isSubmitting}>
+        {isSubmitting ? <span className="loading loading-spinner" /> : "Login"}
+      </button>
     </form>
     <LangaugeSwitcher />
   </main>
