@@ -1,4 +1,5 @@
 import LogoutButton from "@/components/LogoutButton";
+import NavLink from "@/components/NavLink";
 import { decodeToken } from "@/lib/user";
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation";
@@ -27,7 +28,8 @@ export default function FarmerLayout({
     </div>
     <div className="drawer-side z-30">
       <label htmlFor="private-drawer" className="drawer-overlay"></label>
-      <ul className="menu p-4 w-60 h-full bg-base-200 text-base-content">
+      <ul className="menu w-60 h-full bg-base-200 text-base-content">
+        <NavLink active="dashboard" href="/dashboard">Dashboard</NavLink>
         <LogoutButton />
       </ul>
     </div>
