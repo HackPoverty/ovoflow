@@ -2,8 +2,7 @@
 "use client"
 
 import LangaugeSwitcher from "@/components/LangaugeSwitcher";
-import { Role } from "@/lib/user";
-import styles from "@/styles/Login.module.css";
+import styles from "@/styles/background.module.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
