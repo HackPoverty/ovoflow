@@ -16,7 +16,7 @@ export default function RootLayout({
 
   if (token) {
     const role = decodeToken(token).user.role;
-    if (role === "FARMER") redirect("/");
+    if (role === "FARMER") redirect("/dashboard");
     if (role === "TECHNICIAN") redirect("/farmers");
   }
 
