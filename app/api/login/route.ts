@@ -1,7 +1,7 @@
 import { decodeToken } from "@/lib/user";
-import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const data = await request.json()
   let response = await fetch(`${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}/jwt/token?_format=json`, {
     headers: {
@@ -13,11 +13,21 @@ export async function POST(request: Request) {
   }
   const auth = await response.json()
   const token = auth.token as string;
-  const role = decodeToken(token).user.role;
+  const uid = decodeToken(token).user.uid;
 
-  return new Response(JSON.stringify({role}), {
-    headers: {
-      "Set-Cookie": `token=${auth.token}; Path=/; HttpOnly; Secure; SameSite=Lax`
-    }
+  const nextResponse = NextResponse.json({token, uid});
+  nextResponse.cookies.set("token", auth.token, {
+    path: "/",
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax"
   })
+  nextResponse.cookies.set("uid", uid, {
+    path: "/",
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax"
+  })
+
+  return nextResponse;
 }
