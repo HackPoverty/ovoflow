@@ -34,13 +34,7 @@ export default function Login() {
       return;
     }
     setError("")
-    const auth = await response.json();
-    const role = auth.role as Role;
-    if (role === "FARMER") {
-      replace("/dashboard")
-    } else {
-      replace("/technician")
-    }
+    replace("/")
   }
 
   return <main className={`${styles.fancy} px-6 min-h-screen flex flex-col gap-6 items-center justify-center`}>
