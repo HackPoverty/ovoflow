@@ -3,8 +3,9 @@ import NavigationBar from "@/components/navigation/NavigationBar";
 
 export default function FarmerDashboard() {
   return <>
-    <NavigationBar title="Technician Dashboard" button={<MenuButton />} />
+    <NavigationBar title="Dashboard" button={<MenuButton />} />
     <main className="px-6 pt-6 pb-16">
+      <h1 className="">Hello technician</h1>
 
     </main>
   </>
