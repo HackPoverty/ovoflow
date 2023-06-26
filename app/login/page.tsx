@@ -1,8 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import LangaugeSwitcher from "@/components/LangaugeSwitcher";
 import styles from "@/styles/background.module.css";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -15,7 +15,7 @@ type LoginData = {
 export default function Login() {
   const { replace } = useRouter();
   const [error, setError] = useState("");
-  const { register, handleSubmit, formState: {isSubmitting} } = useForm<LoginData>({
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm<LoginData>({
     defaultValues: {
       username: "",
       password: ""
@@ -38,7 +38,9 @@ export default function Login() {
 
   return <main className={`${styles.fancy} px-6 min-h-screen flex flex-col gap-6 items-center justify-center`}>
     <div className="flex flex-col items-center gap-4">
-      <img src="/assets/ui/logo.svg" alt="Ovoflow Logo" className="h-[120px]" />
+      <div className="h-[150px] relative aspect-square">
+        <Image src="/assets/ui/logo.svg" alt="Ovoflow Logo" fill />
+      </div>
       <h1 className="text-3xl font-bold text-white">ovoflow</h1>
     </div>
     {error && !isSubmitting && <div className="alert alert-error text-sm"><span>{error}</span></div>}
