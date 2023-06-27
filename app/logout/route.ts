@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
+import { NextRequest } from "next/server";
 
-export async function GET(_: Request) {
-  cookies().delete("token");
+export async function GET(req: NextRequest) {
+  req.cookies.delete("token");
+  req.cookies.delete("uid");
   redirect("/login");
 }
