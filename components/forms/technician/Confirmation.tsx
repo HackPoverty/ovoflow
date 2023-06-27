@@ -1,13 +1,15 @@
 import { DISEASE_MAP, TechnicianVisit, VACCINE_MAP, getQualityName } from "@/types/content"
 import { useFormContext } from "react-hook-form"
+import Label from "../Label"
+import PreviewField from "../PreviewField"
 
 export default function Confirmation() {
   const { watch } = useFormContext<TechnicianVisit>()
   const visit = watch()
 
-  return <div>
+  return <div className="flex flex-col gap-8">
     <div>
-      <h2 className="text-xl font-semibold text-accent mt-4">Quality</h2>
+      <h2 className="text-xl font-semibold text-accent">Quality</h2>
       <TextPreview label="Light Sufficiency" value={getQualityName(visit.fieldLightSufficiency)} />
       <TextPreview label="Feed Quantity" value={getQualityName(visit.fieldLightSufficiency)} />
       <TextPreview label="Water Cleanliness" value={getQualityName(visit.fieldLightSufficiency)} />
@@ -15,19 +17,19 @@ export default function Confirmation() {
       <TextPreview label="Ventilation" value={getQualityName(visit.fieldLightSufficiency)} />
     </div>
     <div>
-      <h2 className="text-xl font-semibold text-accent mt-4">Diseases</h2>
+      <h2 className="text-xl font-semibold text-accent">Diseases</h2>
       <TextPreview label="Presence of Disease" value={visit.fieldDisease} />
       <TextPreview label="Names of Diseases" value={visit.fieldDiseaseNames.map(item => DISEASE_MAP.get(item)!)} />
       <TextPreview label="Other diseases" value={[visit.fieldOtherpossibledisease || ""]} />
     </div>
     <div>
-      <h2 className="text-xl font-semibold text-accent mt-4">Vaccinations</h2>
+      <h2 className="text-xl font-semibold text-accent">Vaccinations</h2>
       <TextPreview label="Were vaccines given?" value={visit.fieldVaccineGiven ? "Yes" : "No"} />
       <TextPreview label="Common vaccines" value={visit.fieldVaccinations.map(item => VACCINE_MAP.get(item)!)} />
       <TextPreview label="Other vaccines" value={[visit.fieldOtherVaccine || ""]} />
     </div>
     <div>
-      <h2 className="text-xl font-semibold text-accent mt-4">Note</h2>
+      <h2 className="text-xl font-semibold text-accent">Note</h2>
       <TextPreview value={[visit.fieldVisitComments || ""]} />
     </div>
   </div>
@@ -36,12 +38,10 @@ export default function Confirmation() {
 export function TextPreview({ label, value }: { label?: string, value?: string | string[] | null }) {
 
   return <div className="form-control">
-    {label && <label className="label px-0">
-      <span className="label-text">{label}</span>
-    </label>}
-    {
-      Array.isArray(value) ? <textarea disabled className="textarea" rows={value.length} value={value.join("\n")} />
-        : <input className="input disabled:text-black" disabled value={value || ""} />
+    {label && <Label>{label}</Label>}
+    {Array.isArray(value)
+      ? <PreviewField className="textarea" value={value.join(" ")} />
+      : <PreviewField className="input" value={value || ""} />
     }
   </div>
 }

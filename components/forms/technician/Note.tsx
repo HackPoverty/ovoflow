@@ -7,7 +7,7 @@ export default function FarmerNote() {
     <textarea
       {...register("fieldVisitComments")}
       rows={5} 
-      className="textarea textarea-accent w-full my-4" 
+      className="textarea textarea-accent w-full" 
       placeholder="Some note and concerns..." />
   </div>
 }

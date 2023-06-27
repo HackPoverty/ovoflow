@@ -1,7 +1,7 @@
 import useJournalStatistics from "@/hooks/useJournalStatistics";
-import Label from "./Label";
+import Label from "../Label";
+import PreviewField from "../PreviewField";
 import NumberInput from "./NumberInput";
-import PreviewField from "./PreviewField";
 
 export default function ChickenFeeding() {
   const { feedPerBirdInGrams, closingStock } = useJournalStatistics();

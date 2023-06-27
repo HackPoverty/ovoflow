@@ -37,7 +37,7 @@ export default function FarmerChecklist() {
       </div>
       <FormProvider {...methods}>
         <form className="flex-1 flex flex-col">
-          <div className="flex-1 px-6 pb-6">
+          <div className="flex-1 p-6">
             {form}
           </div>
           <div className="flex gap-2 px-6 py-3 sticky bottom-0 w-full bg-base-100">

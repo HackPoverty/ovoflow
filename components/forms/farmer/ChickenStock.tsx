@@ -1,20 +1,21 @@
 import useJournalStatistics from "@/hooks/useJournalStatistics";
-import Label from "./Label";
+import Label from "../Label";
+import PreviewField from "../PreviewField";
 import NumberInput from "./NumberInput";
-import PreviewField from "./PreviewField";
+import { FarmerJournal } from "@/types/content";
 
 export default function ChickenStock() {
   const { closingStock, mortalityPercentage, totalMortality } = useJournalStatistics();
 
   return <div className="grid grid-cols-2 gap-2 p-6">
 
-    <Label htmlFor="fieldInitialstock">Initial Stock</Label>
+    <Label<FarmerJournal> htmlFor="fieldInitialstock">Initial Stock</Label>
     <NumberInput name="fieldInitialstock" />
 
-    <Label htmlFor="fieldMortality">Mortality</Label>
+    <Label<FarmerJournal> htmlFor="fieldMortality">Mortality</Label>
     <NumberInput name="fieldMortality" />
 
-    <Label htmlFor="fieldMortalityProlapse_">Mortality Prolapse</Label>
+    <Label<FarmerJournal> htmlFor="fieldMortalityProlapse_">Mortality Prolapse</Label>
     <NumberInput name="fieldMortalityProlapse_" />
 
     <hr className="col-span-2 border-accent items-center my-2" />
