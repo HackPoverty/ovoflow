@@ -22,7 +22,7 @@ export async function jsonApiFetch<Type>(resource: string, params?: Record<strin
     let status = 500;
     if (axios.isAxiosError(error))
       status = error.response?.status || 500;
-    if (status >= 400 || status < 500) {
+    if (status === 401 || status === 403) {
       redirect("/logout")
     } else throw error;
   }
@@ -33,11 +33,13 @@ export async function jsonApiFetchPaginated<Type>(resource: string, params?: Rec
   const headers = token ? { Authorization: `Bearer ${token}` } : {}
 
   try {
-    const response = await jsonApi.get(resource, { params: {
-      ...params,
-      "page[limit]": limit,
-      "page[offset]": offset,
-    }, headers })
+    const response = await jsonApi.get(resource, {
+      params: {
+        ...params,
+        "page[limit]": limit,
+        "page[offset]": offset,
+      }, headers
+    })
     const data = response.data
     const isFirst = offset === 0 || data.links?.prev === undefined;
     const isLast = data.links?.next === undefined;
@@ -48,9 +50,10 @@ export async function jsonApiFetchPaginated<Type>(resource: string, params?: Rec
     }
   } catch (error) {
     let status = 500;
-    if (axios.isAxiosError(error))
+    if (axios.isAxiosError(error)) {
       status = error.response?.status || 500;
-    if (status >= 400 || status < 500) {
+    }
+    if (status === 401 || status === 403) {
       redirect("/logout")
     } else throw error;
   }
