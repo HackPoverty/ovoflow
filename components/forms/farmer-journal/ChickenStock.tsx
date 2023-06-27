@@ -1,8 +1,8 @@
 import useJournalStatistics from "@/hooks/useJournalStatistics";
+import { FarmerJournal } from "@/types/content";
 import Label from "../Label";
 import PreviewField from "../PreviewField";
 import NumberInput from "./NumberInput";
-import { FarmerJournal } from "@/types/content";
 
 export default function ChickenStock() {
   const { closingStock, mortalityPercentage, totalMortality } = useJournalStatistics();

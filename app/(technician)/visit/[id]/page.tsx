@@ -1,11 +1,18 @@
-import BackButton from "@/components/navigation/BackButton";
-import NavigationBar from "@/components/navigation/NavigationBar";
+import TechnicianVisitPreview from "@/components/forms/preview/TechnicianVisitPreview";
+import { jsonApiFetch } from "@/lib/axios";
+import { TechnicianVisit } from "@/types/content";
+import { Node } from "@/types/highLevel";
 
-export default function TechnicianVisit() {
-  return <>
-    <NavigationBar title="Technician Visit" button={<BackButton />} />
-    <main className="px-6 pt-6 pb-16">
+type Props = {
+  params: {
+    id: string
+  }
+}
 
-    </main>
-  </>
+export default async function TechnicianVisitDetail({ params }: Props) {
+  const visit = await jsonApiFetch<Node<TechnicianVisit>>(`node/technician_visit/${params.id}`)
+
+  return <main className="p-6">
+    <TechnicianVisitPreview visit={visit} />
+  </main>
 }
