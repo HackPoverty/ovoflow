@@ -37,6 +37,7 @@ export default async function FarmerList({ searchParams }: Props) {
         {
           data.map(farmer => <FarmerListItem
             key={farmer.id}
+            farmerId={farmer.id}
             name={farmer.name}
             now={now}
             lastVisitDate={farmer.fieldFarmerLastVisited

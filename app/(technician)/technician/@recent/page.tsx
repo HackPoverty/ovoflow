@@ -18,6 +18,7 @@ export default async function RecentVisits() {
     {
       farmers.map(farmer => <FarmerListItem
         key={farmer.id}
+        farmerId={farmer.id}
         name={farmer.name}
         now={now}
         lastVisitDate={farmer.fieldFarmerLastVisited ? new Date(farmer.fieldFarmerLastVisited) : undefined}
