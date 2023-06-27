@@ -1,18 +1,19 @@
 import { TechnicianVisit, VACCINES, VACCINE_MAP } from "@/types/content";
+import { useRef } from "react";
 import { useController, useFormContext } from "react-hook-form";
 
 export default function FarmVaccination() {
   const { register, watch } = useFormContext<TechnicianVisit>()
 
-  return <div>
-    <div className="form-control bg-base-300 my-4 p-2 rounded-lg">
+  return <div className="flex flex-col gap-4">
+    <div className="bg-base-300 p-2 rounded-lg">
       <label className="label cursor-pointer">
         Were vaccine given?
         <input type="checkbox" {...register("fieldVaccineGiven")} className="checkbox checkbox-accent" />
       </label>
     </div>
     <CommonVaccineInput />
-    <div className="form-control my-4">
+    <div className="form-control">
       <label className="label"><span className="label-text">Other Vaccine</span></label>
       <input type="text" {...register("fieldOtherVaccine")} className="input input-accent" placeholder="List out other vaccines..." disabled={!watch("fieldVaccineGiven")} />
     </div>
@@ -22,17 +23,19 @@ export default function FarmVaccination() {
 function CommonVaccineInput() {
   const { watch, control } = useFormContext<TechnicianVisit>();
   const { field } = useController({ control, name: "fieldVaccinations" })
+  const dialog = useRef<HTMLDialogElement>(null);
 
-  return <div className="my-4">
+
+  return <div>
     <label className="label"><span className="label-text">Common Vaccines</span></label>
     <input
       disabled={!watch("fieldVaccineGiven")}
       type="button"
-      onClick={() => (window as any).vaccine_modal.showModal()}
+      onClick={() => dialog.current?.showModal()}
       className="input input-accent w-full text-left"
       value={`${field.value.length === 0 ? "None" : field.value.length} selected`} />
-    <dialog className="modal" id="vaccine_modal">
-      <form method="dialog" className="modal-box">
+    <dialog className="modal" id="vaccines" ref={dialog}>
+      <div className="modal-box">
         <h3 className="font-bold text-lg">Choose vaccines</h3>
         {
           VACCINES.map(vaccine => <div className="form-control" key={vaccine}>
@@ -41,6 +44,7 @@ function CommonVaccineInput() {
               <input
                 type="checkbox"
                 className="checkbox"
+                formNoValidate
                 checked={field.value.includes(vaccine)}
                 onChange={(e) => {
                   let value = [...field.value];
@@ -56,9 +60,9 @@ function CommonVaccineInput() {
         }
         <div className="modal-action">
           {/* if there is a button in form, it will close the modal */}
-          <button className="btn">Save</button>
+          <button type="button" className="btn" onClick={() => dialog.current?.close()}>Save</button>
         </div>
-      </form>
+      </div>
     </dialog>
   </div>
 }
