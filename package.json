@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3001",
+    "dev": "next dev --port 3001 --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -13,9 +13,11 @@
     "@types/react": "18.2.13",
     "@types/react-dom": "18.2.6",
     "autoprefixer": "10.4.14",
+    "axios": "^1.4.0",
     "daisyui": "^3.1.5",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
+    "jsonapi-fractal": "^2.3.1",
     "jwt-decode": "^3.1.2",
     "next": "13.4.7",
     "next-drupal": "^1.6.0",
