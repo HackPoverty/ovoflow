@@ -3,7 +3,6 @@ import { getCookies } from "@/lib/cookie";
 import { enDate } from "@/lib/formatter";
 import { FarmerJournal } from "@/types/content";
 import { Node } from "@/types/highLevel";
-import { cookies } from "next/headers";
 
 const SECONDS_IN_DAY = 24 * 60 * 60;
 
@@ -13,9 +12,9 @@ type Result = Pick<
 >
 
 async function getStatistics() {
-  const {uid, token} = getCookies();
+  const { uid, token } = getCookies();
 
-  // Get the last journal recoreded within last week
+  // Get journals recoreded for the last 7 days
   const response = await jsonApi.get(
     `node/farmer_daily_journal`, {
     params: {
