@@ -3,12 +3,11 @@ import { getCookies } from "@/lib/cookie";
 import { enDate } from "@/lib/formatter";
 import { FarmerJournal } from "@/types/content";
 import { Node } from "@/types/highLevel";
-import { cookies } from "next/headers";
 
 type Result = Pick<Node<FarmerJournal>, "created" | "fieldInitialstock" | "id">
 
 const getPastJournalEntries = async () => {
-  const {uid, token} = getCookies();
+  const { uid, token } = getCookies();
   const response = await jsonApi.get(
     `node/farmer_daily_journal`, {
     params: {
