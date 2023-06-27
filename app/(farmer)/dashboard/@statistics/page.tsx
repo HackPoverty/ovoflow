@@ -1,4 +1,4 @@
-import { jsonApi, jsonDeserialize } from "@/lib/axios";
+import { jsonApiFetch } from "@/lib/axios";
 import { getCookies } from "@/lib/cookie";
 import { enDate } from "@/lib/formatter";
 import { FarmerJournal } from "@/types/content";
@@ -12,25 +12,17 @@ type Result = Pick<
 >
 
 async function getStatistics() {
-  const { uid, token } = getCookies();
+  const { uid } = getCookies();
 
-  // Get journals recoreded for the last 7 days
-  const response = await jsonApi.get(
-    `node/farmer_daily_journal`, {
-    params: {
-      "filter[uid.meta.drupal_internal__target_id]": uid,
-      "sort": "-created",
-      "fields[node--farrmer_daily_journal]": "created,field_small_eggs,field_medium_eggs,field_large_eggs",
-      "filter[recent][condition][path]": "created",
-      "filter[recent][condition][operator]": ">=",
-      "filter[recent][condition][value]": Math.floor(Date.now()) - 7 * SECONDS_IN_DAY
-    },
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-
-  const data = jsonDeserialize<Result[]>(response.data);
+  const data = await jsonApiFetch<Result[]>(`node/farmer_daily_journal`, {
+    "filter[uid.meta.drupal_internal__target_id]": uid,
+    "sort": "-created",
+    "fields[node--farrmer_daily_journal]": "created,field_small_eggs,field_medium_eggs,field_large_eggs",
+    "filter[recent][condition][path]": "created",
+    "filter[recent][condition][operator]": ">=",
+    "filter[recent][condition][value]": Math.floor(Date.now()) - 7 * SECONDS_IN_DAY
+  });
+  
   if (data.length == 0) return undefined;
   const eggs = data.map(datum => (datum.fieldSmallEggs || 0) + (datum.fieldMediumEggs || 0) + (datum.fieldLargeEggs || 0))
   return {

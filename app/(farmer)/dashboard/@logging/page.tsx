@@ -1,4 +1,4 @@
-import { jsonApi, jsonDeserialize } from "@/lib/axios";
+import { jsonApiFetch } from "@/lib/axios";
 import { getCookies } from "@/lib/cookie";
 import { FarmerJournal } from "@/types/content";
 import { Node } from "@/types/highLevel";
@@ -7,23 +7,14 @@ import Link from "next/link";
 type Result = Pick<Node<FarmerJournal>, "created">
 
 async function getLastRecordTimestamp() {
-  const { uid, token } = getCookies();
+  const { uid } = getCookies();
 
-  // Get the latest note
-  const response = await jsonApi.get(
-    `node/farmer_daily_journal`, {
-    params: {
-      "filter[uid.meta.drupal_internal__target_id]": uid,
-      "sort": "-created",
-      "page[limit]": 1,
-      "fields[node--farmer_daily_journal]": "created"
-    },
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-
-  const data = jsonDeserialize<Result[]>(response.data)
+  const data = await jsonApiFetch<Result[]>(`node/farmer_daily_journal`, {
+    "filter[uid.meta.drupal_internal__target_id]": uid,
+    "sort": "-created",
+    "page[limit]": 1,
+    "fields[node--farmer_daily_journal]": "created"
+  });
   if (data.length === 0) return undefined;
 
   return Math.floor(new Date(data[0].created).getTime() / 1000);

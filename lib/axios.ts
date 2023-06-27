@@ -1,16 +1,29 @@
 import axios from "axios"
 import { CaseType, deserialize } from "jsonapi-fractal"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
-
-export const baseApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_DRUPAL_BASE_URL,
-})
-
-
-export const jsonApi = axios.create({
+const jsonApi = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}/jsonapi_data`,
 })
 
-export function jsonDeserialize<Type>(data: any) {
+function jsonDeserialize<Type>(data: any) {
   return deserialize<Type>(data, { changeCase: CaseType.camelCase }) as Type
+}
+
+export async function jsonApiFetch<Type>(resource: string, params?: Record<string, any>) {
+  const token = cookies().get("token")?.value;
+  const headers = token ? { Authorization: `Bearer ${token}` } : {}
+
+  try {
+    const response = await jsonApi.get(resource, { params, headers })
+    return jsonDeserialize<Type>(response.data)
+  } catch (error) {
+    let status = 500;
+    if (axios.isAxiosError(error))
+      status = error.response?.status || 500;
+    if (status >= 400 || status < 500) {
+      redirect("/logout")
+    } else throw error;
+  }
 }
