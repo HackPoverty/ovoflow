@@ -1,6 +1,6 @@
 "use client"
 
-import { ChickenEggProduction, ChickenFeeding, ChickenStock, JournalConfirmation, JournalNote } from "@/components/forms/farmer";
+import { ChickenEggProduction, ChickenFeeding, ChickenStock, JournalConfirmation, JournalNote } from "@/components/forms/farmer-journal";
 import BackButton from "@/components/navigation/BackButton";
 import NavigationBar from "@/components/navigation/NavigationBar";
 import { useMutistepForm } from "@/hooks/useMultiStepForm";

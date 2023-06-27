@@ -1,6 +1,6 @@
 "use client"
 
-import { FarmConfirmation, FarmNote, FarmQuality, FarmRedFlag, FarmVaccination } from "@/components/forms/technician";
+import { FarmConfirmation, FarmNote, FarmQuality, FarmRedFlag, FarmVaccination } from "@/components/forms/technician-visit";
 import BackButton from "@/components/navigation/BackButton";
 import NavigationBar from "@/components/navigation/NavigationBar";
 import { useMutistepForm } from "@/hooks/useMultiStepForm";
