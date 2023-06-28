@@ -1,10 +1,20 @@
-export const enDate = new Intl.DateTimeFormat('en', {
+export const enShortDate = new Intl.DateTimeFormat('en', {
+  month: 'short',
+  day: 'numeric',
+});
+
+export const ptShortDate = new Intl.DateTimeFormat('pt', {
+  month: 'short',
+  day: 'numeric',
+});
+
+export const enFullDate = new Intl.DateTimeFormat('en', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
 });
 
-export const ptDate = new Intl.DateTimeFormat('pt', {
+export const ptFullDate = new Intl.DateTimeFormat('pt', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
