@@ -1,6 +1,6 @@
 import { jsonApiFetch } from "@/lib/axios";
 import { getCookies } from "@/lib/cookie";
-import { enDate } from "@/lib/formatter";
+import { enFullDate } from "@/lib/formatter";
 import { FarmerJournal } from "@/types/content";
 import { Node } from "@/types/highLevel";
 
@@ -17,7 +17,7 @@ export default async function RecentEntries() {
   return <div>
     {journals.map(journal => {
       return <div key={journal.id} className="py-2 px-6 bg-base-200">
-        <p>Date: {enDate.format(new Date(journal.created))}</p>
+        <p>Date: {enFullDate.format(new Date(journal.created))}</p>
         <p>Chicken: {journal.fieldInitialstock || 0}</p>
       </div>
     })}

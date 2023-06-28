@@ -1,6 +1,6 @@
 import PaginationButtons from "@/components/PaginationButtons";
 import { jsonApiFetchPaginated } from "@/lib/axios";
-import { enDate } from "@/lib/formatter";
+import { enFullDate } from "@/lib/formatter";
 import { TechnicianVisit } from "@/types/content";
 import { Node } from "@/types/highLevel";
 import Link from "next/link";
@@ -30,7 +30,7 @@ export default async function Visits({ params, searchParams }: Props) {
     <div className="my-4">
       {data.map(entry => <Link key={entry.id} href={`/visit/${entry.id}`}>
         <div className="px-6 py-2 bg-base-200 my-1">
-          <p>{enDate.format(new Date(entry.created))}</p>
+          <p>{enFullDate.format(new Date(entry.created))}</p>
         </div>
       </Link>)}
     </div>

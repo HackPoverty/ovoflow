@@ -1,6 +1,6 @@
 import { jsonApiFetch } from "@/lib/axios";
 import { getCookies } from "@/lib/cookie";
-import { enDate } from "@/lib/formatter";
+import { enFullDate } from "@/lib/formatter";
 import { FarmerJournal } from "@/types/content";
 import { Node } from "@/types/highLevel";
 
@@ -22,7 +22,7 @@ async function getStatistics() {
     "filter[recent][condition][operator]": ">=",
     "filter[recent][condition][value]": Math.floor(Date.now()) - 7 * SECONDS_IN_DAY
   });
-  
+
   if (data.length == 0) return undefined;
   const eggs = data.map(datum => (datum.fieldSmallEggs || 0) + (datum.fieldMediumEggs || 0) + (datum.fieldLargeEggs || 0))
   return {
@@ -41,6 +41,6 @@ export default async function Statistics() {
   </div>
   return <div className="bg-base-300 px-6 py-2">
     <p>Average: {data.average}</p>
-    <p>Last record date: {enDate.format(new Date(data.lastRecordDate))}</p>
+    <p>Last record date: {enFullDate.format(new Date(data.lastRecordDate))}</p>
   </div>
 }
