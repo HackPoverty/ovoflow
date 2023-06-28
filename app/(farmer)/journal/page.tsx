@@ -65,7 +65,6 @@ export default function FarmerJournal() {
 
   const isSubmitting = methods.formState.isSubmitting;
 
-
   return <>
     <title>New Jorunal | Ovoflow</title>
     <NavigationBar title="New Journal" button={<BackButton />} />
