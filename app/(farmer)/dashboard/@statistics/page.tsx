@@ -32,15 +32,24 @@ async function getStatistics() {
 }
 
 export default async function Statistics() {
-  const data = await getStatistics();
-  if (!data) return <div className="alert alert-warning rounded-none flex px-6">
-    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+  const data = await getStatistics()
+  if (!data) return <LogWarning />
+  return <StatsCard value={data.average} date={data.lastRecordDate} />
+}
+
+function LogWarning() {
+  return <div className="flex flex-col bg-warning rounded-md p-4 w-full min-h-[120px] justify-between">
+    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-10 w-10" fill="none" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
     </svg>
-    <span className="text-left">You have no records last week</span>
+    <div className="text-sm">You have no records last week</div>
   </div>
-  return <div className="bg-base-300 px-6 py-2">
-    <p>Average: {data.average}</p>
-    <p>Last record date: {enFullDate.format(new Date(data.lastRecordDate))}</p>
+}
+
+function StatsCard(props: { value: number, date: Date }) {
+  return <div className="flex flex-col p-4 rounded-md  bg-base-300 w-full min-h-[120px]">
+    <div className="">Average</div>
+    <h3 className="text-4xl font-bold">{props.value}</h3>
+    <div className="text-xs">Last record date: {enFullDate.format(new Date(props.date))}</div>
   </div>
 }

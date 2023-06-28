@@ -8,6 +8,7 @@ import BackButton from "@/components/navigation/BackButton";
 import NavigationBar from "@/components/navigation/NavigationBar";
 import { FormStep, useMutistepForm } from "@/hooks/useMultiStepForm";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 const formSteps = [
@@ -34,19 +35,24 @@ export default function FarmerJournal() {
 
   const onSubmit = methods.handleSubmit((data) => {
     if (isLastStep) console.log(data);
-    else next();
+    else {
+      next();
+      ref.current?.scrollTo({ top: 0 })
+    }
   }, console.log);
+
+  const ref = useRef<HTMLDivElement>(null);
 
   return <>
     <NavigationBar title="Journal" button={<BackButton />} />
-    <main className="flex-1 flex flex-col">
-      <div className="px-6 pt-6">
+    <main className="flex-1 flex flex-col overflow-hidden">
+      <div className="px-6 py-4 border-b-2">
         <p className="text-neutral">Step {currentStepIndex + 1} of {steps.length}</p>
-        <h1 className="text-4xl font-bold">{step.title}</h1>
+        <h1>{step.title}</h1>
       </div>
       <FormProvider {...methods}>
-        <form className="flex-1 flex flex-col" onSubmit={onSubmit}>
-          <div className="flex-1">
+        <form className="flex-1 flex flex-col overflow-hidden" onSubmit={onSubmit}>
+          <div className="flex-1 overflow-auto" ref={ref}>
             {step.form}
           </div>
           <div className="flex gap-2 px-6 py-3 sticky bottom-0 w-full bg-base-100">
