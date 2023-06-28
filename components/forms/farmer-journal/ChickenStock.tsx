@@ -1,8 +1,7 @@
-import useJournalStatistics from "@/hooks/useJournalStatistics";
 import { useFormContext } from "react-hook-form";
+import ErrorMessage from "../ErrorMeesge";
 import Label from "../Label";
 import PreviewField from "../PreviewField";
-import ErrorMessage from "./ErrorMeesge";
 import NumberInput from "./NumberInput";
 import { FarmerJournalSchema } from "./schema";
 
@@ -11,24 +10,22 @@ export default function ChickenStock() {
   const [initial, mortality, mortalityProlapse] = watch(["fieldInitialstock", "fieldMortality", "fieldMortalityProlapse_"]);
   const totalMortiality = mortality + mortalityProlapse;
   const closingStock = initial >= totalMortiality ? initial - totalMortiality : undefined;
-  const percentage = (initial !== 0) 
+  const percentage = (initial !== 0)
     ? Number(Math.round(+`${totalMortiality / initial}e2`) + "e-2")
-     : undefined
-
-  const { mortalityPercentage } = useJournalStatistics();
+    : undefined
 
   return <div className="grid grid-cols-2 gap-2 p-6">
     <Label<FarmerJournalSchema> htmlFor="fieldInitialstock" required>Initial Stock</Label>
     <NumberInput name="fieldInitialstock" />
-    <ErrorMessage>{errors.fieldInitialstock?.message}</ErrorMessage>
+    <ErrorMessage className="col-span-2">{errors.fieldInitialstock?.message}</ErrorMessage>
 
     <Label<FarmerJournalSchema> htmlFor="fieldMortality" required>Mortality</Label>
     <NumberInput name="fieldMortality" />
-    <ErrorMessage>{errors.fieldMortality?.message}</ErrorMessage>
+    <ErrorMessage className="col-span-2">{errors.fieldMortality?.message}</ErrorMessage>
 
     <Label<FarmerJournalSchema> htmlFor="fieldMortalityProlapse_" required>Mortality Prolapse</Label>
     <NumberInput name="fieldMortalityProlapse_" />
-    <ErrorMessage>{errors.fieldMortalityProlapse_?.message}</ErrorMessage>
+    <ErrorMessage className="col-span-2">{errors.fieldMortalityProlapse_?.message}</ErrorMessage>
 
     <hr className="col-span-2 border-accent items-center my-2" />
 

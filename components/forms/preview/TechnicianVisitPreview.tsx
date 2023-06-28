@@ -1,8 +1,8 @@
-import { DISEASE_MAP, TechnicianVisit, VACCINE_MAP, getQualityName } from "@/types/content";
 import Label from "../Label";
 import PreviewField from "../PreviewField";
+import { DISEASES, TechnicianVisitSchema, VACCINES, getQualityName } from "../technician-visit/schema";
 
-export default function TechnicianVisitPreview({ visit }: { visit: TechnicianVisit }) {
+export default function TechnicianVisitPreview({ visit }: { visit: TechnicianVisitSchema }) {
   return <div className="flex flex-col gap-8">
     <div>
       <h2 className="text-xl font-semibold text-accent">Quality</h2>
@@ -15,13 +15,13 @@ export default function TechnicianVisitPreview({ visit }: { visit: TechnicianVis
     <div>
       <h2 className="text-xl font-semibold text-accent">Diseases</h2>
       <TextPreview label="Presence of Disease" value={visit.fieldDisease} />
-      <TextPreview label="Names of Diseases" value={visit.fieldDiseaseNames.map(item => DISEASE_MAP.get(item)!)} />
+      <TextPreview label="Names of Diseases" value={visit.fieldDiseaseNames.map(item => DISEASES[item])} />
       <TextPreview label="Other diseases" value={[visit.fieldOtherpossibledisease || ""]} />
     </div>
     <div>
       <h2 className="text-xl font-semibold text-accent">Vaccinations</h2>
       <TextPreview label="Were vaccines given?" value={visit.fieldVaccineGiven ? "Yes" : "No"} />
-      <TextPreview label="Common vaccines" value={visit.fieldVaccinations.map(item => VACCINE_MAP.get(item)!)} />
+      <TextPreview label="Common vaccines" value={visit.fieldVaccinations.map(item => VACCINES[item])} />
       <TextPreview label="Other vaccines" value={[visit.fieldOtherVaccine || ""]} />
     </div>
     <div>

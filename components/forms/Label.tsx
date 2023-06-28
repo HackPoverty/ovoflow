@@ -1,8 +1,8 @@
 import { ComponentProps } from "react";
-import { FieldPath, FieldValues } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 
 type Props<T extends FieldValues> = {
-  htmlFor?: FieldPath<T>,
+  htmlFor?: keyof T,
   required?: boolean
 } & ComponentProps<"label">;
 
@@ -10,7 +10,7 @@ export default function Label<T extends FieldValues>({ children, className, requ
   return <label className="label px-0" {...props}>
     <span className="label-text">
       {children}
-      {required && <span className="text-error">*</span>}
+      {required && <span className="text-error font-semibold">*</span>}
     </span>
   </label>
 }
