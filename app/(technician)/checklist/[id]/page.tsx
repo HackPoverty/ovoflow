@@ -5,6 +5,7 @@ import BackButton from "@/components/navigation/BackButton";
 import NavigationBar from "@/components/navigation/NavigationBar";
 import { useMutistepForm } from "@/hooks/useMultiStepForm";
 import { TechnicianVisit } from "@/types/content";
+import { FormEvent } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 export default function FarmerChecklist() {
@@ -19,7 +20,7 @@ export default function FarmerChecklist() {
     },
   })
 
-  const { currentStepIndex, steps, step, back, next } = useMutistepForm([
+  const { currentStepIndex, steps, step, back, next, isFristStep, isLastStep } = useMutistepForm([
     ["Quality", <FarmQuality key="farm-quality" />],
     ["Disease", <FarmRedFlag key="farm-red-flag" />],
     ["Vaccination", <FarmVaccination key="farm-vaccination" />],
@@ -27,6 +28,10 @@ export default function FarmerChecklist() {
     ["Confirmation", <FarmConfirmation key="farm-confirmation" />]
   ])
   const [title, form] = step;
+  const onNext = (e: FormEvent) => {
+    e.preventDefault();
+    next();
+  }
 
   return <>
     <NavigationBar title="Farmer Checklist" button={<BackButton />} />
@@ -36,13 +41,13 @@ export default function FarmerChecklist() {
         <h1 className="text-4xl font-bold">{title}</h1>
       </div>
       <FormProvider {...methods}>
-        <form className="flex-1 flex flex-col">
+        <form className="flex-1 flex flex-col" onSubmit={onNext}>
           <div className="flex-1 p-6">
             {form}
           </div>
           <div className="flex gap-2 px-6 py-3 sticky bottom-0 w-full bg-base-100">
             <button className="btn btn-primary btn-outline flex-1" onClick={back} type="button">Back</button>
-            <button className="btn btn-primary flex-1" onClick={next} type="button">Next</button>
+            <button className="btn btn-primary flex-1" type="submit">Next</button>
           </div>
         </form>
       </FormProvider>

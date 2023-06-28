@@ -1,6 +1,11 @@
 import { ReactNode, useState } from "react";
+import { ZodType } from "zod";
 
-type FormStep = [string, ReactNode];
+export type FormStep = {
+  title: string;
+  form: ReactNode,
+  schema: ZodType
+}
 
 export function useMutistepForm(steps: FormStep[]) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
@@ -27,6 +32,6 @@ export function useMutistepForm(steps: FormStep[]) {
     next,
     back,
     isFristStep: currentStepIndex === 0,
-    isLasstStep: currentStepIndex === steps.length - 1,
+    isLastStep: currentStepIndex === steps.length - 1,
   }
 }
