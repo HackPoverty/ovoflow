@@ -1,5 +1,5 @@
 import LogoutButton from "@/components/LogoutButton";
-import { decodeToken } from "@/lib/user";
+import { decodeToken, getAuthRole } from "@/lib/user";
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation";
 
@@ -8,16 +8,9 @@ export default function FarmerLayout({
 }: {
   children: React.ReactNode
 }) {
-  const cookieStore = cookies();
-  const token = cookieStore.get("token")?.value;
-  if (!token) {
-    redirect("/login")
-  }
-
-  const decoded = decodeToken(token);
-  if (decoded.user.role !== "TECHNICIAN") {
-    redirect("/login")
-  }
+  const role = getAuthRole();
+  if (!role) redirect("/logout")
+  if (role === "FARMER") redirect("/dashboard")
 
   return <div className="drawer">
   <input id="private-drawer" type="checkbox" className="drawer-toggle" />
