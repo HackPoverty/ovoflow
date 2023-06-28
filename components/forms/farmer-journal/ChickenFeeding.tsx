@@ -16,7 +16,7 @@ export default function ChickenFeeding() {
 
     <Label htmlFor="fieldGivenFeed" required>Total given</Label>
     <div className="join">
-      <NumberInput name="fieldGivenFeed" className="w-full join-item" required step={0.01} />
+      <NumberInput name="fieldGivenFeed" className="w-full join-item" step={0.01} />
       <span className="join-item px-2 inline-flex items-center bg-accent text-accent-content">kg</span>
     </div>
     {errors.fieldGivenFeed ? <ErrorMessage>{errors.fieldGivenFeed.message}</ErrorMessage> : null}
