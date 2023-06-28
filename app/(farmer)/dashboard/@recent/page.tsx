@@ -11,12 +11,13 @@ export default async function RecentEntries() {
   const journals = await jsonApiFetch<Result[]>(`node/farmer_daily_journal`, {
     "filter[uid.meta.drupal_internal__target_id]": uid,
     "sort": "-created",
-    "page[limit]": 3,
+    "page[limit]": 8,
     "fields[node--farmer_daily_journal]": "created,field_initialstock"
   });
+
   return <div>
     {journals.map(journal => {
-      return <div key={journal.id} className="py-2 px-6 bg-base-200">
+      return <div key={journal.id} className="py-2 px-6 my-1 bg-base-200">
         <p>Date: {enFullDate.format(new Date(journal.created))}</p>
         <p>Chicken: {journal.fieldInitialstock || 0}</p>
       </div>

@@ -20,15 +20,28 @@ async function getLastRecordTimestampOfCurrentFarmer() {
   return Math.floor(new Date(data[0].created).getTime() / 1000);
 }
 
+const SECONDS_IN_DAY = 24 * 60 * 60;
+
 export default async function Logging() {
   const now = Math.floor(Date.now() / 1000);
   const lastTimeStamp = await getLastRecordTimestampOfCurrentFarmer() || 0;
-  if (now - lastTimeStamp > 24 * 60 * 60) return <Link className="btn btn-secondary m-6" href="/journal">Finish daily journal</Link>
+  const diff = now - lastTimeStamp;
 
-  return <div className="alert alert-success flex rounded-none px-6">
-    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-    <span className="text-left">Daily log completed, please come back tomorrow</span>
+  return <>
+    {diff < SECONDS_IN_DAY && <LogComplete />}
+    {diff >= 2 * SECONDS_IN_DAY && <LogNotice />}
+    <Link className={`btn mx-6 my-2 ${diff < SECONDS_IN_DAY ? "btn-disabled" : "btn-primary"}`} href="/journal">Finish daily journal</Link>
+  </>
+}
+
+function LogComplete() {
+  return <div className="bg-success sticky top-0 px-4 py-2 z-10 shadow-lg text-sm">
+    <span className="text-sm">Daily journal completed, please come back tommorow</span>
+  </div>
+}
+
+function LogNotice() {
+  return <div className="bg-warning sticky top-0 px-4 py-2 z-10 shadow-lg text-sm">
+    <span className="text-sm">Please finish your daily journal</span>
   </div>
 }
