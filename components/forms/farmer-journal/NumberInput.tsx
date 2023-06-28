@@ -1,9 +1,9 @@
 import { ComponentProps } from "react";
-import { FieldPath, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { FarmerJournalSchema } from "./schema";
 
 type Props = {
-  name: FieldPath<FarmerJournalSchema>,
+  name: keyof FarmerJournalSchema,
 } & ComponentProps<'input'>
 
 export default function NumberInput({ name, className, ...props }: Props) {

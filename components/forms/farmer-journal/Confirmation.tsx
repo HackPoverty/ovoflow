@@ -1,10 +1,10 @@
-import { FarmerJournal } from "@/types/content";
 import { useFormContext } from "react-hook-form";
 import Label from "../Label";
 import PreviewField from "../PreviewField";
+import { FarmerJournalSchema } from "./schema";
 
 export default function Confirmation() {
-  const { watch } = useFormContext<FarmerJournal>();
+  const { watch } = useFormContext<FarmerJournalSchema>();
   const data = watch();
 
   return <div className="grid grid-cols-2 p-6 gap-2">

@@ -1,6 +1,7 @@
-import { QUALITY_SCALES, TechnicianVisit, getQualityName } from "@/types/content";
-import { FieldPath, useFormContext } from "react-hook-form";
+import { useController, useFormContext } from "react-hook-form";
+import ErrorMessage from "../ErrorMeesge";
 import Label from "../Label";
+import { QUALITY_SCALES, TechnicianVisitSchema, getQualityName } from "./schema";
 
 export default function FarmQuality() {
   return <div className="flex flex-col gap-4">
@@ -12,20 +13,23 @@ export default function FarmQuality() {
   </div>
 }
 
-
-
-function QualityInput(props: { name: FieldPath<TechnicianVisit>, label: string }) {
-  const { register } = useFormContext<TechnicianVisit>()
+function QualityInput({ name, label }: { name: keyof TechnicianVisitSchema, label: string }) {
+  const { formState: { errors }, control } = useFormContext<TechnicianVisitSchema>()
+  const { field } = useController({ control, name })
 
   return <div>
-    <Label htmlFor={props.name} required>{props.label}</Label>
-    <div className="flex bg-base-300 rounded-lg py-2">
+    <Label required>{label}</Label>
+    <div className={`flex rounded-lg py-2 join w-full`}>
       {
-        QUALITY_SCALES.map(q => <label key={`${props.name}.${q}`} className="flex-1 text-center">
-          <input type="radio" value={q} className="peer hidden" {...register(props.name)} required />
-          <span className="peer-checked:font-bold peer-checked:text-accent">{getQualityName(q)}</span>
-        </label>)
+        QUALITY_SCALES.map(q => <button
+          className={`btn join-item flex-1 ${(field.value === q) ? "btn-accent" : ""}`}
+          key={`${name}.${q}`}
+          type="button"
+          onClick={() => field.onChange(q)}>
+          {getQualityName(q)}
+        </button>)
       }
     </div>
+    <ErrorMessage className="w-full">{errors[name]?.message && "Required"}</ErrorMessage>
   </div>
 }
