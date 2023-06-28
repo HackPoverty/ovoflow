@@ -1,4 +1,5 @@
 import jwt_decode from "jwt-decode"
+import { cookies } from "next/headers"
 
 export const Roles = ["FARMER", "TECHNICIAN"] as const
 export type Role = (typeof Roles)[number]
@@ -27,4 +28,11 @@ export const decodeToken = (token: string) => {
       role: drupal.role.includes("ovo_technician") ? "TECHNICIAN" : "FARMER",
     } as User,
   }
+}
+
+export const getAuthRole = () => {
+  const token = cookies().get("token")?.value;
+  if (!token) return undefined;
+  const decoded = decodeToken(token)
+  return decoded.user.role
 }

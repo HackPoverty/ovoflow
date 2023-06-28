@@ -1,11 +1,9 @@
-import { decodeToken } from "@/lib/user";
-import {cookies} from "next/headers"
+import { getAuthRole } from "@/lib/user";
 import { redirect } from "next/navigation";
 
 export default function Index() {
-  const token = cookies().get("token")?.value;
-  if (!token) redirect("/login");
-  const role = decodeToken(token).user.role;
+  const role = getAuthRole();
+  if (!role) redirect("/logout");
   if (role === "FARMER") redirect("/dashboard");
   else redirect("/technician");
 }
