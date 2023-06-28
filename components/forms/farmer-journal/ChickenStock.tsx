@@ -1,31 +1,43 @@
 import useJournalStatistics from "@/hooks/useJournalStatistics";
-import { FarmerJournal } from "@/types/content";
+import { useFormContext } from "react-hook-form";
 import Label from "../Label";
 import PreviewField from "../PreviewField";
+import ErrorMessage from "./ErrorMeesge";
 import NumberInput from "./NumberInput";
+import { FarmerJournalSchema } from "./schema";
 
 export default function ChickenStock() {
-  const { closingStock, mortalityPercentage, totalMortality } = useJournalStatistics();
+  const { formState: { errors }, watch } = useFormContext<FarmerJournalSchema>();
+  const [initial, mortality, mortalityProlapse] = watch(["fieldInitialstock", "fieldMortality", "fieldMortalityProlapse_"]);
+  const totalMortiality = mortality + mortalityProlapse;
+  const closingStock = initial >= totalMortiality ? initial - totalMortiality : undefined;
+  const percentage = (initial !== 0) 
+    ? Number(Math.round(+`${totalMortiality / initial}e2`) + "e-2")
+     : undefined
+
+  const { mortalityPercentage } = useJournalStatistics();
 
   return <div className="grid grid-cols-2 gap-2 p-6">
-
-    <Label<FarmerJournal> htmlFor="fieldInitialstock">Initial Stock</Label>
+    <Label<FarmerJournalSchema> htmlFor="fieldInitialstock" required>Initial Stock</Label>
     <NumberInput name="fieldInitialstock" />
+    <ErrorMessage>{errors.fieldInitialstock?.message}</ErrorMessage>
 
-    <Label<FarmerJournal> htmlFor="fieldMortality">Mortality</Label>
+    <Label<FarmerJournalSchema> htmlFor="fieldMortality" required>Mortality</Label>
     <NumberInput name="fieldMortality" />
+    <ErrorMessage>{errors.fieldMortality?.message}</ErrorMessage>
 
-    <Label<FarmerJournal> htmlFor="fieldMortalityProlapse_">Mortality Prolapse</Label>
+    <Label<FarmerJournalSchema> htmlFor="fieldMortalityProlapse_" required>Mortality Prolapse</Label>
     <NumberInput name="fieldMortalityProlapse_" />
+    <ErrorMessage>{errors.fieldMortalityProlapse_?.message}</ErrorMessage>
 
     <hr className="col-span-2 border-accent items-center my-2" />
 
     <Label>Total Mortality</Label>
-    <PreviewField className="input justify-end" value={totalMortality} />
+    <PreviewField className="input justify-end" value={totalMortiality} />
 
     <Label>Mortality Percentage</Label>
     <div className="join">
-      <PreviewField className="join-item w-full input justify-end" value={mortalityPercentage ? mortalityPercentage.toFixed(2) : undefined} />
+      <PreviewField className="join-item w-full input justify-end" value={percentage} />
       <span className="join-item inline-flex items-center p-2 bg-accent text-accent-content">%</span>
     </div>
 

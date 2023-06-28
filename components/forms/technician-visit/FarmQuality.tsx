@@ -18,7 +18,7 @@ function QualityInput(props: { name: FieldPath<TechnicianVisit>, label: string }
   const { register } = useFormContext<TechnicianVisit>()
 
   return <div>
-    <Label htmlFor={props.name}>{props.label}</Label>
+    <Label htmlFor={props.name} required>{props.label}</Label>
     <div className="flex bg-base-300 rounded-lg py-2">
       {
         QUALITY_SCALES.map(q => <label key={`${props.name}.${q}`} className="flex-1 text-center">
