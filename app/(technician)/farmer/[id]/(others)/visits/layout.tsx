@@ -13,7 +13,7 @@ type Props = {
   }
 }
 
-export async function generateMetadata({ params }: Props, parent?: ResolvingMetadata) {
+export async function generateMetadata({ params }: Props, parent: ResolvingMetadata) {
   const name = await getFarmerName(params.id)
   const possessive = name ? `${name}'s` : ""
 
