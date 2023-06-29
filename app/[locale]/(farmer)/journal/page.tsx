@@ -45,6 +45,7 @@ export default function FarmerJournal() {
     back()
     ref.current?.scrollTo({ top: 0 })
   }
+<<<<<<< HEAD:app/[locale]/(farmer)/journal/page.tsx
 
   const onSubmit = methods.handleSubmit(async (data) => {
     setError(false)
@@ -64,6 +65,29 @@ export default function FarmerJournal() {
   });
 
   const isSubmitting = methods.formState.isSubmitting;
+=======
+
+  const onSubmit = methods.handleSubmit(async (data) => {
+    setError(false)
+    if (!isLastStep) {
+      next()
+      ref.current?.scrollTo({ top: 0 })
+      return
+    }
+    const processed = processFormData(data)
+    console.log(processed)
+    const response = await fetch("/api/drupal/node/farmer_daily_journal", {
+      method: "POST",
+      body: JSON.stringify(processed)
+    })
+    if (response.ok) dialog.current?.showModal()
+    else if (response.status === 401 || response.status === 403) router.replace("/logout")
+    else setError(true)
+  });
+
+  const isSubmitting = methods.formState.isSubmitting;
+
+>>>>>>> b0077c4 (Post daily journal):app/(farmer)/journal/page.tsx
 
   return <>
     <title>New Jorunal | Ovoflow</title>
