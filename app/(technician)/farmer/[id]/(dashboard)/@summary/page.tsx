@@ -1,5 +1,4 @@
 import { jsonApiFetch } from "@/lib/axios"
-import { enShortDate } from "@/lib/formatter"
 import { FarmerJournal } from "@/types/content"
 import { Node } from "@/types/highLevel"
 
@@ -46,20 +45,17 @@ export default async function FarmerSummary({ params }: Props) {
   const summary = await getSummary(params.id, Math.floor(lastWeek / 1000), Math.floor(now / 1000));
 
   return <>
-    <p className="text-base-content">{enShortDate.formatRange(lastWeek, now)}</p>
-    <div className="stats stats-vertical bg-base-200 w-full mt-2">
-      <div className="stat">
-        <div className="stat-title">Total mortality</div>
-        <div className="stat-value text-right text-error">{summary.totalMortality}</div>
-      </div>
-      <div className="stat">
-        <div className="stat-title">Averge egg production</div>
-        <div className="stat-value text-right text-primary">{summary.averageEggProduction}</div>
-      </div>
-      <div className="stat">
-        <div className="stat-title">Averge feed</div>
-        <div className="stat-value text-right text-primary">{summary.averageFeed}kg</div>
-      </div>
+    <div className="p-4 flex flex-col gap-4 justify-between min-w-[200px] rounded-md bg-secondary/30">
+      <p className="text-sm">Total mortiality</p>
+      <div className="text-4xl font-semibold text-error">{summary.totalMortality}</div>
+    </div>
+    <div className="p-4 flex flex-col gap-4 justify-between min-w-[200px] rounded-md bg-primary/30">
+      <p className="text-sm">Average egg production</p>
+      <div className="text-4xl font-semibold text-primary">{summary.totalMortality}</div>
+    </div>
+    <div className="p-4 flex flex-col gap-4 justify-between min-w-[200px] rounded-md bg-primary/30">
+      <p className="text-sm">Averge daily feed</p>
+      <div className="text-4xl font-semibold text-primary">{summary.totalMortality}</div>
     </div>
   </>
 }
