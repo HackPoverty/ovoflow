@@ -1,4 +1,4 @@
-import { FarmerListItem } from "@/components/FarmerListItem";
+import { FarmerListItem } from "@/components/farmers/FarmerListItem";
 import { jsonApiFetch } from "@/lib/axios";
 import { Node } from "@/types/highLevel";
 import { FARMER_ROLE_ID, Farmer } from "@/types/user";
