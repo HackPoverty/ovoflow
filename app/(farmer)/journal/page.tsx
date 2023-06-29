@@ -44,9 +44,10 @@ export default function FarmerJournal() {
   const ref = useRef<HTMLDivElement>(null);
 
   return <>
-    <NavigationBar title="Journal" button={<BackButton />} />
+    <title>New Jorunal | Ovoflow</title>
+    <NavigationBar title="New Journal" button={<BackButton />} />
     <main className="flex-1 flex flex-col overflow-hidden">
-      <div className="px-6 py-4 border-b-2">
+      <div className="px-6 py-4 shadow">
         <p className="text-neutral">Step {currentStepIndex + 1} of {steps.length}</p>
         <h1>{step.title}</h1>
       </div>
