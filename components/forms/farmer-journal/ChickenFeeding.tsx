@@ -7,7 +7,7 @@ import { FarmerJournalSchema } from "./schema";
 
 export default function ChickenFeeding() {
   const { watch, formState: { errors } } = useFormContext<FarmerJournalSchema>();
-  const [inital, mortality, proplapse, feed] = watch(["fieldInitialstock", "fieldMortality", "fieldMortalityProlapse_", "fieldGivenFeed"])
+  const [inital, mortality, proplapse, feed] = watch(["fieldInitialstock", "fieldMortality", "fieldMortalityprolapse", "fieldGivenFeed"])
   const closingStock = inital - mortality - proplapse;
   const feedPerBirds = closingStock <= 0 ? undefined :
     Number(Math.round(+`${feed * 1000 / closingStock}e2`) + "e-2")

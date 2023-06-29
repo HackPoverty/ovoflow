@@ -7,7 +7,7 @@ import { FarmerJournalSchema } from "./schema";
 
 export default function ChickenStock() {
   const { formState: { errors }, watch } = useFormContext<FarmerJournalSchema>();
-  const [initial, mortality, mortalityProlapse] = watch(["fieldInitialstock", "fieldMortality", "fieldMortalityProlapse_"]);
+  const [initial, mortality, mortalityProlapse] = watch(["fieldInitialstock", "fieldMortality", "fieldMortalityprolapse"]);
   const totalMortiality = mortality + mortalityProlapse;
   const closingStock = initial >= totalMortiality ? initial - totalMortiality : undefined;
   const percentage = (initial !== 0)
@@ -23,9 +23,9 @@ export default function ChickenStock() {
     <NumberInput name="fieldMortality" />
     {errors.fieldMortality ? <ErrorMessage className="col-span-2">{errors.fieldMortality.message}</ErrorMessage> : null}
 
-    <Label<FarmerJournalSchema> htmlFor="fieldMortalityProlapse_" required>Mortality Prolapse</Label>
-    <NumberInput name="fieldMortalityProlapse_" />
-    {errors.fieldMortalityProlapse_ ? <ErrorMessage className="col-span-2">{errors.fieldMortalityProlapse_.message}</ErrorMessage> : null}
+    <Label<FarmerJournalSchema> htmlFor="fieldMortalityprolapse" required>Mortality Prolapse</Label>
+    <NumberInput name="fieldMortalityprolapse" />
+    {errors.fieldMortalityprolapse ? <ErrorMessage className="col-span-2">{errors.fieldMortalityprolapse.message}</ErrorMessage> : null}
 
     <hr className="col-span-2 border-accent items-center my-2" />
 

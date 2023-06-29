@@ -1,6 +1,6 @@
 "use client"
 
-import { ChickenEggProduction, ChickenFeeding, ChickenStock } from "@/components/forms/farmer-journal";
+import { ChickenEggProduction, ChickenFeeding, ChickenStock, processFormData } from "@/components/forms/farmer-journal";
 import Confirmation from "@/components/forms/farmer-journal/Confirmation";
 import Note from "@/components/forms/farmer-journal/Note";
 import { FarmerJournalSchema, chickenFeedSchema, chickenStockSchema, commentSchema, eggProductionSchema, journalSchema } from "@/components/forms/farmer-journal/schema";
@@ -34,7 +34,7 @@ export default function FarmerJournal() {
   });
 
   const onSubmit = methods.handleSubmit((data) => {
-    if (isLastStep) console.log(data);
+    if (isLastStep) console.log(processFormData(data));
     else {
       next();
       ref.current?.scrollTo({ top: 0 })
