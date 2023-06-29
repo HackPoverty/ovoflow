@@ -21,7 +21,7 @@ export default function FarmerLayout({
       <label htmlFor="private-drawer" className="drawer-overlay"></label>
       <ul className="menu p-4 w-60 h-full bg-base-200 text-base-content">
         <NavLink active="technician" href="/technician">Dashboard</NavLink>
-        <NavLink active="farmeres" href="/farmers">Farmers List</NavLink>
+        <NavLink active="farmers" href="/farmers">Farmers List</NavLink>
         <LogoutButton />
       </ul>
     </div>

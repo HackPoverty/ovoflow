@@ -1,7 +1,5 @@
-import { FarmerListItem } from "@/components/FarmerListItem";
 import PaginationButtons from "@/components/PaginationButtons";
-import MenuButton from "@/components/navigation/MenuButton";
-import NavigationBar from "@/components/navigation/NavigationBar";
+import { FarmerListItem } from "@/components/farmers/FarmerListItem";
 import { jsonApiFetchPaginated } from "@/lib/axios";
 import { Node } from "@/types/highLevel";
 import { FARMER_ROLE_ID, Farmer } from "@/types/user";
@@ -28,8 +26,7 @@ export default async function FarmerList({ searchParams }: Props) {
   const now = new Date();
 
   return <>
-    <NavigationBar title="Farmers List" button={<MenuButton />} />
-    <main className="py-6">
+    <main className="py-6 flex-1 overflow-y-auto">
       <div>
         {
           data.map(farmer => <FarmerListItem
@@ -42,11 +39,11 @@ export default async function FarmerList({ searchParams }: Props) {
           />)
         }
       </div>
-      <div className="flex justify-center gap-6 mt-6">
-        <PaginationButtons
-          prevLink={isFirst ? undefined : `?offset=${Math.max(0, +offset - PAGE_LIMIT)}`}
-          nextLink={isLast ? undefined : `?offset=${+offset + PAGE_LIMIT}`} />
-      </div>
     </main>
+    <div className="flex justify-between p-4 shadow-lg">
+      <PaginationButtons
+        prevLink={isFirst ? undefined : `?offset=${Math.max(0, +offset - PAGE_LIMIT)}`}
+        nextLink={isLast ? undefined : `?offset=${+offset + PAGE_LIMIT}`} />
+    </div>
   </>
 }
