@@ -54,7 +54,6 @@ export default function FarmerJournal() {
       return
     }
     const processed = processFormData(data)
-    console.log(processed)
     const response = await fetch("/api/drupal/node/farmer_daily_journal", {
       method: "POST",
       body: JSON.stringify(processed)
