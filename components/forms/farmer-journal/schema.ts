@@ -3,8 +3,8 @@ import { z } from "zod";
 export const chickenStockSchema = z.object({
   fieldInitialstock: z.number(),
   fieldMortality: z.number(),
-  fieldMortalityProlapse_: z.number(),
-}).refine(({ fieldInitialstock, fieldMortality, fieldMortalityProlapse_ }) => fieldInitialstock >= fieldMortality + fieldMortalityProlapse_, {
+  fieldMortalityprolapse: z.number(),
+}).refine(({ fieldInitialstock, fieldMortality, fieldMortalityprolapse }) => fieldInitialstock >= fieldMortality + fieldMortalityprolapse, {
   message: "The total number of dead chickens should not execeed the initial number of chickens",
   path: ["fieldInitialstock"]
 })

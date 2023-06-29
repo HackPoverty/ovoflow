@@ -36,7 +36,7 @@ export type FarmerJournal = FarmerJournalSchema & {
   fieldClosingStock?: number
 
   /** The percentage of eggs that are damaged */
-  fieldDamagedEggsPercentage_?: number
+  fieldDamagedEggsPercentage__?: number
 
   /** The total number of eggs produced */
   fieldProducedEggs?: number
@@ -51,6 +51,6 @@ export type FarmerJournal = FarmerJournalSchema & {
 
   fieldHoursOfLight?: number
   fieldMortalityPercentage_?: number
-  fieldTotalMortality?: number
+  fieldTotalmortality?: number
   fieldWeightOfBird?: number
 }

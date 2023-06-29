@@ -14,7 +14,7 @@ export default function Confirmation() {
     <Label>Mortality</Label>
     <PreviewField className="input justify-end" value={data.fieldMortality} />
     <Label>Mortality Prolapse</Label>
-    <PreviewField className="input justify-end" value={data.fieldMortalityProlapse_} />
+    <PreviewField className="input justify-end" value={data.fieldMortalityprolapse} />
     <h3 className="font-semibold col-span-2 text-accent">Egg production</h3>
     <Label>Small Eggs</Label>
     <PreviewField className="input justify-end" value={data.fieldSmallEggs} />
