@@ -1,1 +1,9 @@
-{}
+{
+  "Login": {
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "incorrect": "Incorrect username or password",
+    "error": "Something went wrong. Please try again later"
+  }
+}
