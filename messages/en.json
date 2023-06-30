@@ -28,13 +28,13 @@
   "FarmerJournal": {
     "new journal": "New journal",
     "step": "Step {now} of {total}",
-    
+
     "stock": "Stock",
     "eggs production": "Eggs production",
     "feeding": "Feeding",
     "note": "Note",
     "review": "Review",
-    
+
     "submit": "Submit",
     "back": "Back",
     "previous": "Previous",
@@ -68,5 +68,22 @@
     "required": "Required",
     "exceed dead chicken": "The total number of dead chickens should not execeed the initial number of chickens",
     "exceed damaged eggs": "The number of damaged eggs should not execeed the total number of eggs produced"
+  },
+  "Navigation": {
+    "dashboard": "Dashboard",
+    "farmers list": "Farmers List",
+    "logout": "Logout"
+  },
+  "TechnicianDashboard": {
+    "dashboard": "Dashboard",
+    "hello": "Hello {name}",
+    "sumary": "Summary",
+    "recent visited farms": "Recent visited farms"
+  },
+  "TechnicianFarmersList": {
+    "farmers list": "Farmers List",
+    "visited": "visited {time}"
+  },
+  "TechnicianError": {
   }
 }
