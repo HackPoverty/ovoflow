@@ -3,6 +3,8 @@ import { FarmerListItem } from "@/components/farmers/FarmerListItem";
 import { jsonApiFetchPaginated } from "@/lib/axios";
 import { Node } from "@/types/highLevel";
 import { FARMER_ROLE_ID, Farmer } from "@/types/user";
+import { pick } from "lodash";
+import { AbstractIntlMessages, NextIntlClientProvider, useLocale, useMessages } from "next-intl";
 
 const PAGE_LIMIT = 6
 
@@ -23,8 +25,6 @@ export default async function FarmerList({ searchParams }: Props) {
     "sort": "-field_farmer_last_visited,name",
   }, PAGE_LIMIT, offset);
 
-  const now = new Date();
-
   return <>
     <main className="py-6 flex-1 overflow-y-auto">
       <div>
@@ -33,7 +33,6 @@ export default async function FarmerList({ searchParams }: Props) {
             key={farmer.id}
             farmerId={farmer.id}
             name={farmer.name}
-            now={now}
             lastVisitDate={farmer.fieldFarmerLastVisited
               ? new Date(farmer.fieldFarmerLastVisited) : undefined}
           />)
