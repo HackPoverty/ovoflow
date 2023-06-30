@@ -58,12 +58,3 @@ export async function jsonApiFetchPaginated<Type>(resource: string, params?: Rec
     } else throw error;
   }
 }
-
-export const withCustomError = async <T>(promise: Promise<T>, errorMessage: string) => {
-  try {
-    return await promise;
-  } catch (e) {
-    console.log(e)
-    throw new Error(errorMessage);
-  }
-}
