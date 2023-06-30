@@ -12,15 +12,12 @@ export default async function RecentVisits() {
     "sort": "-field_farmer_last_visited,name",
     "page[limit]": 5
   });
-  const now = new Date();
-
   return <>
     {
       farmers.map(farmer => <FarmerListItem
         key={farmer.id}
         farmerId={farmer.id}
         name={farmer.name}
-        now={now}
         lastVisitDate={farmer.fieldFarmerLastVisited ? new Date(farmer.fieldFarmerLastVisited) : undefined}
       />)
     }

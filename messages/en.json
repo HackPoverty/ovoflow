@@ -77,13 +77,29 @@
   "TechnicianDashboard": {
     "dashboard": "Dashboard",
     "hello": "Hello {name}",
-    "sumary": "Summary",
-    "recent visited farms": "Recent visited farms"
+    "summary": "Summary",
+    "recent visited farms": "Recent visited farms",
+    "farms visited": "{count, plural, =1 {farm} other {farms}} visited this month",
+    "no farms visited": "No farms visited this month",
+    "Error": {
+      "fetch recent": "Could not recent visited farms, tap to retry",
+      "fetch statistics": "Could not load statistics, tap to retry"
+    }
   },
-  "TechnicianFarmersList": {
+  "FarmersList": {
     "farmers list": "Farmers List",
-    "visited": "visited {time}"
+    "visited": "visited {date}",
+    "never visited": "never visited before",
+    "previous": "Previous",
+    "next": "Next",
+    "loading": "Retrieving farmers...",
+    "Error": {
+      "message": "Could not load farmers data",
+      "try again": "Try again"
+    }
   },
-  "TechnicianError": {
+  "ListNavigation": {
+    "previous": "Previous",
+    "next": "Next"
   }
 }
