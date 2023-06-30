@@ -2,6 +2,8 @@ import { jsonApiFetch } from "@/lib/axios";
 import { getCookies } from "@/lib/cookie";
 import { FarmerJournal } from "@/types/content";
 import { Node } from "@/types/highLevel";
+import { useLocale, useTranslations } from "next-intl";
+import { getTranslator } from "next-intl/server";
 import Link from "next/link";
 
 type Result = Pick<Node<FarmerJournal>, "created">
@@ -26,22 +28,25 @@ export default async function Logging() {
   const now = Math.floor(Date.now() / 1000);
   const lastTimeStamp = await getLastRecordTimestampOfCurrentFarmer() || 0;
   const diff = now - lastTimeStamp;
+  const t = await getTranslator(useLocale(), "FarmerDashboard")
 
   return <>
-    {diff < SECONDS_IN_DAY && <LogComplete />}
-    {diff >= 2 * SECONDS_IN_DAY && <LogNotice />}
-    <Link className={`btn mx-6 my-2 ${diff < SECONDS_IN_DAY ? "btn-disabled" : "btn-primary"}`} href="/journal">Finish daily journal</Link>
+    {diff < SECONDS_IN_DAY && <CompleteNotice />}
+    {diff >= 2 * SECONDS_IN_DAY && <OverdueNotice />}
+    <Link className={`btn mx-6 my-2 ${diff < SECONDS_IN_DAY ? "btn-disabled" : "btn-primary"}`} href="/journal">{t("finish daily journal")}</Link>
   </>
 }
 
-function LogComplete() {
+function CompleteNotice() {
+  const t = useTranslations("FarmerDashboard")
   return <div className="bg-success sticky top-0 px-4 py-2 z-10 shadow-lg text-sm">
-    <span className="text-sm">Daily journal completed, please come back tommorow</span>
+    <span className="text-sm">{t("complete notice")}</span>
   </div>
 }
 
-function LogNotice() {
+function OverdueNotice() {
+  const t = useTranslations("FarmerDashboard")
   return <div className="bg-warning sticky top-0 px-4 py-2 z-10 shadow-lg text-sm">
-    <span className="text-sm">Please finish your daily journal</span>
+    <span className="text-sm">{t("overdue notice")}</span>
   </div>
 }
