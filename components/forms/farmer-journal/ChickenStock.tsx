@@ -4,8 +4,10 @@ import Label from "../Label";
 import PreviewField from "../PreviewField";
 import NumberInput from "./NumberInput";
 import { FarmerJournalSchema } from "./schema";
+import { useTranslations } from "next-intl";
 
 export default function ChickenStock() {
+  const t = useTranslations("FarmerJournal")
   const { formState: { errors }, watch } = useFormContext<FarmerJournalSchema>();
   const [initial, mortality, mortalityProlapse] = watch(["fieldInitialstock", "fieldMortality", "fieldMortalityprolapse"]);
   const totalMortiality = mortality + mortalityProlapse;
@@ -15,30 +17,30 @@ export default function ChickenStock() {
     : undefined
 
   return <div className="grid grid-cols-2 gap-2 p-6">
-    <Label<FarmerJournalSchema> htmlFor="fieldInitialstock" required>Initial Stock</Label>
+    <Label<FarmerJournalSchema> htmlFor="fieldInitialstock" required>{t("initial stock")}</Label>
     <NumberInput name="fieldInitialstock" />
     {errors.fieldInitialstock ? <ErrorMessage className="col-span-2">{errors.fieldInitialstock.message}</ErrorMessage> : null}
 
-    <Label<FarmerJournalSchema> htmlFor="fieldMortality" required>Mortality</Label>
+    <Label<FarmerJournalSchema> htmlFor="fieldMortality" required>{t("mortality")}</Label>
     <NumberInput name="fieldMortality" />
     {errors.fieldMortality ? <ErrorMessage className="col-span-2">{errors.fieldMortality.message}</ErrorMessage> : null}
 
-    <Label<FarmerJournalSchema> htmlFor="fieldMortalityprolapse" required>Mortality Prolapse</Label>
+    <Label<FarmerJournalSchema> htmlFor="fieldMortalityprolapse" required>{t("mortality prolapse")}</Label>
     <NumberInput name="fieldMortalityprolapse" />
     {errors.fieldMortalityprolapse ? <ErrorMessage className="col-span-2">{errors.fieldMortalityprolapse.message}</ErrorMessage> : null}
 
     <hr className="col-span-2 border-accent items-center my-2" />
 
-    <Label>Total Mortality</Label>
+    <Label>{t("total mortality")}</Label>
     <PreviewField className="input justify-end" value={totalMortiality} />
 
-    <Label>Mortality Percentage</Label>
+    <Label>{t("mortality percentage")}</Label>
     <div className="join">
       <PreviewField className="join-item w-full input justify-end" value={percentage} />
       <span className="join-item inline-flex items-center p-2 bg-accent text-accent-content">%</span>
     </div>
 
-    <Label>Closing stock</Label>
+    <Label>{t("closing stock")}</Label>
     <PreviewField className="input justify-end" value={closingStock} />
   </div>
 }

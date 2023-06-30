@@ -4,8 +4,10 @@ import Label from "../Label";
 import PreviewField from "../PreviewField";
 import NumberInput from "./NumberInput";
 import { FarmerJournalSchema } from "./schema";
+import { useTranslations } from "next-intl";
 
 export default function ChickenFeeding() {
+  const t = useTranslations("FarmerJournal")
   const { watch, formState: { errors } } = useFormContext<FarmerJournalSchema>();
   const [inital, mortality, proplapse, feed] = watch(["fieldInitialstock", "fieldMortality", "fieldMortalityprolapse", "fieldGivenFeed"])
   const closingStock = inital - mortality - proplapse;
@@ -14,7 +16,7 @@ export default function ChickenFeeding() {
 
   return <div className="p-6 grid grid-cols-2 gap-2">
 
-    <Label htmlFor="fieldGivenFeed" required>Total given</Label>
+    <Label htmlFor="fieldGivenFeed" required>{t("total given")}</Label>
     <div className="join">
       <NumberInput name="fieldGivenFeed" className="w-full join-item" step={0.01} />
       <span className="join-item px-2 inline-flex items-center bg-accent text-accent-content">kg</span>
@@ -23,10 +25,10 @@ export default function ChickenFeeding() {
 
     <hr className="border-accent my-2 col-span-2" />
 
-    <Label>Closing stock</Label>
+    <Label>{t("closing stock")}</Label>
     <PreviewField className="input justify-end" value={closingStock} />
 
-    <Label>Feed per bird</Label>
+    <Label>{t("feed per bird")}</Label>
     <div className="join">
       <PreviewField className="w-full join-item input justify-end" value={feedPerBirds} />
       <span className="join-item px-2 inline-flex items-center bg-accent text-accent-content">g</span>

@@ -5,5 +5,68 @@
     "login": "Login",
     "incorrect": "Incorrect username or password",
     "error": "Something went wrong. Please try again later"
+  },
+  "FarmerDashboard": {
+    "dashboard": "Dashboard",
+    "finish daily journal": "Finish daily journal",
+    "complete notice": "Daily journal completed, please come back tommorow",
+    "no records for last week": "You have no record last week",
+    "overdue notice": "Your daily journal is overdue, please complete it",
+    "fetch notice error": "Could not fetch data, tap to retry",
+    "fetch statistics error": "Could not load statistics, tap to retry",
+    "fetch recent error": "Could not load recent journals, tap to retry",
+    "statistics": "Statistics",
+    "recent entries": "Recent entries",
+    "last record": "Last record was {lastRecord}",
+    "averge": "Average eggs produced",
+    "Error": {
+      "fetch notice": "Could not fetch data, tap to retry",
+      "fetch statistics": "Could not load statistics, tap to retry",
+      "fetch recent": "Could not load recent journals, tap to retry"
+    }
+  },
+  "FarmerJournal": {
+    "new journal": "New journal",
+    "step": "Step {now} of {total}",
+    
+    "stock": "Stock",
+    "eggs production": "Eggs production",
+    "feeding": "Feeding",
+    "note": "Note",
+    "review": "Review",
+    
+    "submit": "Submit",
+    "back": "Back",
+    "previous": "Previous",
+    "next": "Next",
+
+    "initial stock": "Initial stock",
+    "mortality": "Mortality",
+    "mortality prolapse": "Mortality prolapse",
+    "total mortality": "Total mortality",
+    "mortality percentage": "Mortality percentage",
+    "closing stock": "Closing stock",
+
+    "small eggs": "Small eggs",
+    "medium eggs": "Medium eggs",
+    "large eggs": "Large eggs",
+    "damaged eggs": "Damaged eggs",
+    "total": "Total",
+    "net total": "Net total",
+    "lay frequency": "Lay frequency",
+    "industry standard": "industry standard",
+
+    "total given": "Total given",
+    "feed per bird": "Feed per bird",
+
+    "note placeholder": "Leave out your commment here...",
+
+    "submit error": "Could not submit journal, please try again",
+    "submit success": "Journal submitted successfully",
+    "go to dashboard": "Go to dashboard",
+
+    "required": "Required",
+    "exceed dead chicken": "The total number of dead chickens should not execeed the initial number of chickens",
+    "exceed damaged eggs": "The number of damaged eggs should not execeed the total number of eggs produced"
   }
 }
