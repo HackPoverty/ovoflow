@@ -1,7 +1,7 @@
 import LogoutButton from "@/components/LogoutButton";
 import NavLink from "@/components/navigation/NavLink";
 import { TECHNICIAN_ROLE, getAuthRole } from "@/lib/user";
-import { redirect } from "next/navigation";
+import { redirect } from "next-intl/server";
 
 
 export default function FarmerLayout({

@@ -4,28 +4,36 @@ import SuccessDialog from "@/components/SuccessDialog";
 import { ChickenEggProduction, ChickenFeeding, ChickenStock, processFormData } from "@/components/forms/farmer-journal";
 import Confirmation from "@/components/forms/farmer-journal/Confirmation";
 import Note from "@/components/forms/farmer-journal/Note";
-import { FarmerJournalSchema, chickenFeedSchema, chickenStockSchema, commentSchema, eggProductionSchema, journalSchema } from "@/components/forms/farmer-journal/schema";
-import BackButton from "@/components/navigation/BackButton";
-import NavigationBar from "@/components/navigation/NavigationBar";
+import { FarmerJournalSchema, useFarmerJournalFormSchema } from "@/components/forms/farmer-journal/schema";
 import { FormStep, useMutistepForm } from "@/hooks/useMultiStepForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next-intl/client";
 import { useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-const formSteps = [
-  { title: "Stock", form: <ChickenStock />, schema: chickenStockSchema },
-  { title: "Egg production", form: <ChickenEggProduction />, schema: eggProductionSchema },
-  { title: "Feeding", form: <ChickenFeeding />, schema: chickenFeedSchema },
-  { title: "Note", form: <Note />, schema: commentSchema },
-  { title: "Confirmation", form: <Confirmation />, schema: journalSchema }
-] satisfies FormStep[];
 
 export default function FarmerJournal() {
   const [error, setError] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const t = useTranslations("FarmerJournal")
+  const {
+    chickenStockSchema,
+    eggProductionSchema,
+    chickenFeedSchema,
+    commentSchema,
+    journalSchema
+  } = useFarmerJournalFormSchema()
+  const formSteps = [
+    { title: t("stock"), form: <ChickenStock />, schema: chickenStockSchema },
+    { title: t("eggs production"), form: <ChickenEggProduction />, schema: eggProductionSchema },
+    { title: t("feeding"), form: <ChickenFeeding />, schema: chickenFeedSchema },
+    { title: t("note"), form: <Note />, schema: commentSchema },
+    { title: t("review"), form: <Confirmation />, schema: journalSchema }
+  ] satisfies FormStep[];
 
   const {
     currentStepIndex,
@@ -45,7 +53,6 @@ export default function FarmerJournal() {
     back()
     ref.current?.scrollTo({ top: 0 })
   }
-<<<<<<< HEAD:app/[locale]/(farmer)/journal/page.tsx
 
   const onSubmit = methods.handleSubmit(async (data) => {
     setError(false)
@@ -65,37 +72,12 @@ export default function FarmerJournal() {
   });
 
   const isSubmitting = methods.formState.isSubmitting;
-=======
-
-  const onSubmit = methods.handleSubmit(async (data) => {
-    setError(false)
-    if (!isLastStep) {
-      next()
-      ref.current?.scrollTo({ top: 0 })
-      return
-    }
-    const processed = processFormData(data)
-    console.log(processed)
-    const response = await fetch("/api/drupal/node/farmer_daily_journal", {
-      method: "POST",
-      body: JSON.stringify(processed)
-    })
-    if (response.ok) dialog.current?.showModal()
-    else if (response.status === 401 || response.status === 403) router.replace("/logout")
-    else setError(true)
-  });
-
-  const isSubmitting = methods.formState.isSubmitting;
-
->>>>>>> b0077c4 (Post daily journal):app/(farmer)/journal/page.tsx
 
   return <>
-    <title>New Jorunal | Ovoflow</title>
-    <NavigationBar title="New Journal" button={<BackButton />} />
     <main className="flex-1 flex flex-col overflow-hidden">
-      {error && <div className="text-sm p-2 bg-error">Something went wrong, try again later</div>}
+      {error && <div className="text-sm p-2 bg-error">{t("submit error")}</div>}
       <div className="px-6 py-4 shadow">
-        <p className="text-neutral">Step {currentStepIndex + 1} of {steps.length}</p>
+        <p className="text-neutral">{t("step", { now: currentStepIndex + 1, total: steps.length })}</p>
         <h1>{step.title}</h1>
       </div>
       <FormProvider {...methods}>
@@ -104,17 +86,20 @@ export default function FarmerJournal() {
             {step.form}
           </div>
           <div className="grid grid-cols-2 px-6 py-4 gap-2 shadow bg-base-100">
-            <button disabled={isFirstStep || isSubmitting} className="btn btn-primary btn-outline flex-1" onClick={onBack} type="button">Back</button>
+            <button disabled={isFirstStep || isSubmitting}
+              className="btn btn-primary btn-outline flex-1"
+              onClick={onBack}
+              type="button">{t("back")}</button>
             <button disabled={isSubmitting} className="btn btn-primary flex-1" type="submit">
               {
                 isSubmitting ? <span className="loading loading-spinner loading-md" /> :
-                  isLastStep ? "Submit" : "Next"
+                  isLastStep ? t("submit") : t("next")
               }
             </button>
           </div>
         </form>
       </FormProvider>
     </main>
-    <SuccessDialog action={router.back} ref={dialog} />
+    <SuccessDialog title={t("submit success")} buttonLabel={t("go to dashboard")} action={() => router.replace("/dashboard")} ref={dialog} />
   </>
 }

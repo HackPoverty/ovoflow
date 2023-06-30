@@ -1,7 +1,7 @@
 import axios from "axios"
 import { CaseType, deserialize } from "jsonapi-fractal"
 import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
+import { redirect } from "next-intl/server"
 
 const jsonApi = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}/jsonapi_data`,
@@ -56,5 +56,14 @@ export async function jsonApiFetchPaginated<Type>(resource: string, params?: Rec
     if (status === 401 || status === 403) {
       redirect("/logout")
     } else throw error;
+  }
+}
+
+export const withCustomError = async <T>(promise: Promise<T>, errorMessage: string) => {
+  try {
+    return await promise;
+  } catch (e) {
+    console.log(e)
+    throw new Error(errorMessage);
   }
 }
