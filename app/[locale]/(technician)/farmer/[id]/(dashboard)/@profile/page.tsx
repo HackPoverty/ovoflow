@@ -1,7 +1,8 @@
 import { jsonApiFetch } from "@/lib/axios"
-import { formatTime } from "@/lib/formatter"
 import { Node } from "@/types/highLevel"
 import { Farmer } from "@/types/user"
+import { useLocale } from "next-intl"
+import { getFormatter, getTranslator } from "next-intl/server"
 
 type Props = {
   params: {
@@ -12,6 +13,9 @@ type Props = {
 type Result = Pick<Node<Farmer>, "name" | "fieldFarmerLastVisited">
 
 export default async function Profile({ params }: Props) {
+  const locale = useLocale()
+  const t = await getTranslator(locale, "FarmerDetail")
+  const formatter = await getFormatter(locale)
   const { name, fieldFarmerLastVisited } = await jsonApiFetch<Result>(`user/user/${params.id}`, {
     "fields[user--user]": "name,field_farmer_last_visited"
   })
@@ -20,8 +24,11 @@ export default async function Profile({ params }: Props) {
     <h1>{name}</h1>
     <p>
       {!fieldFarmerLastVisited
-        ? "never visited before"
-        : `visited ${formatTime(new Date(fieldFarmerLastVisited), new Date())}`}
+        ? t("never visiteed")
+        : t("visit", {
+          date: formatter.relativeTime(new Date(fieldFarmerLastVisited))
+        })
+      }
     </p>
   </>
 }

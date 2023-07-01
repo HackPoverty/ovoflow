@@ -1,6 +1,8 @@
 import { jsonApiFetch } from "@/lib/axios"
 import { FarmerJournal } from "@/types/content"
 import { Node } from "@/types/highLevel"
+import { useLocale } from "next-intl"
+import { getNow, getTranslator } from "next-intl/server"
 
 type Props = {
   params: {
@@ -39,22 +41,24 @@ async function getSummary(id: string, unixFromSecond: number, unixToSecond: numb
 }
 
 export default async function FarmerSummary({ params }: Props) {
-  const now = Date.now()
-  const lastWeek = now - 7 * 24 * 3600 * 1000;
+  const locale = useLocale()
+  const t = await getTranslator(useLocale(), "FarmerDetail")
+  const now = await getNow(locale)
+  const lastWeek = +now - 7 * 24 * 3600 * 1000;
 
-  const summary = await getSummary(params.id, Math.floor(lastWeek / 1000), Math.floor(now / 1000));
+  const summary = await getSummary(params.id, Math.floor(lastWeek / 1000), Math.floor(+now / 1000));
 
   return <>
     <div className="p-4 flex flex-col gap-4 justify-between min-w-[200px] rounded-md bg-secondary/30">
-      <p className="text-sm">Total mortiality</p>
+      <p className="text-sm">{t("total mortality")}</p>
       <div className="text-4xl font-semibold text-error">{summary.totalMortality}</div>
     </div>
     <div className="p-4 flex flex-col gap-4 justify-between min-w-[200px] rounded-md bg-primary/30">
-      <p className="text-sm">Average egg production</p>
+      <p className="text-sm">{t("average egg produced")}</p>
       <div className="text-4xl font-semibold text-primary">{summary.averageEggProduction}</div>
     </div>
     <div className="p-4 flex flex-col gap-4 justify-between min-w-[200px] rounded-md bg-primary/30">
-      <p className="text-sm">Averge daily feed</p>
+      <p className="text-sm">{t("average daily feed")}</p>
       <div className="text-4xl font-semibold text-primary">{summary.averageFeed}</div>
     </div>
   </>
