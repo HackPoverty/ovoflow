@@ -101,5 +101,28 @@
   "ListNavigation": {
     "previous": "Previous",
     "next": "Next"
+  },
+  "FarmerDetail": {
+    "title": "Farmer Detail",
+    "summary": "Summary",
+    "add visit record": "Add visit record",
+    "recent visit": "Recent visit",
+    "see all": "see all",
+    "never visiteed": "never visited before",
+    "visit": "last visit was {date}",
+    
+    "total mortality": "Total mortality",
+    "average egg produced": "Average egg produced",
+    "average daily feed": "Average daily feed",
+    
+    "loading recent visits": "Retrieving recent visits...",
+    "loading all visits": "Retrieving all visits...",
+    "Error": {
+      "fetch summary error": "Could not load summary data, tap to retry",
+      "fetch recent visits error": "Could not load recent visits, tap to retry"
+    }
+  },
+  "TechnicianVisit": {
+
   }
 }

@@ -1,7 +1,9 @@
 "use client"
 
 import ErrorBanner from "@/components/error/ErrorBanner";
+import { useTranslations } from "next-intl";
 
 export default function Error({ reset }: { error: Error, reset: () => void }) {
-  return <ErrorBanner reset={reset} />
+  const t = useTranslations("FarmerDetail.Error")
+  return <ErrorBanner reset={reset} message={t("fetch recent visits error")} />
 }
