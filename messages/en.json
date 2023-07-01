@@ -122,7 +122,16 @@
       "fetch recent visits error": "Could not load recent visits, tap to retry"
     }
   },
-  "TechnicianVisit": {
+  "TechnicianVisitForm": {
 
+  },
+  "TechnicianVisitList": {
+    "farm visit": "{name}'s Farm Visit",
+    "default farm visit": "Farm Visit",
+    "loading": "Retrieving from all visits from farmer...",
+    "Error": {
+      "message": "Could not load vists data",
+      "try again": "Try again"
+    }
   }
 }

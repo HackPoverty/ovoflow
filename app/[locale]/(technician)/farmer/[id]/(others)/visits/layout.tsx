@@ -2,8 +2,11 @@ import BackButton from "@/components/navigation/BackButton";
 import NavigationBar from "@/components/navigation/NavigationBar";
 
 import { Metadata, ResolvingMetadata } from "next";
+import { AbstractIntlMessages, NextIntlClientProvider, useLocale } from "next-intl";
+import { getMessages, getTranslator } from "next-intl/server";
 import { ReactNode } from "react";
 import { getFarmerName } from "../../(dashboard)/layout";
+import { pick } from "lodash";
 
 
 type Props = {
@@ -24,10 +27,12 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
 export default async function Layout({ children, params }: Props) {
   const name = await getFarmerName(params.id)
-  const possessive = name ? `${name}'s` : ""
+  const locale = useLocale()
+  const messages = pick(await getMessages(locale), ["TechnicianVisitList.Error", "ListNavigation"])
+  const t = await getTranslator(locale, "TechnicianVisitList")
 
-  return <>
-    <NavigationBar title={`${possessive} Farm Visits`} button={<BackButton />} />
+  return <NextIntlClientProvider locale={locale} messages={messages as AbstractIntlMessages}>
+    <NavigationBar title={name ? t("farm visit", { name }) : t("default farm visit")} button={<BackButton />} />
     {children}
-  </>
+  </NextIntlClientProvider>
 }

@@ -3,7 +3,6 @@ import TechnicianVisitListItem from "@/components/technician/TechnicianVisitList
 import { jsonApiFetchPaginated } from "@/lib/axios";
 import { TechnicianVisit } from "@/types/content";
 import { Node } from "@/types/highLevel";
-import { Farmer } from "@/types/user";
 
 const PAGE_LIMIT = 10;
 
