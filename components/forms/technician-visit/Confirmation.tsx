@@ -1,9 +1,8 @@
 import TechnicianVisitPreview from "@/components/forms/preview/TechnicianVisitPreview"
-import { TechnicianVisit } from "@/types/content"
 import { useFormContext } from "react-hook-form"
-import { TechnicianVisitSchema } from "./schema"
+import { TechnicianVisitFormSchema } from "./schema"
 
 export default function Confirmation() {
-  const { watch } = useFormContext<TechnicianVisitSchema>()
+  const { watch } = useFormContext<TechnicianVisitFormSchema>()
   return <TechnicianVisitPreview visit={watch()} />
 }

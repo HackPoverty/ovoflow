@@ -3,12 +3,12 @@ import { jsonApiFetch } from "@/lib/axios";
 import { Node } from "@/types/highLevel";
 import { FARMER_ROLE_ID, Farmer } from "@/types/user";
 import { useLocale } from "next-intl";
-import { getTranslator } from "next-intl/server";
+import { getNow, getTranslator } from "next-intl/server";
 
 type Result = Pick<Node<Farmer>, "id">;
 
 export default async function Statistics() {
-  const now = new Date();
+  const now = await getNow(useLocale());
   const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
   const t = await getTranslator(useLocale(), "TechnicianDashboard")
 

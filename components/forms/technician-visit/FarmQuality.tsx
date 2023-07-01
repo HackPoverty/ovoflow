@@ -1,35 +1,36 @@
+import { useTranslations } from "next-intl";
 import { useController, useFormContext } from "react-hook-form";
-import ErrorMessage from "../ErrorMeesage";
 import Label from "../Label";
-import { QUALITY_SCALES, TechnicianVisitSchema, getQualityName } from "./schema";
+import { TechnicianVisitFormSchema, useTechnicianVisitContext } from "./schema";
 
 export default function FarmQuality() {
-  return <div className="flex flex-col gap-4">
-    <QualityInput label="Light Sufficiency" name="fieldLightSufficiency" />
-    <QualityInput label="Feed Quantity" name="fieldFeedQuantity" />
-    <QualityInput label="Water Cleanliness" name="fieldWaterCleanliness" />
-    <QualityInput label="Clean Bedding" name="fieldCleanBedding" />
-    <QualityInput label="Ventilation" name="fieldVentillation" />
+  const t = useTranslations("FarmChecklist")
+  return <div className="flex flex-col gap-4 pb-4">
+    <QualityInput label={t("light sufficiency")} name="fieldLightSufficiency" />
+    <QualityInput label={t("feed quality")} name="fieldFeedQuantity" />
+    <QualityInput label={t("water cleaniness")} name="fieldWaterCleanliness" />
+    <QualityInput label={t("clean bedding")} name="fieldCleanBedding" />
+    <QualityInput label={t("ventilation")} name="fieldVentillation" />
   </div>
 }
 
-function QualityInput({ name, label }: { name: keyof TechnicianVisitSchema, label: string }) {
-  const { formState: { errors }, control } = useFormContext<TechnicianVisitSchema>()
+function QualityInput({ name, label }: { name: keyof TechnicianVisitFormSchema, label: string }) {
+  const { scales } = useTechnicianVisitContext()
+  const { control } = useFormContext<TechnicianVisitFormSchema>()
   const { field } = useController({ control, name })
 
   return <div>
     <Label required>{label}</Label>
-    <div className={`flex rounded-lg py-2 join w-full`}>
+    <div className={`flex rounded-lg join w-full`}>
       {
-        QUALITY_SCALES.map(q => <button
-          className={`btn join-item flex-1 ${(field.value === q) ? "btn-accent" : ""}`}
-          key={`${name}.${q}`}
+        scales.map(q => <button
+          className={`btn btn-sm join-item flex-1 ${(field.value === q.value) ? "btn-accent" : ""}`}
+          key={`${name}.${q.value}`}
           type="button"
-          onClick={() => field.onChange(q)}>
-          {getQualityName(q)}
+          onClick={() => field.onChange(q.value)}>
+          {q.description}
         </button>)
       }
     </div>
-    {errors[name]?.message ? <ErrorMessage className="w-full">Required</ErrorMessage> : null}
   </div>
 }

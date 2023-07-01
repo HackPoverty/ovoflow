@@ -4,12 +4,14 @@ type Props = {
   value?: string | number,
 } & ComponentProps<"input">
 
-export default function PreviewField({ value, className, ...props }: Props) {
-
-
+export default function PreviewField({ value, className, children, ...props }: Props) {
   return <div
     {...props}
-    className={`rounded-lg bg-accent/30 inline-flex items-center ${className || ""}`}>
+    style={{
+      verticalAlign: "middle"
+    }}
+    className={`rounded-lg bg-accent/30 ${className || ""}`}>
     {value === undefined || (typeof value === "number" && Number.isNaN(value)) ? "" : value}
+    {children}
   </div>
 }
