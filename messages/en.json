@@ -110,11 +110,11 @@
     "see all": "see all",
     "never visiteed": "never visited before",
     "visit": "last visit was {date}",
-    
+
     "total mortality": "Total mortality",
     "average egg produced": "Average egg produced",
     "average daily feed": "Average daily feed",
-    
+
     "loading recent visits": "Retrieving recent visits...",
     "loading all visits": "Retrieving all visits...",
     "Error": {
@@ -122,9 +122,7 @@
       "fetch recent visits error": "Could not load recent visits, tap to retry"
     }
   },
-  "TechnicianVisitForm": {
-
-  },
+  "TechnicianVisitForm": {},
   "TechnicianVisitList": {
     "farm visit": "{name}'s Farm Visit",
     "default farm visit": "Farm Visit",
@@ -133,5 +131,62 @@
       "message": "Could not load vists data",
       "try again": "Try again"
     }
+  },
+  "FarmChecklist": {
+    "title": "Farm Checklist",
+    "owner": "{name}'s farm",
+    "step": "Step {now} of {total}",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "submit success": "Checklist submitted successfully",
+    "to the farmer": "Go to farmer detail",
+    "submit error": "Could not submit checklist, please try again",
+    "go to dashboard": "Go to farmer detail",
+    "required": "Required",
+
+    "quality": "Quality",
+    "bad": "Bad",
+    "okay": "Okay",
+    "good": "Good",
+    "light sufficiency": "Light sufficiency",
+    "feed quality": "Feed quality",
+    "water cleaniness": "Water cleaniness",
+    "clean bedding": "Clean bedding",
+    "ventilation": "Ventilation",
+
+    "diseases": "Diseases",
+    "presense of diseases": "Presense of diseases",
+    "Yes": "Yes",
+    "No": "No",
+    "Possible": "Possible",
+
+    "common diseases": "Common diseases",
+    "choose diseases": "Choose diseases",
+    "mareks": "Marek's Disease",
+    "newcastle": "New Castle Disease",
+    "bronchtitis": "Bronchtitis",
+    "laryngotracheitis": "Laryngotracheitis",
+    "fowl_pox": "Fowl Pox",
+    "fowl_chlorea": "Fowl Cholera",
+    "selected dieases": "{count, plural, =0 {No diseases selected} =1 {1 disease selected} other {# diseases selected}}",
+
+    "other diseases": "Other diseases",
+    "no diseases validation error": "If there no disease, you should not have any vaccines",
+    "diseases validation error": "If there is a disease, you should select at least one disease common name or specify any other diseases",
+
+    "were vaccine given": "Were vaccine given?",
+    "common vaccines": "Common vaccines",
+    "choose vaccines": "Choose vaccines",
+    "other vaccines": "Other vaccines",
+    "selected vaccines": "{count, plural, =0 {No vaccines selected} =1 {1 vaccine selected} other {# vaccines selected}}",
+
+    "no vaccines validation error": "If there is no vaccine given, you should not have any vaccines",
+    "vaccines validation error": "If there is a vaccine given, you should select at least one common vaccine name or specify any other vaccines",
+
+    "vaccination": "Vaccination",
+    "comment": "Comment",
+    "comment placeholder": "Some note and concerns... (optional)" ,
+    "review": "Review"
   }
 }

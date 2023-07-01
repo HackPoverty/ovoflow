@@ -4,7 +4,7 @@ import FarmQuality from "./FarmQuality";
 import FarmRedFlag from "./FarmRedFlag";
 import FarmVaccination from "./FarmVaccination";
 import FarmNote from "./Note";
-import { TechnicianVisitSchema } from "./schema";
+import { TechnicianVisitFormSchema } from "./schema";
 
 export {
   FarmConfirmation,
@@ -14,7 +14,7 @@ export {
   FarmVaccination
 };
 
-export const processFormData = (visit: TechnicianVisitSchema, farmerId: string) => {
+export const processFormData = (visit: TechnicianVisitFormSchema, farmerId: string) => {
   const postdata = {
     ...visit,
     // TODO: Generate descriptive title
@@ -30,5 +30,4 @@ export const processFormData = (visit: TechnicianVisitSchema, farmerId: string) 
       fieldForFarmer: "user--user",
     },
   })
-
 }
