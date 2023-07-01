@@ -2,7 +2,8 @@ import { useTranslations } from "next-intl"
 import { forwardRef, useRef } from "react"
 import { useController, useFormContext } from "react-hook-form"
 import Label from "../Label"
-import { TechnicianVisitFormSchema, useTechnicianVisitContext } from "./schema"
+import { TechnicianVisitFormSchema } from "./schema"
+import { useTechnicianVisitContext } from "./context"
 
 export default function FarmRedFlag() {
   const { register, watch, formState: {errors} } = useFormContext<TechnicianVisitFormSchema>()

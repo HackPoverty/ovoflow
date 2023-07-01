@@ -148,18 +148,7 @@ export function useTechnicianVisit() {
   }
 }
 
-type TechnicianVisit = ReturnType<typeof useTechnicianVisit>
+export type TechnicianVisit = ReturnType<typeof useTechnicianVisit>
 export type TechnicianVisitFormSchema = z.infer<TechnicianVisit["technicianVisitFormSchema"]>
 
-const SchemaContext = createContext({} as TechnicianVisit)
-
-export function TechnicianVisitProvider(props: PropsWithChildren<{ technicianVisit: TechnicianVisit }>) {
-  return <SchemaContext.Provider value={props.technicianVisit}>
-    {props.children}
-  </SchemaContext.Provider>
-}
-
-export function useTechnicianVisitContext() {
-  return useContext<TechnicianVisit>(SchemaContext)
-}
 
