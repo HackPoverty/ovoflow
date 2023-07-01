@@ -3,10 +3,6 @@ import { FARMER_ROLE, getAuthRole } from "@/lib/user";
 import { useTranslations } from "next-intl";
 import { redirect } from "next/navigation";
 
-function onLinkClick() {
-
-}
-
 export default function FarmerLayout({
   children,
 }: {
