@@ -1,7 +1,8 @@
 import { useTranslations } from "next-intl";
 import { useController, useFormContext } from "react-hook-form";
 import Label from "../Label";
-import { TechnicianVisitFormSchema, useTechnicianVisitContext } from "./schema";
+import { useTechnicianVisitContext } from "./context";
+import { TechnicianVisitFormSchema } from "./schema";
 
 export default function FarmQuality() {
   const t = useTranslations("FarmChecklist")
