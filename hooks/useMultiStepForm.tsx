@@ -31,7 +31,7 @@ export function useMutistepForm(steps: FormStep[]) {
     steps,
     next,
     back,
-    isFristStep: currentStepIndex === 0,
+    isFirstStep: currentStepIndex === 0,
     isLastStep: currentStepIndex === steps.length - 1,
   }
 }

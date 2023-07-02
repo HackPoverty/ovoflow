@@ -2,14 +2,13 @@
 
 import { ChickenEggProduction, ChickenFeeding, ChickenStock } from "@/components/forms/farmer-journal";
 import Confirmation from "@/components/forms/farmer-journal/Confirmation";
+import Note from "@/components/forms/farmer-journal/Note";
 import { FarmerJournalSchema, chickenFeedSchema, chickenStockSchema, commentSchema, eggProductionSchema, journalSchema } from "@/components/forms/farmer-journal/schema";
 import BackButton from "@/components/navigation/BackButton";
 import NavigationBar from "@/components/navigation/NavigationBar";
 import { FormStep, useMutistepForm } from "@/hooks/useMultiStepForm";
-import { FormEvent } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod"
-import Note from "@/components/forms/farmer-journal/Note";
 
 const formSteps = [
   { title: "Stock", form: <ChickenStock />, schema: chickenStockSchema },
@@ -23,7 +22,7 @@ export default function FarmerJournal() {
   const {
     currentStepIndex,
     steps,
-    isFristStep,
+    isFirstStep,
     isLastStep,
     step,
     back,
@@ -51,7 +50,7 @@ export default function FarmerJournal() {
             {step.form}
           </div>
           <div className="flex gap-2 px-6 py-3 sticky bottom-0 w-full bg-base-100">
-            <button disabled={isFristStep} className="btn btn-primary btn-outline flex-1" onClick={back} type="button">Back</button>
+            <button disabled={isFirstStep} className="btn btn-primary btn-outline flex-1" onClick={back} type="button">Back</button>
             <button className="btn btn-primary flex-1" type="submit">Next</button>
           </div>
         </form>

@@ -1,6 +1,6 @@
 import LogoutButton from "@/components/LogoutButton";
 import NavLink from "@/components/navigation/NavLink";
-import { getAuthRole } from "@/lib/user";
+import { FARMER_ROLE, getAuthRole } from "@/lib/user";
 import { redirect } from "next/navigation";
 
 export default function FarmerLayout({
@@ -10,7 +10,7 @@ export default function FarmerLayout({
 }) {
   const role = getAuthRole();
   if (!role) redirect("/logout")
-  if (role === "FARMER") redirect("/dashboard")
+  if (role === FARMER_ROLE) redirect("/dashboard")
 
   return <div className="drawer">
     <input id="private-drawer" type="checkbox" className="drawer-toggle" />

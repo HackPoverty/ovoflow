@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "Technician | Ovoflow"
 }
 
-export default function FarmerDashboard({ statistics, recent }: Props) {
+export default function TechnicianDashboard({ statistics, recent }: Props) {
   return <>
     <NavigationBar title="Dashboard" button={<MenuButton />} />
     <main className="py-6 flex flex-col gap-4">

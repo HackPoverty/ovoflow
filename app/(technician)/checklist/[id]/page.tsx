@@ -15,12 +15,12 @@ const formSteps = [
   { title: "Disease", form: <FarmRedFlag />, schema: farmDiseaseSchema },
   { title: "Vaccination", form: <FarmVaccination />, schema: farmVaccineSchema },
   { title: "Comment", form: <Note />, schema: technicianCommentSchema },
-  {title: "Review", form: <Confirmation />, schema: technicianVisitSchema}
+  { title: "Review", form: <Confirmation />, schema: technicianVisitSchema }
 ] satisfies FormStep[]
 
 export default function FarmerChecklist() {
 
-  const { currentStepIndex, steps, step, back, next, isFristStep, isLastStep } = useMutistepForm(formSteps)
+  const { currentStepIndex, steps, step, back, next, isFirstStep, isLastStep } = useMutistepForm(formSteps)
   const methods = useForm<TechnicianVisitSchema>({
     resolver: zodResolver(step.schema),
     defaultValues: {
@@ -47,7 +47,7 @@ export default function FarmerChecklist() {
             {step.form}
           </div>
           <div className="flex gap-2 px-6 py-3 sticky bottom-0 w-full bg-base-100">
-            <button className="btn btn-primary btn-outline flex-1" onClick={back} type="button" disabled={isFristStep}>Back</button>
+            <button className="btn btn-primary btn-outline flex-1" onClick={back} type="button" disabled={isFirstStep}>Back</button>
             <button className="btn btn-primary flex-1" type="submit">Next</button>
           </div>
         </form>
