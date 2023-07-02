@@ -1,7 +1,7 @@
 import { enFullDate } from "@/lib/formatter"
 import { TechnicianVisit } from "@/types/content"
 import { Node } from "@/types/highLevel"
-import Link from "next/link"
+import Link from "next-intl/link"
 
 type Props = {
   visit: Pick<Node<TechnicianVisit>, "created" | "id" | "title">

@@ -3,8 +3,8 @@ import { getCookies } from "@/lib/cookie";
 import { FarmerJournal } from "@/types/content";
 import { Node } from "@/types/highLevel";
 import { useLocale, useTranslations } from "next-intl";
+import Link from "next-intl/link";
 import { getTranslator } from "next-intl/server";
-import Link from "next/link";
 
 type Result = Pick<Node<FarmerJournal>, "created">
 
