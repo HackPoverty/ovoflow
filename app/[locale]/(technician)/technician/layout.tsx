@@ -3,6 +3,7 @@ import NavigationBar from "@/components/navigation/NavigationBar";
 import { pick } from "lodash";
 import { Metadata } from "next";
 import { AbstractIntlMessages, NextIntlClientProvider, useLocale, useMessages, useTranslations } from "next-intl";
+import { getTranslator } from "next-intl/server";
 import { ReactNode } from "react";
 
 type Props = {
@@ -10,8 +11,11 @@ type Props = {
   recent: ReactNode
 }
 
-export const metadata: Metadata = {
-  title: "Technician | Ovoflow"
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const t = await getTranslator(params.locale, "TechnicianDashboard")
+  return {
+    title: t("dashboard")
+  }
 }
 
 export default function FarmerDashboard({ statistics, recent }: Props) {

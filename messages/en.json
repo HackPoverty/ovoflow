@@ -6,6 +6,11 @@
     "incorrect": "Incorrect username or password",
     "error": "Something went wrong. Please try again later"
   },
+  "NotFound": {
+    "title": "Page not found",
+    "message": "The page you are looking for does not exist",
+    "back": "Back to home"
+  },
   "FarmerDashboard": {
     "dashboard": "Dashboard",
     "finish daily journal": "Finish daily journal",
@@ -26,7 +31,7 @@
     }
   },
   "FarmerJournal": {
-    "new journal": "New journal",
+    "new journal": "New Journal",
     "step": "Step {now} of {total}",
 
     "stock": "Stock",

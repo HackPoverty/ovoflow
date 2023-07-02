@@ -2,10 +2,14 @@ import BackButton from "@/components/navigation/BackButton"
 import NavigationBar from "@/components/navigation/NavigationBar"
 import { pick } from "lodash"
 import { AbstractIntlMessages, NextIntlClientProvider, useLocale, useMessages, useTranslations } from "next-intl"
+import { getTranslator } from "next-intl/server"
 import { ReactNode } from "react"
 
-export const metadata = {
-  title: "New journal | Ovoflow"
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const t = await getTranslator(params.locale, "FarmerJournal")
+  return {
+    title: t("new journal")
+  }
 }
 
 export default function Layout({ children }: { children: ReactNode }) {

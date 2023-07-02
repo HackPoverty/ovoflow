@@ -32,10 +32,10 @@ export async function getFarmerName(id: string) {
   }
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }, parent?: ResolvingMetadata) {
-  const name = await getFarmerName(params.id)
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const t = await getTranslator(params.locale, "FarmerDetail")
   return {
-    title: `${name || "Farmer Detail"} | Ovoflow`
+    title: t("title")
   } as Metadata
 }
 

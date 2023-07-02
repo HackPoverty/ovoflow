@@ -16,13 +16,11 @@ type Props = {
   }
 }
 
-export async function generateMetadata({ params }: Props, parent: ResolvingMetadata) {
-  const name = await getFarmerName(params.id)
-  const possessive = name ? `${name}'s` : ""
-
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const t = await getTranslator(params.locale, "TechnicianVisitList")
   return {
-    title: `${possessive} Farm Visits | Ovoflow`
-  } as Metadata
+    title: t("default farm visit")
+  }
 }
 
 export default async function Layout({ children, params }: Props) {
