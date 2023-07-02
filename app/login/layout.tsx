@@ -1,4 +1,4 @@
-import { getAuthRole } from "@/lib/user";
+import { FARMER_ROLE, TECHNICIAN_ROLE, getAuthRole } from "@/lib/user";
 import { redirect } from "next/navigation";
 
 export const metadata = {
@@ -11,8 +11,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const role = getAuthRole();
-  if (role === "TECHNICIAN") redirect("/farmers");
-  if (role === "FARMER") redirect("/dashboard");
+  if (role === TECHNICIAN_ROLE) redirect("/farmers");
+  if (role === FARMER_ROLE) redirect("/dashboard");
 
   return children;
 }

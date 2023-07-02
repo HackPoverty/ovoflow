@@ -6,7 +6,7 @@ import Link from "next/link";
 
 type Result = Pick<Node<FarmerJournal>, "created">
 
-async function getLastRecordTimestamp() {
+async function getLastRecordTimestampOfCurrentFarmer() {
   const { uid } = getCookies();
 
   const data = await jsonApiFetch<Result[]>(`node/farmer_daily_journal`, {
@@ -22,7 +22,7 @@ async function getLastRecordTimestamp() {
 
 export default async function Logging() {
   const now = Math.floor(Date.now() / 1000);
-  const lastTimeStamp = await getLastRecordTimestamp() || 0;
+  const lastTimeStamp = await getLastRecordTimestampOfCurrentFarmer() || 0;
   if (now - lastTimeStamp > 24 * 60 * 60) return <Link className="btn btn-secondary m-6" href="/journal">Finish daily journal</Link>
 
   return <div className="alert alert-success flex rounded-none px-6">

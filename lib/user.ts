@@ -1,8 +1,9 @@
 import jwt_decode from "jwt-decode"
 import { cookies } from "next/headers"
 
-export const Roles = ["FARMER", "TECHNICIAN"] as const
-export type Role = (typeof Roles)[number]
+export const TECHNICIAN_ROLE = "TECHNICIAN" as const
+export const FARMER_ROLE = "FARMER" as const
+export type Role = typeof TECHNICIAN_ROLE | typeof FARMER_ROLE
 
 type User = {
   uid: string
