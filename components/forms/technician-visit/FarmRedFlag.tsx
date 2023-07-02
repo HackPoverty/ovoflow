@@ -1,13 +1,13 @@
 import { useRef } from "react"
 import { useController, useFormContext } from "react-hook-form"
-import ErrorMessage from "../ErrorMeesge"
+import ErrorMessage from "../ErrorMeesage"
 import Label from "../Label"
 import { DISEASES, Disease, PRESENCE_OPTIONS, TechnicianVisitSchema } from "./schema"
 
 export default function FarmRedFlag() {
   const { register, control, formState: { errors }, setValue, watch } = useFormContext<TechnicianVisitSchema>()
   const { field: presence } = useController({ control, name: "fieldDisease" })
-  const diseases =  watch("fieldDiseaseNames")
+  const diseases = watch("fieldDiseaseNames")
   const disabled = !presence.value || presence.value === "No"
 
   return <div className="flex flex-col gap-4">

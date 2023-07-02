@@ -1,16 +1,15 @@
-import useJournalStatistics from "@/hooks/useJournalStatistics";
 import { useFormContext } from "react-hook-form";
+import ErrorMessage from "../ErrorMeesage";
 import Label from "../Label";
 import PreviewField from "../PreviewField";
 import NumberInput from "./NumberInput";
 import { FarmerJournalSchema } from "./schema";
-import ErrorMessage from "../ErrorMeesge";
 
 export default function ChickenFeeding() {
-  const { watch, formState: {errors} } = useFormContext<FarmerJournalSchema>();
+  const { watch, formState: { errors } } = useFormContext<FarmerJournalSchema>();
   const [inital, mortality, proplapse, feed] = watch(["fieldInitialstock", "fieldMortality", "fieldMortalityProlapse_", "fieldGivenFeed"])
   const closingStock = inital - mortality - proplapse;
-  const feedPerBirds = closingStock <= 0 ? undefined : 
+  const feedPerBirds = closingStock <= 0 ? undefined :
     Number(Math.round(+`${feed * 1000 / closingStock}e2`) + "e-2")
 
   return <div className="p-6 grid grid-cols-2 gap-2">
