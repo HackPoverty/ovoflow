@@ -106,7 +106,7 @@
     "title": "Farmer Detail",
     "summary": "Summary",
     "add visit record": "Add visit record",
-    "recent visit": "Recent visit",
+    "recent visit": "Recent visits",
     "see all": "see all",
     "never visiteed": "never visited before",
     "visit": "last visit was {date}",
@@ -188,5 +188,15 @@
     "comment": "Comment",
     "comment placeholder": "Some note and concerns... (optional)" ,
     "review": "Review"
+  },
+  "TechnicianVisit": {
+    "loading": "Retrieving data from farm visit...",
+    "Error": {
+      "message": "Could not load farm visit data",
+      "try again": "Try again"
+    },
+    "farm visit":"{name}'s Farm Visit",
+    "default farm visit": "Farm Visit",
+    "visit": "visit on {date}"
   }
 }
