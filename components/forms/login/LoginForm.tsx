@@ -35,7 +35,7 @@ export default function LoginForm() {
     replace("/")
   }
 
-  return <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit(onSubmit)}>
+  return <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
     {error && !isSubmitting && <div className="alert alert-error text-sm"><span>{error}</span></div>}
     <input {...register("username")} className="input" placeholder={t("username")} type="text" required />
     <input {...register("password")} className="input" placeholder={t("password")} type="password" required />
