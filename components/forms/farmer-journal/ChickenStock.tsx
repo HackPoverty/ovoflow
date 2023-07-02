@@ -17,15 +17,15 @@ export default function ChickenStock() {
   return <div className="grid grid-cols-2 gap-2 p-6">
     <Label<FarmerJournalSchema> htmlFor="fieldInitialstock" required>Initial Stock</Label>
     <NumberInput name="fieldInitialstock" />
-    <ErrorMessage className="col-span-2">{errors.fieldInitialstock?.message}</ErrorMessage>
+    {errors.fieldInitialstock ? <ErrorMessage className="col-span-2">{errors.fieldInitialstock.message}</ErrorMessage> : null}
 
     <Label<FarmerJournalSchema> htmlFor="fieldMortality" required>Mortality</Label>
     <NumberInput name="fieldMortality" />
-    <ErrorMessage className="col-span-2">{errors.fieldMortality?.message}</ErrorMessage>
+    {errors.fieldMortality ? <ErrorMessage className="col-span-2">{errors.fieldMortality.message}</ErrorMessage> : null}
 
     <Label<FarmerJournalSchema> htmlFor="fieldMortalityProlapse_" required>Mortality Prolapse</Label>
     <NumberInput name="fieldMortalityProlapse_" />
-    <ErrorMessage className="col-span-2">{errors.fieldMortalityProlapse_?.message}</ErrorMessage>
+    {errors.fieldMortalityProlapse_ ? <ErrorMessage className="col-span-2">{errors.fieldMortalityProlapse_.message}</ErrorMessage> : null}
 
     <hr className="col-span-2 border-accent items-center my-2" />
 
