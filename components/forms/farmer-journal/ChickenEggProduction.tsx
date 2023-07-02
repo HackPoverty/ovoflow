@@ -15,19 +15,18 @@ export default function ChickenEggProduction() {
   return <div className="p-6 grid grid-cols-2 gap-2">
     <Label<FarmerJournal> htmlFor="fieldSmallEggs" required>Small</Label>
     <NumberInput name="fieldSmallEggs" />
-    <ErrorMessage className="col-span-2">{errors.fieldSmallEggs?.message}</ErrorMessage>
-
+    {errors.fieldSmallEggs ? <ErrorMessage className="col-span-2">{errors.fieldSmallEggs.message}</ErrorMessage> : null}
     <Label<FarmerJournal> htmlFor="fieldMediumEggs" required>Medium</Label>
     <NumberInput name="fieldMediumEggs" />
-    <ErrorMessage className="col-span-2">{errors.fieldMediumEggs?.message}</ErrorMessage>
+    {errors.fieldMediumEggs ? <ErrorMessage className="col-span-2">{errors.fieldMediumEggs.message}</ErrorMessage> : null}
 
     <Label<FarmerJournal> htmlFor="fieldLargeEggs" required>Large</Label>
     <NumberInput name="fieldLargeEggs" />
-    <ErrorMessage className="col-span-2">{errors.fieldLargeEggs?.message}</ErrorMessage>
+    {errors.fieldLargeEggs ? <ErrorMessage className="col-span-2">{errors.fieldLargeEggs.message}</ErrorMessage> : null}
 
     <Label<FarmerJournal> htmlFor="fieldDamagedEggs" required>Damaged</Label>
     <NumberInput name="fieldDamagedEggs" />
-    <ErrorMessage className="col-span-2">{errors.fieldDamagedEggs?.message}</ErrorMessage>
+    {errors.fieldDamagedEggs ? <ErrorMessage className="col-span-2">{errors.fieldDamagedEggs.message}</ErrorMessage> : null}
 
     <Label<FarmerJournal> htmlFor="fieldLargeEggs" required>Total</Label>
     <PreviewField className="input justify-end" value={total} />
@@ -39,12 +38,12 @@ export default function ChickenEggProduction() {
 
     <Label<FarmerJournal> htmlFor="fieldLayFrequency" required>Lay frequency</Label>
     <NumberInput name="fieldLayFrequency" />
-    <ErrorMessage className="col-span-2">{errors.fieldLayFrequency?.message}</ErrorMessage>
+    {errors.fieldLayFrequency ? <ErrorMessage className="col-span-2">{errors.fieldLayFrequency.message}</ErrorMessage> : null}
 
 
     <Label<FarmerJournal> htmlFor="fieldLayFrequencyIndustrySta" required>Industry standard</Label>
     <NumberInput name="fieldLayFrequencyIndustrySta" />
-    <ErrorMessage className="col-span-2">{errors.fieldLayFrequencyIndustrySta?.message}</ErrorMessage>
+    {errors.fieldLayFrequencyIndustrySta ? <ErrorMessage className="col-span-2">{errors.fieldLayFrequencyIndustrySta.message}</ErrorMessage> : null}
 
   </div>
 }

@@ -25,7 +25,7 @@ export default function FarmRedFlag() {
               setValue("fieldOtherpossibledisease", undefined)
             }}>{value}</button>)}
       </div>
-      <ErrorMessage>{errors.fieldDisease && "Required"}</ErrorMessage>
+      {errors.fieldDisease ? <ErrorMessage>Required</ErrorMessage> : null}
     </div>
     <CommonDiseaseInput />
     <div className="form-control">

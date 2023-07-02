@@ -20,7 +20,7 @@ export default function ChickenFeeding() {
       <NumberInput name="fieldGivenFeed" className="w-full join-item" required step={0.01} />
       <span className="join-item px-2 inline-flex items-center bg-accent text-accent-content">kg</span>
     </div>
-    <ErrorMessage>{errors.fieldGivenFeed?.message}</ErrorMessage>
+    {errors.fieldGivenFeed ? <ErrorMessage>{errors.fieldGivenFeed.message}</ErrorMessage> : null}
 
     <hr className="border-accent my-2 col-span-2" />
 

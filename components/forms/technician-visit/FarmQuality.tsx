@@ -30,6 +30,6 @@ function QualityInput({ name, label }: { name: keyof TechnicianVisitSchema, labe
         </button>)
       }
     </div>
-    <ErrorMessage className="w-full">{errors[name]?.message && "Required"}</ErrorMessage>
+    {errors[name]?.message ? <ErrorMessage className="w-full">Required</ErrorMessage> : null}
   </div>
 }
