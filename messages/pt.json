@@ -1,4 +1,8 @@
 {
+  "Language": {
+    "en": "Inglês",
+    "pt": "Português"
+  },
   "Login": {
     "username": "Nome do Usuario",
     "password": "Palavra Passe",
