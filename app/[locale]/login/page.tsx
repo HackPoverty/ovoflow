@@ -33,7 +33,7 @@ export default function Login() {
     </div>
     <NextIntlClientProvider locale={locale} messages={loginMessages}>
       <LoginForm />
+      <LangaugeSwitcher />
     </NextIntlClientProvider>
-    <LangaugeSwitcher />
   </main>
 }
