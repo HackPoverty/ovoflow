@@ -1,5 +1,5 @@
 import { FarmerJournalSchema } from "@/components/forms/farmer-journal/schema";
-import { TechnicianVisitSchema } from "@/components/forms/technician-visit/schema";
+import { TechnicianVisitFormSchema } from "@/components/forms/technician-visit/schema";
 
 /**
  * Geoinformation for a Drupal Geofield
@@ -26,7 +26,7 @@ export type GPSCoordinates = {
 /**
  * The `node--technician_visit` type
  */
-export type TechnicianVisit = TechnicianVisitSchema & {
+export type TechnicianVisit = TechnicianVisitFormSchema & {
   /** GPS coordinates of where the visit was taken */
   fieldGpsCoordinates: GPSCoordinates | null
 }
