@@ -1,5 +1,5 @@
 import { useController, useFormContext } from "react-hook-form";
-import ErrorMessage from "../ErrorMeesge";
+import ErrorMessage from "../ErrorMeesage";
 import Label from "../Label";
 import { QUALITY_SCALES, TechnicianVisitSchema, getQualityName } from "./schema";
 

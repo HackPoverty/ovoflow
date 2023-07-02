@@ -1,6 +1,6 @@
 import { FarmerJournal } from "@/types/content";
 import { useFormContext } from "react-hook-form";
-import ErrorMessage from "../ErrorMeesge";
+import ErrorMessage from "../ErrorMeesage";
 import Label from "../Label";
 import PreviewField from "../PreviewField";
 import NumberInput from "./NumberInput";
