@@ -4,10 +4,10 @@ import { jsonApiFetch } from "@/lib/axios";
 import { Node } from "@/types/highLevel";
 import { Farmer } from "@/types/user";
 import { pick } from "lodash";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import { AbstractIntlMessages, NextIntlClientProvider, useLocale } from "next-intl";
+import Link from "next-intl/link";
 import { getMessages, getNow, getTranslator } from "next-intl/server";
-import Link from "next/link";
 import { ReactNode } from "react";
 
 type Props = {
