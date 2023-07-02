@@ -13,8 +13,11 @@ type Props = {
   children: ReactNode
 }
 
-export const metadata = {
-  title: "Farmer Checklist | Ovoflow"
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const t = await getTranslator(params.locale, "FarmChecklist")
+  return {
+    title: t("title")
+  }
 }
 
 export default async function Layout({ children, params }: Props) {

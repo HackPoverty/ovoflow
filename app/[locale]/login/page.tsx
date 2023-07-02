@@ -3,13 +3,16 @@ import LoginForm from "@/components/forms/login/LoginForm";
 import { FARMER_ROLE, TECHNICIAN_ROLE, getAuthRole } from "@/lib/user";
 import styles from "@/styles/background.module.css";
 import { pick } from "lodash";
-import { Metadata } from "next";
 import { AbstractIntlMessages, NextIntlClientProvider, useLocale, useMessages } from "next-intl";
+import { getTranslator } from "next-intl/server";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Login | Ovoflow"
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const t = await getTranslator(params.locale, "Login")
+  return {
+    title: t("login")
+  }
 }
 
 export default function Login() {

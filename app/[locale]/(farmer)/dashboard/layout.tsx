@@ -4,9 +4,13 @@ import { Metadata } from "next";
 import { ReactNode } from "react";
 import { AbstractIntlMessages, NextIntlClientProvider, useLocale, useMessages, useTranslations } from "next-intl";
 import { pick } from "lodash";
+import { getTranslator } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Dashboard | Ovoflow"
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const t = await getTranslator(params.locale, "FarmerDashboard")
+  return {
+    title: t("dashboard")
+  }
 }
 
 type Props = {

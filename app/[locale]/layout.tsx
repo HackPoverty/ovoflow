@@ -10,7 +10,10 @@ const poppins = Poppins({
 })
 
 export const metadata = {
-  title: "Ovoflow"
+  title: {
+    template: "%s | Ovoflow",
+    deefault: "Ovoflow"
+  }
 }
 
 type Props = {
