@@ -12,7 +12,7 @@ const poppins = Poppins({
 export const metadata = {
   title: {
     template: "%s | Ovoflow",
-    deefault: "Ovoflow"
+    default: "Ovoflow"
   }
 }
 
