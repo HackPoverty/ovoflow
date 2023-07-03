@@ -51,11 +51,11 @@ export default async function FarmerSummary({ params }: Props) {
     </div>
     <div className="p-4 flex flex-col gap-4 justify-between min-w-[200px] rounded-md bg-primary/30">
       <p className="text-sm">Average egg production</p>
-      <div className="text-4xl font-semibold text-primary">{summary.totalMortality}</div>
+      <div className="text-4xl font-semibold text-primary">{summary.averageEggProduction}</div>
     </div>
     <div className="p-4 flex flex-col gap-4 justify-between min-w-[200px] rounded-md bg-primary/30">
       <p className="text-sm">Averge daily feed</p>
-      <div className="text-4xl font-semibold text-primary">{summary.totalMortality}</div>
+      <div className="text-4xl font-semibold text-primary">{summary.averageFeed}</div>
     </div>
   </>
 }

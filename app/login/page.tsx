@@ -1,6 +1,6 @@
 import LangaugeSwitcher from "@/components/LangaugeSwitcher";
 import LoginForm from "@/components/forms/login/LoginForm";
-import { getAuthRole } from "@/lib/user";
+import { FARMER_ROLE, TECHNICIAN_ROLE, getAuthRole } from "@/lib/user";
 import styles from "@/styles/background.module.css";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 
 export default function Login() {
   const role = getAuthRole();
-  if (role === "TECHNICIAN") redirect("/farmers");
-  if (role === "FARMER") redirect("/dashboard");
+  if (role === TECHNICIAN_ROLE) redirect("/farmers");
+  if (role === FARMER_ROLE) redirect("/dashboard");
 
   return <main className={`${styles.fancy} px-6 min-h-screen flex flex-col gap-6 items-center justify-center`}>
     <div className="flex flex-col items-center gap-4">
