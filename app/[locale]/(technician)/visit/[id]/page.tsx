@@ -1,6 +1,5 @@
 import TechnicianVisitPreview from "@/components/forms/preview/TechnicianVisitPreview";
 import { jsonApiFetch } from "@/lib/axios";
-import { enFullDate } from "@/lib/formatter";
 import { TechnicianVisit } from "@/types/content";
 import { Node } from "@/types/highLevel";
 import { useLocale } from "next-intl";
@@ -30,7 +29,7 @@ export default async function TechnicianVisitDetail({ params }: Props) {
 
   return <>
     <div className="bg-base-200 shadow-lg px-6 py-2">
-      <p className="font-semibold">{t("farm visit", {name: visit.fieldForFarmer.name})}</p>
+      <p className="font-semibold">{t("farm visit", { name: visit.fieldForFarmer.name })}</p>
       <p className="text-sm">{t("visit", {
         date: formatter.dateTime(new Date(visit.created), {
           month: "long",
