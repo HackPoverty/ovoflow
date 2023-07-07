@@ -3,10 +3,12 @@ import { FarmConfirmation, FarmNote, FarmQuality, FarmRedFlag, FarmVaccination, 
 import { TechnicianVisitProvider } from "@/components/forms/technician-visit/context";
 import { TechnicianVisitFormSchema, useTechnicianVisit } from "@/components/forms/technician-visit/schema";
 import Navigation from "@/components/layouts/Navigation";
+import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import BackButton from "@/components/navigation/BackButton";
 import { useFarmerName } from "@/hooks/useFarmerName";
 import { useMutistepForm } from "@/hooks/useMultiStepForm";
 import { jsonApiPost } from "@/lib/axios";
+import { TECHNICIAN_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetStaticPropsContext } from "next";
 import { useTranslations } from "next-intl";
@@ -73,8 +75,7 @@ export default function Checklist() {
 
   const isSubmitting = methods.formState.isSubmitting;
 
-
-  return <>
+  return <PrivateRoute role={TECHNICIAN_ROLE}>
     <Head>
       <title>{t("title")}</title>
     </Head>
@@ -111,7 +112,7 @@ export default function Checklist() {
       buttonLabel={t("to the farmer")}
       action={() => replace(`/farmer?farmerId=${farmerId}`)}
       ref={dialog} />
-  </>
+  </PrivateRoute>
 }
 
 export async function getStaticProps({ locale }: GetStaticPropsContext) {

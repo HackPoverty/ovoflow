@@ -2,7 +2,9 @@ import Profile from "@/components/farmer-detail/Profile";
 import RecentVisits from "@/components/farmer-detail/RecentVisits";
 import Summary from "@/components/farmer-detail/Summary";
 import Navigation from "@/components/layouts/Navigation";
+import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import BackButton from "@/components/navigation/BackButton";
+import { TECHNICIAN_ROLE } from "@/lib/user";
 import { GetStaticPropsContext } from "next";
 import { useNow, useTranslations } from "next-intl";
 import Head from "next/head";
@@ -20,7 +22,7 @@ export default function FarmerDetail() {
     day: "numeric"
   })
 
-  return <>
+  return <PrivateRoute role={TECHNICIAN_ROLE}>
     <Head>
       <title>{t("title")}</title>
     </Head>
@@ -46,7 +48,7 @@ export default function FarmerDetail() {
         </div>
       </main >
     </Navigation>
-  </>
+  </PrivateRoute>
 }
 
 

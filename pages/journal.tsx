@@ -4,9 +4,11 @@ import Confirmation from "@/components/forms/farmer-journal/Confirmation";
 import Note from "@/components/forms/farmer-journal/Note";
 import { FarmerJournalSchema, useFarmerJournalFormSchema } from "@/components/forms/farmer-journal/schema";
 import Navigation from "@/components/layouts/Navigation";
+import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import BackButton from "@/components/navigation/BackButton";
 import { FormStep, useMutistepForm } from "@/hooks/useMultiStepForm";
 import { jsonApiPost } from "@/lib/axios";
+import { FARMER_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetStaticPropsContext } from "next";
 import { useTranslations } from "next-intl";
@@ -77,7 +79,7 @@ export default function FarmerJournal() {
 
   const isSubmitting = methods.formState.isSubmitting;
 
-  return <>
+  return <PrivateRoute role={FARMER_ROLE}>
     <Head>
       <title>{t("new journal")}</title>
     </Head>
@@ -110,7 +112,7 @@ export default function FarmerJournal() {
       </main>
       <SuccessDialog title={t("submit success")} buttonLabel={t("go to dashboard")} action={() => router.replace("/dashboard")} ref={dialog} />
     </Navigation>
-  </>
+  </PrivateRoute>
 }
 
 export async function getStaticProps({ locale }: GetStaticPropsContext) {

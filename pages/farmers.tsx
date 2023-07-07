@@ -1,10 +1,12 @@
 import ErrorSection from "@/components/error/ErrorSection";
 import { FarmerListItem } from "@/components/farmers/FarmerListItem";
 import Navigation from "@/components/layouts/Navigation";
+import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import { TechnicianDrawer } from "@/components/layouts/TechnicianDrawer";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { usePagination } from "@/hooks/usePagination";
 import { jsonApiFetchPaginated } from "@/lib/axios";
+import { TECHNICIAN_ROLE } from "@/lib/user";
 import { Node } from "@/types/highLevel";
 import { FARMER_ROLE_ID, Farmer } from "@/types/user";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -31,7 +33,7 @@ export default function FarmersList() {
   const { offset, onPrevious, onNext } = usePagination(PAGE_LIMIT)
   const { data, isLoading, error } = useSWR(`/farmers?limit=${PAGE_LIMIT}&offset=${offset}`, () => getListofFarmers(offset))
 
-  return <>
+  return <PrivateRoute role={TECHNICIAN_ROLE}>
     <Head>
       <title>{t("farmers list")}</title>
     </Head>
@@ -50,7 +52,7 @@ export default function FarmersList() {
         </button>
       </div>
     </Navigation>
-  </>
+  </PrivateRoute>
 }
 
 function Loading() {

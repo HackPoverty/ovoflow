@@ -1,9 +1,11 @@
 import ErrorSection from "@/components/error/ErrorSection";
 import TechnicianVisitPreview from "@/components/forms/preview/TechnicianVisitPreview";
 import Navigation from "@/components/layouts/Navigation";
+import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import BackButton from "@/components/navigation/BackButton";
 import { jsonApiFetch } from "@/lib/axios";
+import { TECHNICIAN_ROLE } from "@/lib/user";
 import { TechnicianVisit } from "@/types/content";
 import { Node } from "@/types/highLevel";
 import { GetStaticPropsContext } from "next";
@@ -29,7 +31,7 @@ export default function VisitDetail() {
     "fields[user--user]": "name"
   }))
 
-  return <>
+  return <PrivateRoute role={TECHNICIAN_ROLE}>
     <Head>
       <title>{t("default farm visit")}</title>
     </Head>
@@ -50,7 +52,7 @@ export default function VisitDetail() {
         </main>
       </>}
     </Navigation>
-  </>
+  </PrivateRoute>
 }
 
 function Loading() {

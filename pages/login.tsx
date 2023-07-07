@@ -1,5 +1,6 @@
 import LoginForm from "@/components/forms/login/LoginForm";
 import LanguageDropdown from "@/components/language/LangaugeDropdown";
+import PublicRoute from "@/components/layouts/PublicRoute";
 import styles from "@/styles/background.module.css";
 import { GetStaticPropsContext } from "next";
 import { useTranslations } from "next-intl";
@@ -12,7 +13,7 @@ export default function Login() {
   // if (role === FARMER_ROLE) redirect("/dashboard");
   const t = useTranslations("Login")
 
-  return <>
+  return <PublicRoute>
     <Head>
       <title>{t("login")}</title>
     </Head>
@@ -30,7 +31,7 @@ export default function Login() {
         </div>
       </div>
     </main>
-  </>
+  </PublicRoute>
 }
 
 export async function getStaticProps({ locale }: GetStaticPropsContext) {
