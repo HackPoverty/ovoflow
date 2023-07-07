@@ -3,6 +3,12 @@
     "en": "English",
     "pt": "Portuguese"
   },
+  "Offline": {
+    "title": "You are offline",
+    "message": "Please check your internet connection and try again",
+    "try again": "Try again",
+    "no internet": "No internet connection"
+  },
   "Login": {
     "username": "Username",
     "password": "Password",
