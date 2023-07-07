@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode"
-import { cookies } from "next/headers"
+// import { cookies } from "next/headers"
 
 export const TECHNICIAN_ROLE = "TECHNICIAN" as const
 export const FARMER_ROLE = "FARMER" as const
@@ -31,9 +31,9 @@ export const decodeToken = (token: string) => {
   }
 }
 
-export const getAuthRole = () => {
-  const token = cookies().get("token")?.value;
-  if (!token) return undefined;
-  const decoded = decodeToken(token)
-  return decoded.user.role
-}
+// export const getAuthRole = () => {
+//   const token = cookies().get("token")?.value;
+//   if (!token) return undefined;
+//   const decoded = decodeToken(token)
+//   return decoded.user.role
+// }
