@@ -1,7 +1,9 @@
 import RecentVisitedFarms from "@/components/dashboard/technician/RecentVisitedFarms";
 import Statistics from "@/components/dashboard/technician/Statistics";
 import Navigation from "@/components/layouts/Navigation";
+import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import { TechnicianDrawer } from "@/components/layouts/TechnicianDrawer";
+import { TECHNICIAN_ROLE } from "@/lib/user";
 import { GetStaticPropsContext } from "next";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
@@ -9,7 +11,7 @@ import Head from "next/head";
 export default function TechnicianDashboard() {
   const t = useTranslations("TechnicianDashboard")
 
-  return <>
+  return <PrivateRoute role={TECHNICIAN_ROLE}>
     <Head>
       <title>{t("dashboard")}</title>
     </Head>
@@ -26,7 +28,7 @@ export default function TechnicianDashboard() {
         </div>
       </main>
     </Navigation>
-  </>
+  </PrivateRoute >
 }
 
 export async function getStaticProps({ locale }: GetStaticPropsContext) {
