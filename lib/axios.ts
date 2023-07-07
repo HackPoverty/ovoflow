@@ -1,46 +1,57 @@
-import axios from "axios"
-import { CaseType, deserialize } from "jsonapi-fractal"
-import { cookies } from "next/headers"
-import { redirect } from "next-intl/server"
+import { getCookie } from "cookies-next";
+import { CaseType, deserialize } from "jsonapi-fractal";
+import { AuthorizationError, NotFoundError, ServerError } from "./error";
 
-const jsonApi = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}/jsonapi_data`,
-})
+const JSONAPI_URL = `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}/jsonapi_data`
+
+const makeParams = (params?: Record<string, any>) => {
+  if (!params) return ""
+  return "?" + Object.entries(params).map(([key, value]) => `${key}=${value}`).join("&")
+}
 
 function jsonDeserialize<Type>(data: any) {
   return deserialize<Type>(data, { changeCase: CaseType.camelCase }) as Type
 }
 
 export async function jsonApiFetch<Type>(resource: string, params?: Record<string, any>) {
-  const token = cookies().get("token")?.value;
-  const headers = token ? { Authorization: `Bearer ${token}` } : {}
+  const token = getCookie("token");
 
-  try {
-    const response = await jsonApi.get(resource, { params, headers })
-    return jsonDeserialize<Type>(response.data)
-  } catch (error) {
-    let status = 500;
-    if (axios.isAxiosError(error))
-      status = error.response?.status || 500;
-    if (status === 401 || status === 403) {
-      redirect("/logout")
-    } else throw error;
+  const response = await fetch(`${JSONAPI_URL}/${resource}${makeParams(params)}`, {
+    method: "GET",
+    headers: {
+      Authorization: token ? `Bearer ${token}` : "",
+    }
+  })
+
+  if (response.ok) {
+    return jsonDeserialize<Type>(await response.json())
+  }
+
+  if (response.status === 401 || response.status === 403) {
+    throw new AuthorizationError()
+  } else if (response.status === 404) {
+    throw new NotFoundError()
+  } else {
+    throw new ServerError()
   }
 }
 
 export async function jsonApiFetchPaginated<Type>(resource: string, params?: Record<string, any>, limit = 10, offset = 0) {
-  const token = cookies().get("token")?.value;
+  const token = getCookie("token");
+  const paramsWithPagination = {
+    ...params,
+    "page[limit]": limit,
+    "page[offset]": offset,
+  }
   const headers = token ? { Authorization: `Bearer ${token}` } : {}
+  const response = await fetch(`${JSONAPI_URL}/${resource}${makeParams(paramsWithPagination)}`, {
+    headers: {
+      Authorization: token ? `Bearer ${token}` : "",
+    }
+  })
 
-  try {
-    const response = await jsonApi.get(resource, {
-      params: {
-        ...params,
-        "page[limit]": limit,
-        "page[offset]": offset,
-      }, headers
-    })
-    const data = response.data
+  if (response.ok) {
+    const data = await response.json()
     const isFirst = offset === 0 || data.links?.prev === undefined;
     const isLast = data.links?.next === undefined;
     return {
@@ -48,13 +59,33 @@ export async function jsonApiFetchPaginated<Type>(resource: string, params?: Rec
       isFirst,
       isLast,
     }
-  } catch (error) {
-    let status = 500;
-    if (axios.isAxiosError(error)) {
-      status = error.response?.status || 500;
-    }
-    if (status === 401 || status === 403) {
-      redirect("/logout")
-    } else throw error;
+  }
+
+  if (response.status === 401 || response.status === 403) {
+    throw new AuthorizationError()
+  } else if (response.status === 404) {
+    throw new NotFoundError()
+  } else {
+    throw new ServerError()
+  }
+}
+
+export async function jsonApiPost(resource: string, body?: any, params?: Record<string, any>,) {
+  const token = getCookie("token");
+
+  const response = await fetch(`${JSONAPI_URL}/${resource}${makeParams(params)}`, {
+    method: "POST",
+    headers: {
+      Authorization: token ? `Bearer ${token}` : "",
+      "Content-Type": "application/vnd.api+json",
+    },
+    body: JSON.stringify(body),
+  })
+
+  if (response.ok) return response
+  if (response.status === 401 || response.status === 403) {
+    throw new AuthorizationError()
+  } else {
+    throw new ServerError()
   }
 }

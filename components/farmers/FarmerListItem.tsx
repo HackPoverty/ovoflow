@@ -1,5 +1,5 @@
 import { useFormatter, useNow, useTranslations } from "next-intl";
-import Link from "next-intl/link";
+import Link from "next/link";
 
 type Props = {
   farmerId: string,
@@ -20,12 +20,12 @@ export function FarmerListItem({ name, lastVisitDate, farmerId }: Props) {
     else bgColor = "bg-error/70"
   }
 
-  return <Link href={`/farmer/${farmerId}`}>
+  return <Link href={`/farmer?farmerId=${farmerId}`}>
     <div className={`px-4 py-2 my-1 ${bgColor}`}>
       <p className="font-semibold">{name}</p>
       <p className="text-sm">
         {!lastVisitDate ? t("never visited") : t("visited", {
-          date: formatter.relativeTime(lastVisitDate)
+          date: formatter.relativeTime(lastVisitDate, now)
         })}
       </p>
     </div>
