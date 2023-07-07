@@ -14,30 +14,35 @@ type LoginData = {
 
 function useLogin() {
   const t = useTranslations("Login")
+  const offline = useTranslations("Offline")
   const [error, setError] = useState("");
   const router = useRouter();
   const [isLoggingIn, startTransition] = useTransition();
   const login = async (data: LoginData) => {
     setError("")
-    const response = await fetch(AUTH_URL, {
-      headers: {
-        "Authorization": `Basic ${btoa(`${data.username}:${data.password}`)}`,
+    try {
+      const response = await fetch(AUTH_URL, {
+        headers: {
+          "Authorization": `Basic ${btoa(`${data.username}:${data.password}`)}`,
+        }
+      })
+      if (!response.ok) {
+        const status = response.status;
+        setError((status === 401 || status === 403) ? t("incorrect") : t("error"))
+        return
       }
-    })
-    if (!response.ok) {
-      const status = response.status;
-      setError((status === 401 || status === 403) ? t("incorrect") : t("error"))
-      return
+      const payload = await response.json()
+      const token = payload.token as string
+      const user = decodeToken(token).user
+      startTransition(() => {
+        setCookie("token", token, { secure: true })
+        setCookie("uid", user.uid, { secure: true })
+        if (user.role === TECHNICIAN_ROLE) router.replace("/technician")
+        else router.replace("/dashboard")
+      })
+    } catch (e) {
+      setError(offline("no internet"));
     }
-    const payload = await response.json()
-    const token = payload.token as string
-    const user = decodeToken(token).user
-    startTransition(() => {
-      setCookie("token", token, { secure: true })
-      setCookie("uid", user.uid, { secure: true })
-      if (user.role === TECHNICIAN_ROLE) router.replace("/technician")
-      else router.replace("/dashboard")
-    })
   }
 
   return {
