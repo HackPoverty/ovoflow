@@ -15,7 +15,6 @@ function jsonDeserialize<Type>(data: any) {
 
 export async function jsonApiFetch<Type>(resource: string, params?: Record<string, any>) {
   const token = getCookie("token");
-
   const response = await fetch(`${JSONAPI_URL}/${resource}${makeParams(params)}`, {
     method: "GET",
     headers: {
@@ -72,7 +71,6 @@ export async function jsonApiFetchPaginated<Type>(resource: string, params?: Rec
 
 export async function jsonApiPost(resource: string, body?: any, params?: Record<string, any>,) {
   const token = getCookie("token");
-
   const response = await fetch(`${JSONAPI_URL}/${resource}${makeParams(params)}`, {
     method: "POST",
     headers: {

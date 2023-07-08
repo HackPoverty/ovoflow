@@ -33,26 +33,28 @@ export default function FarmersList() {
   const { offset, onPrevious, onNext } = usePagination(PAGE_LIMIT)
   const { data, isLoading, error } = useSWR(`/farmers?limit=${PAGE_LIMIT}&offset=${offset}`, () => getListofFarmers(offset))
 
-  return <PrivateRoute role={TECHNICIAN_ROLE}>
+  return <>
     <Head>
       <title>{t("farmers list")}</title>
     </Head>
     <Navigation title={t("farmers list")} drawer={<TechnicianDrawer />}>
-      {isLoading ? <Loading />
-        : (error || !data) ? <Error />
-          : <Display data={data.data} />}
-      <div className="grid grid-cols-2 justify-between p-4 shadow-lg gap-4">
-        <button className="btn btn-accent rounded-full" onClick={onPrevious} disabled={isLoading || error || data?.isFirst}>
-          <ChevronLeft />
-          {tList("previous")}
-        </button>
-        <button className="btn btn-accent rounded-full" onClick={onNext} disabled={isLoading || error || data?.isLast}>
-          {tList("next")}
-          <ChevronRight />
-        </button>
-      </div>
+      <PrivateRoute role={TECHNICIAN_ROLE}>
+        {isLoading ? <Loading />
+          : (error || !data) ? <Error />
+            : <Display data={data.data} />}
+        <div className="grid grid-cols-2 justify-between p-4 shadow-lg gap-4">
+          <button className="btn btn-accent rounded-full" onClick={onPrevious} disabled={isLoading || error || data?.isFirst}>
+            <ChevronLeft />
+            {tList("previous")}
+          </button>
+          <button className="btn btn-accent rounded-full" onClick={onNext} disabled={isLoading || error || data?.isLast}>
+            {tList("next")}
+            <ChevronRight />
+          </button>
+        </div>
+      </PrivateRoute>
     </Navigation>
-  </PrivateRoute>
+  </>
 }
 
 function Loading() {

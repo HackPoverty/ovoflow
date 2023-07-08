@@ -18,3 +18,10 @@ export class ServerError extends Error {
     this.name = "ServerError";
   }
 }
+
+export class NoConnectionError extends Error {
+  constructor() {
+    super();
+    this.name = "NoConnectionError";
+  }
+}
