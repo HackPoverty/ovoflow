@@ -8,6 +8,7 @@ import BackButton from "@/components/navigation/BackButton";
 import { useFarmerName } from "@/hooks/useFarmerName";
 import { useMutistepForm } from "@/hooks/useMultiStepForm";
 import { jsonApiPost } from "@/lib/axios";
+import { NoConnectionError } from "@/lib/error";
 import { TECHNICIAN_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetStaticPropsContext } from "next";
@@ -16,15 +17,31 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import useSWRMutation from "swr/mutation";
 
 export default function Checklist() {
   const { query, replace } = useRouter()
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const farmerId = query.farmerId as string;
   const name = useFarmerName(farmerId)
   const t = useTranslations("FarmChecklist")
+  const offline = useTranslations("Offline")
   const dialog = useRef<HTMLDialogElement>(null);
   const ref = useRef<HTMLDivElement>(null);
+
+  const { trigger, isMutating } = useSWRMutation("node/technician_visit",
+    async (key, { arg }: { arg: TechnicianVisitFormSchema }) => {
+      const processed = processFormData(arg, farmerId)
+      await jsonApiPost(key, processed)
+    },
+    {
+      onSuccess() { dialog.current?.showModal() },
+      onError(error) {
+        if (error instanceof NoConnectionError) setError(offline("no internet"))
+        else setError(t("submit error"))
+      }
+    }
+  )
 
   const visit = useTechnicianVisit()
 
@@ -52,67 +69,62 @@ export default function Checklist() {
   })
 
   const onBack = () => {
-    setError(false)
+    setError("")
     back()
     ref.current?.scrollTo({ top: 0 })
   }
 
   const onSubmit = methods.handleSubmit(async (data) => {
-    setError(false)
+    setError("")
     if (!isLastStep) {
       next()
       ref.current?.scrollTo({ top: 0 })
       return
-    }
-    const processed = processFormData(data, farmerId)
-    try {
-      await jsonApiPost("node/technician_visit", processed)
-      dialog.current?.showModal()
-    } catch (e) {
-      setError(true)
-    }
-  }, console.log)
+    } else trigger(data)
+  })
 
-  const isSubmitting = methods.formState.isSubmitting;
+  const isSubmitting = methods.formState.isSubmitting || isMutating;
 
-  return <PrivateRoute role={TECHNICIAN_ROLE}>
+  return <>
     <Head>
       <title>{t("title")}</title>
     </Head>
     <Navigation title={t("title")} buttonNav={<BackButton />}>
-      {name ? <div className="px-6 py-2 bg-base-200 font-semibold">{t("owner", { name })}</div> : null}
-      <div className="px-6 py-2 shadow-lg">
-        <p className="text-neutral">{t("step", { now: currentStepIndex + 1, total: steps.length })}</p>
-        <h1>{step.title}</h1>
-      </div>
-      <TechnicianVisitProvider technicianVisit={visit}>
-        <FormProvider {...methods}>
-          {error && <div className="text-sm p-2 bg-error">{t("submit error")}</div>}
-          <form className="flex-1 flex flex-col overflow-hidden" onSubmit={onSubmit}>
-            <div className="flex-1 px-6 py-2 overflow-auto">
-              {step.form}
-            </div>
-            <div className="grid grid-flow-col p-4 gap-2 sticky bottom-0 w-full border-t-2">
-              <button disabled={isFirstStep || isSubmitting} className="btn btn-primary btn-outline" onClick={onBack} type="button">
-                {t("back")}
-              </button>
-              <button disabled={isSubmitting} className="btn btn-primary" type="submit">
-                {
-                  isSubmitting ? <span className="loading loading-spinner loading-md" /> :
-                    isLastStep ? t("submit") : t("next")
-                }
-              </button>
-            </div>
-          </form>
-        </FormProvider>
-      </TechnicianVisitProvider>
+      <PrivateRoute role={TECHNICIAN_ROLE}>
+        {name ? <div className="px-6 py-2 bg-base-200 font-semibold">{t("owner", { name })}</div> : null}
+        <div className="px-6 py-2 shadow-lg">
+          <p className="text-neutral">{t("step", { now: currentStepIndex + 1, total: steps.length })}</p>
+          <h1>{step.title}</h1>
+        </div>
+        <TechnicianVisitProvider technicianVisit={visit}>
+          <FormProvider {...methods}>
+            {error && <div className="text-sm p-2 bg-error">{error}</div>}
+            <form className="flex-1 flex flex-col overflow-hidden" onSubmit={onSubmit}>
+              <div className="flex-1 px-6 py-2 overflow-auto">
+                {step.form}
+              </div>
+              <div className="grid grid-flow-col p-4 gap-2 sticky bottom-0 w-full border-t-2">
+                <button disabled={isFirstStep || isSubmitting} className="btn btn-primary btn-outline" onClick={onBack} type="button">
+                  {t("back")}
+                </button>
+                <button disabled={isSubmitting} className="btn btn-primary" type="submit">
+                  {
+                    isSubmitting ? <span className="loading loading-spinner loading-md" /> :
+                      isLastStep ? t("submit") : t("next")
+                  }
+                </button>
+              </div>
+            </form>
+          </FormProvider>
+        </TechnicianVisitProvider>
+        <SuccessDialog
+          title={t("submit success")}
+          buttonLabel={t("to the farmer")}
+          action={() => replace(`/farmer?farmerId=${farmerId}`)}
+          ref={dialog} />
+      </PrivateRoute>
     </Navigation>
-    <SuccessDialog
-      title={t("submit success")}
-      buttonLabel={t("to the farmer")}
-      action={() => replace(`/farmer?farmerId=${farmerId}`)}
-      ref={dialog} />
-  </PrivateRoute>
+  </>
 }
 
 export async function getStaticProps({ locale }: GetStaticPropsContext) {

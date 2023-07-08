@@ -13,25 +13,27 @@ export default function Login() {
   // if (role === FARMER_ROLE) redirect("/dashboard");
   const t = useTranslations("Login")
 
-  return <PublicRoute>
+  return <>
     <Head>
       <title>{t("login")}</title>
     </Head>
-    <main className={`${styles.fancy} p-6 min-h-screen flex flex-col`}>
-      <div className="self-end">
-        <LanguageDropdown />
-      </div>
-      <div className="flex-auto gap-4 flex flex-col items-center justify-center">
-        <div className="h-[150px] relative aspect-square">
-          <Image src="/assets/ui/logo.svg" alt="Ovoflow Logo" fill />
+    <PublicRoute>
+      <main className={`${styles.fancy} p-6 min-h-screen flex flex-col`}>
+        <div className="self-end">
+          <LanguageDropdown />
         </div>
-        <h1 className="text-3xl font-bold text-white">ovoflow</h1>
-        <div className="self-stretch">
-          <LoginForm />
+        <div className="flex-auto gap-4 flex flex-col items-center justify-center">
+          <div className="h-[150px] relative aspect-square">
+            <Image src="/assets/ui/logo.svg" alt="Ovoflow Logo" fill />
+          </div>
+          <h1 className="text-3xl font-bold text-white">ovoflow</h1>
+          <div className="self-stretch">
+            <LoginForm />
+          </div>
         </div>
-      </div>
-    </main>
-  </PublicRoute>
+      </main>
+    </PublicRoute>
+  </>
 }
 
 export async function getStaticProps({ locale }: GetStaticPropsContext) {

@@ -8,6 +8,7 @@ import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import BackButton from "@/components/navigation/BackButton";
 import { FormStep, useMutistepForm } from "@/hooks/useMultiStepForm";
 import { jsonApiPost } from "@/lib/axios";
+import { NoConnectionError } from "@/lib/error";
 import { FARMER_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetStaticPropsContext } from "next";
@@ -16,15 +17,31 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import useSWRMutation from "swr/mutation";
 
 
 export default function FarmerJournal() {
-  const [error, setError] = useState(false);
+  const t = useTranslations("FarmerJournal")
+  const offline = useTranslations("Offline")
+  const [error, setError] = useState("")
   const dialog = useRef<HTMLDialogElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const t = useTranslations("FarmerJournal")
+  const { trigger, isMutating } = useSWRMutation("node/farmer_daily_journal",
+    async (key, { arg }: { arg: FarmerJournalSchema }) => {
+      const processed = processFormData(arg)
+      await jsonApiPost(key, processed)
+    },
+    {
+      onSuccess() { dialog.current?.showModal() },
+      onError(error) {
+        if (error instanceof NoConnectionError) setError(offline("no internet"))
+        else setError(t("submit error"))
+      }
+    }
+  )
+
   const {
     chickenStockSchema,
     eggProductionSchema,
@@ -54,65 +71,60 @@ export default function FarmerJournal() {
   });
 
   const onBack = () => {
-    setError(false)
+    setError("")
     back()
     ref.current?.scrollTo({ top: 0 })
   }
 
   const onSubmit = methods.handleSubmit(async (data) => {
-    setError(false)
-    if (!isLastStep) {
+    setError("")
+    if (isLastStep) {
+      trigger(data);
+    } else {
       next()
       ref.current?.scrollTo({ top: 0 })
       return
     }
-    const processed = processFormData(data)
-
-    try {
-      await jsonApiPost("node/farmer_daily_journal", processed)
-      dialog.current?.showModal()
-    } catch (e) {
-      setError(true)
-
-    }
   });
 
-  const isSubmitting = methods.formState.isSubmitting;
+  const isSubmitting = methods.formState.isSubmitting || isMutating;
 
-  return <PrivateRoute role={FARMER_ROLE}>
+  return <>
     <Head>
       <title>{t("new journal")}</title>
     </Head>
     <Navigation title={t("new journal")} buttonNav={<BackButton />}>
-      <main className="flex-1 flex flex-col overflow-hidden">
-        {error && <div className="text-sm p-2 bg-error">{t("submit error")}</div>}
-        <div className="px-6 py-4 shadow">
-          <p className="text-neutral">{t("step", { now: currentStepIndex + 1, total: steps.length })}</p>
-          <h1>{step.title}</h1>
-        </div>
-        <FormProvider {...methods}>
-          <form className="flex-1 flex flex-col overflow-hidden" onSubmit={onSubmit}>
-            <div className="flex-1 overflow-auto" ref={ref}>
-              {step.form}
-            </div>
-            <div className="grid grid-cols-2 px-6 py-4 gap-2 shadow bg-base-100">
-              <button disabled={isFirstStep || isSubmitting}
-                className="btn btn-primary btn-outline flex-1"
-                onClick={onBack}
-                type="button">{t("back")}</button>
-              <button disabled={isSubmitting} className="btn btn-primary flex-1" type="submit">
-                {
-                  isSubmitting ? <span className="loading loading-spinner loading-md" /> :
-                    isLastStep ? t("submit") : t("next")
-                }
-              </button>
-            </div>
-          </form>
-        </FormProvider>
-      </main>
-      <SuccessDialog title={t("submit success")} buttonLabel={t("go to dashboard")} action={() => router.replace("/dashboard")} ref={dialog} />
+      <PrivateRoute role={FARMER_ROLE}>
+        <main className="flex-1 flex flex-col overflow-hidden">
+          {error && <div className="text-sm p-2 bg-error">{error}</div>}
+          <div className="px-6 py-4 shadow">
+            <p className="text-neutral">{t("step", { now: currentStepIndex + 1, total: steps.length })}</p>
+            <h1>{step.title}</h1>
+          </div>
+          <FormProvider {...methods}>
+            <form className="flex-1 flex flex-col overflow-hidden" onSubmit={onSubmit}>
+              <div className="flex-1 overflow-auto" ref={ref}>
+                {step.form}
+              </div>
+              <div className="grid grid-cols-2 px-6 py-4 gap-2 shadow bg-base-100">
+                <button disabled={isFirstStep || isSubmitting}
+                  className="btn btn-primary btn-outline flex-1"
+                  onClick={onBack}
+                  type="button">{t("back")}</button>
+                <button disabled={isSubmitting} className="btn btn-primary flex-1" type="submit">
+                  {
+                    isSubmitting ? <span className="loading loading-spinner loading-md" /> :
+                      isLastStep ? t("submit") : t("next")
+                  }
+                </button>
+              </div>
+            </form>
+          </FormProvider>
+        </main>
+        <SuccessDialog title={t("submit success")} buttonLabel={t("go to dashboard")} action={() => router.replace("/dashboard")} ref={dialog} />
+      </PrivateRoute>
     </Navigation>
-  </PrivateRoute>
+  </>
 }
 
 export async function getStaticProps({ locale }: GetStaticPropsContext) {
