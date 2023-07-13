@@ -8,7 +8,7 @@ export default function FarmerDrawer() {
   const isAvtive = (path: string) => route === path;
 
   return <>
-    <NavLink active="dashboard" href="/dashboard">
+    <NavLink active="/dashboard" href="/dashboard">
       {t("dashboard")}
     </NavLink>
     <NavLink href="/logout" className="text-error">
