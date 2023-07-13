@@ -7,8 +7,8 @@ import Navigation from "@/components/layouts/Navigation";
 import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import BackButton from "@/components/navigation/BackButton";
 import { FormStep, useMutistepForm } from "@/hooks/useMultiStepForm";
+import { useNavigatorOnline } from "@/hooks/useNavigatorOnline";
 import { jsonApiPost } from "@/lib/axios";
-import { NoConnectionError } from "@/lib/error";
 import { getLocaleStaticsProps } from "@/lib/i18n";
 import { FARMER_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,11 +22,11 @@ import useSWRMutation from "swr/mutation";
 
 export default function FarmerJournal() {
   const t = useTranslations("FarmerJournal")
-  const offline = useTranslations("Offline")
   const [error, setError] = useState("")
   const dialog = useRef<HTMLDialogElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const isOnline = useNavigatorOnline();
 
   const { trigger, isMutating } = useSWRMutation("node/farmer_daily_journal",
     async (key, { arg }: { arg: FarmerJournalSchema }) => {
@@ -35,10 +35,7 @@ export default function FarmerJournal() {
     },
     {
       onSuccess() { dialog.current?.showModal() },
-      onError(error) {
-        if (error instanceof NoConnectionError) setError(offline("no internet"))
-        else setError(t("submit error"))
-      }
+      onError() { setError(t("submit error")) }
     }
   )
 
@@ -111,7 +108,7 @@ export default function FarmerJournal() {
                   className="btn btn-primary btn-outline flex-1"
                   onClick={onBack}
                   type="button">{t("back")}</button>
-                <button disabled={isSubmitting} className="btn btn-primary flex-1" type="submit">
+                <button disabled={isSubmitting || (isLastStep && !isOnline)} className="btn btn-primary flex-1" type="submit">
                   {
                     isSubmitting ? <span className="loading loading-spinner loading-md" /> :
                       isLastStep ? t("submit") : t("next")

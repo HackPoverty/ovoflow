@@ -1,3 +1,4 @@
+import { useNavigatorOnline } from "@/hooks/useNavigatorOnline";
 import { TECHNICIAN_ROLE, decodeToken } from "@/lib/user";
 import { setCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
@@ -14,35 +15,30 @@ type LoginData = {
 
 function useLogin() {
   const t = useTranslations("Login")
-  const offline = useTranslations("Offline")
   const [error, setError] = useState("");
   const router = useRouter();
   const [isLoggingIn, startTransition] = useTransition();
+
   const login = async (data: LoginData) => {
-    setError("")
-    try {
-      const response = await fetch(AUTH_URL, {
-        headers: {
-          "Authorization": `Basic ${btoa(`${data.username}:${data.password}`)}`,
-        }
-      })
-      if (!response.ok) {
-        const status = response.status;
-        setError((status === 401 || status === 403) ? t("incorrect") : t("error"))
-        return
+    const response = await fetch(AUTH_URL, {
+      headers: {
+        "Authorization": `Basic ${btoa(`${data.username}:${data.password}`)}`,
       }
-      const payload = await response.json()
-      const token = payload.token as string
-      const user = decodeToken(token).user
-      startTransition(() => {
-        setCookie("token", token, { secure: true })
-        setCookie("uid", user.uid, { secure: true })
-        if (user.role === TECHNICIAN_ROLE) router.replace("/technician")
-        else router.replace("/dashboard")
-      })
-    } catch (e) {
-      setError(offline("no internet"));
+    })
+    if (!response.ok) {
+      const status = response.status;
+      setError((status === 401 || status === 403) ? t("incorrect") : t("error"))
+      return
     }
+    const payload = await response.json()
+    const token = payload.token as string
+    const user = decodeToken(token).user
+    startTransition(() => {
+      setCookie("token", token, { secure: true })
+      setCookie("uid", user.uid, { secure: true })
+      if (user.role === TECHNICIAN_ROLE) router.replace("/technician")
+      else router.replace("/dashboard")
+    })
   }
 
   return {
@@ -54,6 +50,8 @@ function useLogin() {
 
 export default function LoginForm() {
   const t = useTranslations("Login")
+  const isOnline = useNavigatorOnline()
+  const offlineT = useTranslations("Offline")
   const { error, login, isLoggingIn } = useLogin();
   const { register, handleSubmit, formState: { isSubmitting } } = useForm<LoginData>({
     defaultValues: {
@@ -62,7 +60,8 @@ export default function LoginForm() {
     },
   });
 
-  return <form className="flex flex-col gap-4" onSubmit={handleSubmit(login)}>
+  return <form className="flex flex-col gap-4" onSubmit={handleSubmit(data => { if (isOnline) login(data) })}>
+    {!isOnline && <div className="alert alert-error text-sm"><span>{offlineT("no internet")}</span></div>}
     {error && !isSubmitting && <div className="alert alert-error text-sm"><span>{error}</span></div>}
     <input {...register("username")} className="input" placeholder={t("username")} type="text" required />
     <input {...register("password")} className="input" placeholder={t("password")} type="password" required />
