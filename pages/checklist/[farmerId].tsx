@@ -6,9 +6,11 @@ import Navigation from "@/components/layouts/Navigation";
 import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import BackButton from "@/components/navigation/BackButton";
 import { useFarmerName } from "@/hooks/useFarmerName";
+import { OVOFLOW_TECHNICIAN_VISIT_KEY, useLocalStorage } from "@/hooks/useLocalStorage";
 import { useMutistepForm } from "@/hooks/useMultiStepForm";
 import { useNavigatorOnline } from "@/hooks/useNavigatorOnline";
 import { jsonApiPost } from "@/lib/axios";
+import { ServerError } from "@/lib/error";
 import { getLocaleStaticsProps } from "@/lib/i18n";
 import { TECHNICIAN_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,10 +28,10 @@ export default function Checklist() {
   const farmerId = query.farmerId as string;
   const name = useFarmerName(farmerId)
   const t = useTranslations("FarmChecklist")
-  const offline = useTranslations("Offline")
   const dialog = useRef<HTMLDialogElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const isOnline = useNavigatorOnline();
+  const { getValue, setValue, removeValue } = useLocalStorage<TechnicianVisitFormSchema>(OVOFLOW_TECHNICIAN_VISIT_KEY)
 
   const { trigger, isMutating } = useSWRMutation("node/technician_visit",
     async (key, { arg }: { arg: TechnicianVisitFormSchema }) => {
@@ -37,8 +39,14 @@ export default function Checklist() {
       await jsonApiPost(key, processed)
     },
     {
-      onSuccess() { dialog.current?.showModal() },
-      onError() { setError(t("submit error")) }
+      onSuccess() {
+        dialog.current?.showModal()
+        removeValue()
+      },
+      onError(e) {
+        if (e instanceof ServerError)
+          setError(t("submit error"))
+      }
     }
   )
 
@@ -54,7 +62,7 @@ export default function Checklist() {
 
   const methods = useForm<TechnicianVisitFormSchema>({
     resolver: zodResolver(step.schema),
-    defaultValues: {
+    defaultValues: getValue() || {
       fieldLightSufficiency: 5,
       fieldCleanBedding: 5,
       fieldWaterCleanliness: 5,
@@ -79,7 +87,10 @@ export default function Checklist() {
       next()
       ref.current?.scrollTo({ top: 0 })
       return
-    } else trigger(data)
+    } else {
+      setValue(data)
+      if (isOnline) trigger(data)
+    }
   })
 
   const isSubmitting = methods.formState.isSubmitting || isMutating;
@@ -106,7 +117,7 @@ export default function Checklist() {
                 <button disabled={isFirstStep || isSubmitting} className="btn btn-primary btn-outline" onClick={onBack} type="button">
                   {t("back")}
                 </button>
-                <button disabled={isSubmitting || (isLastStep && !isOnline)} className="btn btn-primary" type="submit">
+                <button disabled={isSubmitting} className="btn btn-primary" type="submit">
                   {
                     isSubmitting ? <span className="loading loading-spinner loading-md" /> :
                       isLastStep ? t("submit") : t("next")
