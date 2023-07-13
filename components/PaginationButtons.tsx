@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 import Link from "next/link"
 
@@ -11,17 +12,13 @@ export default function PaginationButtons({ onPrevious, onNext }: Props) {
 
   return <>
     <Link href={onPrevious || "#"} className={`btn rounded-full ${onPrevious ? "btn-primary" : "btn-disabled"}`}>
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-      </svg>
+      <ChevronLeft />
       {t("previous")}
     </Link>
     {/* Next */}
     <Link href={onNext || "#"} className={`btn rounded-full ${onNext ? "btn-primary" : "btn-disabled"}`}>
       {t("next")}
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-      </svg>
+      <ChevronRight />
     </Link>
   </>
 }

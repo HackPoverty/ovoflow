@@ -74,7 +74,7 @@ function Error() {
   </main>
 }
 
-export const getStaticProps = getLocaleStaticsProps(["TechnicianVisit", "Offline"])
+export const getStaticProps = getLocaleStaticsProps(["FarmChecklist", "Offline", "TechnicianVisit"])
 
 export const getStaticPaths: GetStaticPaths<{ visitId: string }> = async () => {
   return {
