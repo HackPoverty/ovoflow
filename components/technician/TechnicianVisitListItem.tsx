@@ -10,7 +10,7 @@ type Props = {
 export default function TechnicianVisitListItem({ visit }: Props) {
   const formatter = useFormatter();
 
-  return <Link key={visit.id} href={`/visit?visitId=${visit.id}`} prefetch={false}>
+  return <Link key={visit.id} href={`/visit/${visit.id}`} prefetch={false}>
     <div className="px-6 py-2 bg-base-200 my-1">
       <p className="font-semibold">{visit.title}</p>
       <p className="text-sm">{formatter.dateTime(new Date(visit.created), {

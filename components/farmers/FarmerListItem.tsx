@@ -20,7 +20,7 @@ export function FarmerListItem({ name, lastVisitDate, farmerId }: Props) {
     else bgColor = "bg-error/70"
   }
 
-  return <Link href={`/farmer?farmerId=${farmerId}`}>
+  return <Link href={`/farmer/${farmerId}`}>
     <div className={`px-4 py-2 my-1 ${bgColor}`}>
       <p className="font-semibold">{name}</p>
       <p className="text-sm">
