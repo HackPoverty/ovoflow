@@ -1,8 +1,8 @@
 import LoginForm from "@/components/forms/login/LoginForm";
 import LanguageDropdown from "@/components/language/LangaugeDropdown";
 import PublicRoute from "@/components/layouts/PublicRoute";
+import { getLocaleStaticsProps } from "@/lib/i18n";
 import styles from "@/styles/background.module.css";
-import { GetStaticPropsContext } from "next";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import Image from "next/image";
@@ -36,10 +36,4 @@ export default function Login() {
   </>
 }
 
-export async function getStaticProps({ locale }: GetStaticPropsContext) {
-  return {
-    props: {
-      messages: (await import(`../messages/${locale}.json`)).default
-    }
-  };
-}
+export const getStaticProps = getLocaleStaticsProps(["Login", "Language", "Offline"])

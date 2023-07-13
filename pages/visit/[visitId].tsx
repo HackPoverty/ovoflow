@@ -5,10 +5,11 @@ import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import BackButton from "@/components/navigation/BackButton";
 import { jsonApiFetch } from "@/lib/axios";
+import { getLocaleStaticsProps } from "@/lib/i18n";
 import { TECHNICIAN_ROLE } from "@/lib/user";
 import { TechnicianVisit } from "@/types/content";
 import { Node } from "@/types/highLevel";
-import { GetStaticPaths, GetStaticPropsContext } from "next";
+import { GetStaticPaths } from "next";
 import { useFormatter, useTranslations } from "next-intl";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -73,17 +74,11 @@ function Error() {
   </main>
 }
 
-export async function getStaticProps({ locale }: GetStaticPropsContext) {
-  return {
-    props: {
-      messages: (await import(`../../messages/${locale}.json`)).default
-    }
-  };
-}
+export const getStaticProps = getLocaleStaticsProps(["TechnicianVisit", "Offline"])
 
 export const getStaticPaths: GetStaticPaths<{ visitId: string }> = async () => {
   return {
-      paths: [], //indicates that no page needs be created at build time
-      fallback: 'blocking' //indicates the type of fallback
+    paths: [], //indicates that no page needs be created at build time
+    fallback: 'blocking' //indicates the type of fallback
   }
 }

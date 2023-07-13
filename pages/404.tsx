@@ -1,7 +1,7 @@
-import { useTranslations } from "next-intl"
-import Link from "next/link"
+import { getLocaleStaticsProps } from "@/lib/i18n";
 import styles from "@/styles/background.module.css";
-import { GetStaticPropsContext } from "next";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 export default function NotFound() {
   const t = useTranslations("NotFound")
@@ -12,10 +12,4 @@ export default function NotFound() {
   </div>
 }
 
-export async function getStaticProps({ locale }: GetStaticPropsContext) {
-  return {
-    props: {
-      messages: (await import(`../messages/${locale}.json`)).default
-    }
-  };
-}
+export const getStaticProps = getLocaleStaticsProps(["NotFound", "Offline"])

@@ -1,5 +1,5 @@
+import { getLocaleStaticsProps } from "@/lib/i18n";
 import { deleteCookie } from "cookies-next";
-import { GetStaticPropsContext } from "next";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -29,10 +29,4 @@ export default function Logout() {
   </>
 }
 
-export async function getStaticProps({ locale }: GetStaticPropsContext) {
-  return {
-    props: {
-      messages: (await import(`../messages/${locale}.json`)).default
-    }
-  };
-}
+export const getStaticProps = getLocaleStaticsProps(["Navigation"])
