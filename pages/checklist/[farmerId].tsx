@@ -11,7 +11,7 @@ import { jsonApiPost } from "@/lib/axios";
 import { NoConnectionError } from "@/lib/error";
 import { TECHNICIAN_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GetStaticPropsContext } from "next";
+import { GetStaticPaths, GetStaticPropsContext } from "next";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -120,7 +120,7 @@ export default function Checklist() {
         <SuccessDialog
           title={t("submit success")}
           buttonLabel={t("to the farmer")}
-          action={() => replace(`/farmer?farmerId=${farmerId}`)}
+          action={() => replace(`/farmer/${farmerId}`)}
           ref={dialog} />
       </PrivateRoute>
     </Navigation>
@@ -130,7 +130,15 @@ export default function Checklist() {
 export async function getStaticProps({ locale }: GetStaticPropsContext) {
   return {
     props: {
-      messages: (await import(`../messages/${locale}.json`)).default
+      messages: (await import(`../../messages/${locale}.json`)).default
     }
   };
 }
+
+export const getStaticPaths: GetStaticPaths<{ farmerId: string }> = async () => {
+  return {
+      paths: [], //indicates that no page needs be created at build time
+      fallback: 'blocking' //indicates the type of fallback
+  }
+}
+
