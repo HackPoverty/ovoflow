@@ -8,12 +8,14 @@ import useSWR from "swr";
 
 type Result = Pick<Node<FarmerJournal>, "created" | "fieldInitialstock" | "id">
 
+const RECENT_ENTRIES_LIMIT = 8
+
 async function getRecentEntries() {
   const uid = getCookie("uid")
   return await jsonApiFetch<Result[]>(`node/farmer_daily_journal`, {
     "filter[uid.meta.drupal_internal__target_id]": uid,
     "sort": "-created",
-    "page[limit]": 8,
+    "page[limit]": RECENT_ENTRIES_LIMIT,
     "fields[node--farmer_daily_journal]": "created,field_initialstock"
   });
 }

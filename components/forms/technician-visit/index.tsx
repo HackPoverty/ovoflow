@@ -17,7 +17,7 @@ export {
 export const processFormData = (visit: TechnicianVisitFormSchema, farmerId: string) => {
   const postdata = {
     ...visit,
-    // TODO: Generate descriptive title
+    // TODO: Remove this?
     title: "Technician Journal",
     fieldForFarmer: {
       id: farmerId,
