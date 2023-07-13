@@ -1,4 +1,5 @@
-import { AuthorizationError, ServerError } from "@/lib/error"
+import { useNavigatorOnline } from "@/hooks/useNavigatorOnline"
+import { AuthorizationError } from "@/lib/error"
 import { Role, decodeToken } from "@/lib/user"
 import NotFound from "@/pages/404"
 import { getCookie } from "cookies-next"
@@ -15,7 +16,8 @@ type Props = {
 export const PrivateRoute = ({ role, children }: Props) => {
   const router = useRouter();
   const [render, setRender] = useState<ReactNode>(null);
-  const [connected, setConnected] = useState(true)
+  const isOnline = useNavigatorOnline();
+  const t = useTranslations("Offline")
 
   useEffect(() => {
     const token = getCookie("token")?.toString();
@@ -29,29 +31,17 @@ export const PrivateRoute = ({ role, children }: Props) => {
   }, [router, role, children])
 
   return <SWRConfig value={{
-    onSuccess() { setConnected(true) },
     onError(err) {
       if (err instanceof AuthorizationError) {
         router.replace("/logout")
       } else if (err instanceof NotFound) {
         router.replace("/404")
-      } else if (err instanceof ServerError) {
-        return
-      } else setConnected(false)
+      }
     }
   }}>
-    <WithInternet hasConnection={connected}>
-      {render}
-    </WithInternet>
-  </SWRConfig>;
-}
-
-function WithInternet({ children, hasConnection = true }: PropsWithChildren<{ hasConnection?: boolean }>) {
-  const t = useTranslations("Offline")
-  return <>
-    {!hasConnection ? <div className="bg-error p-2 text-xs">
+    {!isOnline ? <div className="bg-error p-2 text-xs">
       <p>{t("message")}</p>
     </div> : null}
-    {children}
-  </>
+    {render}
+  </SWRConfig>;
 }

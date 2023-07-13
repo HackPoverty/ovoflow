@@ -7,8 +7,8 @@ import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import BackButton from "@/components/navigation/BackButton";
 import { useFarmerName } from "@/hooks/useFarmerName";
 import { useMutistepForm } from "@/hooks/useMultiStepForm";
+import { useNavigatorOnline } from "@/hooks/useNavigatorOnline";
 import { jsonApiPost } from "@/lib/axios";
-import { NoConnectionError } from "@/lib/error";
 import { getLocaleStaticsProps } from "@/lib/i18n";
 import { TECHNICIAN_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,6 +29,7 @@ export default function Checklist() {
   const offline = useTranslations("Offline")
   const dialog = useRef<HTMLDialogElement>(null);
   const ref = useRef<HTMLDivElement>(null);
+  const isOnline = useNavigatorOnline();
 
   const { trigger, isMutating } = useSWRMutation("node/technician_visit",
     async (key, { arg }: { arg: TechnicianVisitFormSchema }) => {
@@ -37,10 +38,7 @@ export default function Checklist() {
     },
     {
       onSuccess() { dialog.current?.showModal() },
-      onError(error) {
-        if (error instanceof NoConnectionError) setError(offline("no internet"))
-        else setError(t("submit error"))
-      }
+      onError() { setError(t("submit error")) }
     }
   )
 
@@ -108,7 +106,7 @@ export default function Checklist() {
                 <button disabled={isFirstStep || isSubmitting} className="btn btn-primary btn-outline" onClick={onBack} type="button">
                   {t("back")}
                 </button>
-                <button disabled={isSubmitting} className="btn btn-primary" type="submit">
+                <button disabled={isSubmitting || (isLastStep && !isOnline)} className="btn btn-primary" type="submit">
                   {
                     isSubmitting ? <span className="loading loading-spinner loading-md" /> :
                       isLastStep ? t("submit") : t("next")
