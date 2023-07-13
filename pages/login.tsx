@@ -8,9 +8,6 @@ import Head from "next/head";
 import Image from "next/image";
 
 export default function Login() {
-  // const role = getAuthRole();
-  // if (role === TECHNICIAN_ROLE) redirect("/farmers");
-  // if (role === FARMER_ROLE) redirect("/dashboard");
   const t = useTranslations("Login")
 
   return <>
