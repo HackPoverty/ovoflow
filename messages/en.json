@@ -202,7 +202,8 @@
     "vaccination": "Vaccination",
     "comment": "Comment",
     "comment placeholder": "Some note and concerns... (optional)" ,
-    "review": "Review"
+    "review": "Review",
+    "save": "Save"
   },
   "TechnicianVisit": {
     "loading": "Retrieving data from farm visit...",

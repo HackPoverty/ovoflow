@@ -67,7 +67,7 @@ const CommonDiseaseInputDialog = forwardRef<HTMLDialogElement, { onClose: () => 
 
   return <dialog className="modal" ref={ref}>
     <div className="modal-box">
-      <h3 className="font-bold text-lg">Choose diseases</h3>
+      <h3 className="font-bold text-lg">{t("choose diseases")}</h3>
       {diseases.map(disease => <div key={disease.value}>
         <label className="label cursor-pointer">
           {disease.description}
@@ -83,7 +83,7 @@ const CommonDiseaseInputDialog = forwardRef<HTMLDialogElement, { onClose: () => 
         </label>
       </div>)}
       <div className="modal-action">
-        <button type="button" className="btn" onClick={onClose}>Save</button>
+        <button type="button" className="btn" onClick={onClose}>{t("save")}</button>
       </div>
     </div>
   </dialog>
