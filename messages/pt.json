@@ -4,10 +4,10 @@
     "pt": "Português"
   },
   "Offline": {
-    "title": "You are offline",
-    "message": "Please check your internet connection and try again",
-    "try again": "Try again",
-    "no internet": "No internet connection"
+    "title": "Você está offline",
+    "message": "Verifique sua conexão com a internet",
+    "try again": "Tente novamente",
+    "no internet": "Sem conexão com a internet"
   },
   "Login": {
     "username": "Nome do Usuario",
@@ -94,7 +94,7 @@
     "hello": "Olá {name}",
     "summary": "Resumo",
     "recent visited farms": "Fazendas visitadas recentemente",
-    "farms visited": "{count, plural, =1 {farm} outro {farms}} visitou este mês",
+    "farms visited": "{count, plural, =1 {fazenda visitada} other {fazendas visitadas}} este mês",
     "no farms visited": "Nenhuma fazenda visitada este mês",
     "Error": {
       "fetch recent": "Não foi possível visitar fazendas recentemente, toque para tentar novamente",
@@ -139,7 +139,7 @@
   },
   "TechnicianVisitForm": {},
   "TechnicianVisitList": {
-    "farm visit": "Visita à Fazenda {name}",
+    "farm visit": "Visita à Fazenda do {name}",
     "default farm visit": "Visita à Fazenda",
     "loading": "Recuperando todas as visitas do fazendeiro...",
     "Error": {
@@ -149,7 +149,7 @@
   },
   "FarmChecklist": {
     "title": "Lista de verificação da fazenda",
-    "owner": "{name}'s fazenda",
+    "owner": "Fazenda do {name}",
     "step": "Etapa {now} de {total}",
     "back": "Voltar",
     "next": "Próximo",
@@ -184,7 +184,7 @@
     "laryngotracheitis": "Laringotraqueíte",
     "fowl_pox": "Varíola Aviária",
     "fowl_chlorea": "Cólera aviária",
-    "selected dieases": "{count, plural, =0 {No diseases selected} =1 {1 disease selected} outro {# diseases selected}}",
+    "selected dieases": "{count, plural, =0 {Nenhuma doença selecionada} =1 {1 doença selecionada} other {# doenças selecionadas}}",
 
     "other diseases": "Outras doenças",
     "no diseases validation error": "Se não houver doença, você não deve tomar nenhuma vacina",
@@ -194,15 +194,16 @@
     "common vaccines": "Vacinas comuns",
     "choose vaccines": "Escolha as vacinas",
     "other vaccines": "Outras vacinas",
-    "selected vaccines": "{count, plural, =0 {No vaccines selected} =1 {1 vaccine selected} outro {# vaccines selected}}",
+    "selected vaccines": "{count, plural, =0 {Nenhuma vacina selecionada} =1 {1 vacina selecionada} other {# vacinas selecionadas}}",
 
     "no vaccines validation error": "Se não houver vacina, você não deve tomar nenhuma vacina",
     "vaccines validation error": "Se houver uma vacina fornecida, você deve selecionar pelo menos um nome de vacina comum ou especificar quaisquer outras vacinas",
 
     "vaccination": "Vacinação",
     "comment": "Comente",
-    "comment placeholder": "Algumas notas e preocupações... (opcional)" ,
-    "review": "Análise"
+    "comment placeholder": "Algumas notas e preocupações... (opcional)",
+    "review": "Análise",
+    "save": "Salvar"
   },
   "TechnicianVisit": {
     "loading": "Recuperando dados da visita à fazenda...",
@@ -210,7 +211,7 @@
       "message": "Não foi possível carregar os dados de visita à fazenda",
       "try again": "Tente novamente"
     },
-    "farm visit":"Visita à Fazenda {name}",
+    "farm visit": "Visita à Fazenda {name}",
     "default farm visit": "Visita à Fazenda",
     "visit": "Visita em {date}"
   }

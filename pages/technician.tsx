@@ -33,4 +33,4 @@ export default function TechnicianDashboard() {
   </>
 }
 
-export const getStaticProps = getLocaleStaticsProps(["TechnicianDashboard", "Offline"])
+export const getStaticProps = getLocaleStaticsProps(["TechnicianDashboard", "Offline", "Navigation", "FarmersList"])

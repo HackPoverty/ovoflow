@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { forwardRef, useRef } from "react";
+import { forwardRef, useRef, useTransition } from "react";
 import { useController, useFormContext } from "react-hook-form";
 import Label from "../Label";
 import { TechnicianVisitFormSchema } from "./schema";
@@ -36,7 +36,7 @@ export default function FarmVaccination() {
       <CommonVaccineInputDialog ref={dialogRef} onClose={() => { dialogRef.current?.close() }} />
     </div>
     <div className="form-control">
-      <Label required={!!other || (given && vaccines.length <= 0)}>Other Vaccines</Label>
+      <Label required={!!other || (given && vaccines.length <= 0)}>{t("other vaccines")}</Label>
       <input
         type="text"
         {...register("fieldOtherVaccine")}
@@ -53,11 +53,12 @@ const CommonVaccineInputDialog = forwardRef<HTMLDialogElement, { onClose: () => 
   const { vaccines } = useTechnicianVisitContext()
   const { control } = useFormContext<TechnicianVisitFormSchema>()
   const { field } = useController({ control, name: "fieldVaccinations" })
+  const t = useTranslations("FarmChecklist")
 
 
   return <dialog className="modal" ref={ref}>
     <div className="modal-box">
-      <h3 className="font-bold text-lg">Choose vaccines</h3>
+      <h3 className="font-bold text-lg">{t("choose vaccines")}</h3>
       {vaccines.map(({ value, description }) => <div className="form-control" key={value}>
         <label className="label cursor-pointer">
           {description}
@@ -73,7 +74,7 @@ const CommonVaccineInputDialog = forwardRef<HTMLDialogElement, { onClose: () => 
         </label>
       </div>)}
       <div className="modal-action">
-        <button type="button" className="btn" onClick={onClose}>Save</button>
+        <button type="button" className="btn" onClick={onClose}>{t("save")}</button>
       </div>
     </div>
   </dialog>
