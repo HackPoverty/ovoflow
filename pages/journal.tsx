@@ -9,9 +9,9 @@ import BackButton from "@/components/navigation/BackButton";
 import { FormStep, useMutistepForm } from "@/hooks/useMultiStepForm";
 import { jsonApiPost } from "@/lib/axios";
 import { NoConnectionError } from "@/lib/error";
+import { getLocaleStaticsProps } from "@/lib/i18n";
 import { FARMER_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GetStaticPropsContext } from "next";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -127,10 +127,4 @@ export default function FarmerJournal() {
   </>
 }
 
-export async function getStaticProps({ locale }: GetStaticPropsContext) {
-  return {
-    props: {
-      messages: (await import(`../messages/${locale}.json`)).default
-    }
-  };
-}
+export const getStaticProps = getLocaleStaticsProps(["FarmerJournal", "Offline"])

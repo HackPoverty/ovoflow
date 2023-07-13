@@ -6,11 +6,11 @@ import { TechnicianDrawer } from "@/components/layouts/TechnicianDrawer";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { usePagination } from "@/hooks/usePagination";
 import { jsonApiFetchPaginated } from "@/lib/axios";
+import { getLocaleStaticsProps } from "@/lib/i18n";
 import { TECHNICIAN_ROLE } from "@/lib/user";
 import { Node } from "@/types/highLevel";
 import { FARMER_ROLE_ID, Farmer } from "@/types/user";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { GetStaticPropsContext } from "next";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import useSWR from "swr";
@@ -86,10 +86,4 @@ function Display({ data }: { data: Result[] }) {
   </main>
 }
 
-export async function getStaticProps({ locale }: GetStaticPropsContext) {
-  return {
-    props: {
-      messages: (await import(`../messages/${locale}.json`)).default
-    }
-  };
-}
+export const getStaticProps = getLocaleStaticsProps(["FarmersList", "ListNavigation", "Navigation", "Offline"])

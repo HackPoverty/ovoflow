@@ -4,8 +4,9 @@ import Summary from "@/components/farmer-detail/Summary";
 import Navigation from "@/components/layouts/Navigation";
 import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import BackButton from "@/components/navigation/BackButton";
+import { getLocaleStaticsProps } from "@/lib/i18n";
 import { TECHNICIAN_ROLE } from "@/lib/user";
-import { GetStaticPaths, GetStaticPropsContext } from "next";
+import { GetStaticPaths } from "next";
 import { useNow, useTranslations } from "next-intl";
 import Head from "next/head";
 import Link from "next/link";
@@ -26,8 +27,8 @@ export default function FarmerDetail() {
     <Head>
       <title>{t("title")}</title>
     </Head>
-      <Navigation title={t("title")} buttonNav={<BackButton />}>
-    <PrivateRoute role={TECHNICIAN_ROLE}>
+    <Navigation title={t("title")} buttonNav={<BackButton />}>
+      <PrivateRoute role={TECHNICIAN_ROLE}>
         <main className="flex flex-col gap-6 py-6 flex-1 overflow-y-auto">
           <div className="px-6">
             <Profile farmerId={farmerId} />
@@ -48,23 +49,16 @@ export default function FarmerDetail() {
             <RecentVisits farmerId={farmerId} />
           </div>
         </main >
-    </PrivateRoute>
-      </Navigation>
+      </PrivateRoute>
+    </Navigation>
   </>
 }
 
-
-export async function getStaticProps({ locale }: GetStaticPropsContext) {
-  return {
-    props: {
-      messages: (await import(`../../messages/${locale}.json`)).default
-    }
-  };
-}
+export const getStaticProps = getLocaleStaticsProps(["FarmerDetail", "Offline"])
 
 export const getStaticPaths: GetStaticPaths<{ farmerId: string }> = async () => {
   return {
-      paths: [], //indicates that no page needs be created at build time
-      fallback: 'blocking' //indicates the type of fallback
+    paths: [], //indicates that no page needs be created at build time
+    fallback: 'blocking' //indicates the type of fallback
   }
 }

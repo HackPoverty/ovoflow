@@ -3,8 +3,8 @@ import Statistics from "@/components/dashboard/technician/Statistics";
 import Navigation from "@/components/layouts/Navigation";
 import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import { TechnicianDrawer } from "@/components/layouts/TechnicianDrawer";
+import { getLocaleStaticsProps } from "@/lib/i18n";
 import { TECHNICIAN_ROLE } from "@/lib/user";
-import { GetStaticPropsContext } from "next";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 
@@ -33,10 +33,4 @@ export default function TechnicianDashboard() {
   </>
 }
 
-export async function getStaticProps({ locale }: GetStaticPropsContext) {
-  return {
-    props: {
-      messages: (await import(`../messages/${locale}.json`)).default
-    }
-  };
-}
+export const getStaticProps = getLocaleStaticsProps(["TechnicianDashboard", "Offline"])

@@ -9,9 +9,10 @@ import { useFarmerName } from "@/hooks/useFarmerName";
 import { useMutistepForm } from "@/hooks/useMultiStepForm";
 import { jsonApiPost } from "@/lib/axios";
 import { NoConnectionError } from "@/lib/error";
+import { getLocaleStaticsProps } from "@/lib/i18n";
 import { TECHNICIAN_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GetStaticPaths, GetStaticPropsContext } from "next";
+import { GetStaticPaths } from "next";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -127,18 +128,12 @@ export default function Checklist() {
   </>
 }
 
-export async function getStaticProps({ locale }: GetStaticPropsContext) {
-  return {
-    props: {
-      messages: (await import(`../../messages/${locale}.json`)).default
-    }
-  };
-}
+export const getStaticProps = getLocaleStaticsProps(["FarmChecklist", "Offline"])
 
 export const getStaticPaths: GetStaticPaths<{ farmerId: string }> = async () => {
   return {
-      paths: [], //indicates that no page needs be created at build time
-      fallback: 'blocking' //indicates the type of fallback
+    paths: [], //indicates that no page needs be created at build time
+    fallback: 'blocking' //indicates the type of fallback
   }
 }
 
