@@ -18,6 +18,8 @@
     "axios": "^1.4.0",
     "cookies-next": "^2.1.2",
     "daisyui": "^3.1.5",
+    "dexie": "^3.2.4",
+    "dexie-react-hooks": "^1.1.6",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
     "jsonapi-fractal": "^2.3.1",

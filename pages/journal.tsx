@@ -6,12 +6,12 @@ import { FarmerJournalSchema, useFarmerJournalFormSchema } from "@/components/fo
 import Navigation from "@/components/layouts/Navigation";
 import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import BackButton from "@/components/navigation/BackButton";
-import { OVOFLOW_JOURNAL_KEY, useLocalStorage } from "@/hooks/useLocalStorage";
 import { FormStep, useMutistepForm } from "@/hooks/useMultiStepForm";
 import { useNavigatorOnline } from "@/hooks/useNavigatorOnline";
 import { jsonApiPost } from "@/lib/axios";
 import { ServerError } from "@/lib/error";
 import { getLocaleStaticsProps } from "@/lib/i18n";
+import { offlineDB } from "@/lib/offline";
 import { FARMER_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
@@ -29,21 +29,22 @@ export default function FarmerJournal() {
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const isOnline = useNavigatorOnline();
-  const { getValue, setValue, removeValue } = useLocalStorage<FarmerJournalSchema>(OVOFLOW_JOURNAL_KEY)
 
   const { trigger, isMutating } = useSWRMutation("node/farmer_daily_journal",
     async (key, { arg }: { arg: FarmerJournalSchema }) => {
-      const processed = processFormData(arg)
-      await jsonApiPost(key, processed)
+      if (isOnline) {
+        const processed = processFormData(arg)
+        await jsonApiPost(key, processed)
+      } else await offlineDB.farmerJournal.add({
+        value: arg
+      })
     },
     {
       onSuccess() {
         dialog.current?.showModal()
-        removeValue()
       },
       onError(e) {
-        if (e instanceof ServerError)
-          setError(t("submit error"))
+        if (e instanceof ServerError) setError(t("submit error"))
       }
     }
   )
@@ -74,7 +75,6 @@ export default function FarmerJournal() {
 
   const methods = useForm<FarmerJournalSchema>({
     resolver: zodResolver(step.schema),
-    defaultValues: getValue()
   });
 
   const onBack = () => {
@@ -86,8 +86,7 @@ export default function FarmerJournal() {
   const onSubmit = methods.handleSubmit(async (data) => {
     setError("")
     if (isLastStep) {
-      setValue(data);
-      if (isOnline) trigger(data);
+      trigger(data);
     } else {
       next()
       ref.current?.scrollTo({ top: 0 })

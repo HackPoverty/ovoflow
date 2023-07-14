@@ -6,12 +6,12 @@ import Navigation from "@/components/layouts/Navigation";
 import { PrivateRoute } from "@/components/layouts/PrivateRoute";
 import BackButton from "@/components/navigation/BackButton";
 import { useFarmerName } from "@/hooks/useFarmerName";
-import { OVOFLOW_TECHNICIAN_VISIT_KEY, useLocalStorage } from "@/hooks/useLocalStorage";
 import { useMutistepForm } from "@/hooks/useMultiStepForm";
 import { useNavigatorOnline } from "@/hooks/useNavigatorOnline";
 import { jsonApiPost } from "@/lib/axios";
 import { ServerError } from "@/lib/error";
 import { getLocaleStaticsProps } from "@/lib/i18n";
+import { offlineDB } from "@/lib/offline";
 import { TECHNICIAN_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetStaticPaths } from "next";
@@ -31,17 +31,19 @@ export default function Checklist() {
   const dialog = useRef<HTMLDialogElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const isOnline = useNavigatorOnline();
-  const { getValue, setValue, removeValue } = useLocalStorage<TechnicianVisitFormSchema>(OVOFLOW_TECHNICIAN_VISIT_KEY)
 
   const { trigger, isMutating } = useSWRMutation("node/technician_visit",
     async (key, { arg }: { arg: TechnicianVisitFormSchema }) => {
-      const processed = processFormData(arg, farmerId)
-      await jsonApiPost(key, processed)
+      if (isOnline) {
+        const processed = processFormData(arg, farmerId)
+        await jsonApiPost(key, processed)
+      } else await offlineDB.technicianVisit.add({
+        value: arg
+      })
     },
     {
       onSuccess() {
         dialog.current?.showModal()
-        removeValue()
       },
       onError(e) {
         if (e instanceof ServerError)
@@ -62,7 +64,7 @@ export default function Checklist() {
 
   const methods = useForm<TechnicianVisitFormSchema>({
     resolver: zodResolver(step.schema),
-    defaultValues: getValue() || {
+    defaultValues: {
       fieldLightSufficiency: 5,
       fieldCleanBedding: 5,
       fieldWaterCleanliness: 5,
@@ -88,8 +90,7 @@ export default function Checklist() {
       ref.current?.scrollTo({ top: 0 })
       return
     } else {
-      setValue(data)
-      if (isOnline) trigger(data)
+      trigger(data)
     }
   })
 
