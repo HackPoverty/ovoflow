@@ -11,8 +11,9 @@ import { useNavigatorOnline } from "@/hooks/useNavigatorOnline";
 import { jsonApiPost } from "@/lib/axios";
 import { ServerError } from "@/lib/error";
 import { getLocaleStaticsProps } from "@/lib/i18n";
-import { offlineDB } from "@/lib/offline";
+import { offlineDB } from "@/lib/offline/db";
 import { FARMER_ROLE } from "@/lib/user";
+import { JOURNAL_SYNC_TAG, registerBackground } from "@/lib/offline/background";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
@@ -35,9 +36,12 @@ export default function FarmerJournal() {
       if (isOnline) {
         const processed = processFormData(arg)
         await jsonApiPost(key, processed)
-      } else await offlineDB.farmerJournal.add({
-        value: arg
-      })
+      } else {
+        registerBackground(JOURNAL_SYNC_TAG)
+        await offlineDB.farmerJournal.add({
+          value: arg
+        })
+      }
     },
     {
       onSuccess() {
