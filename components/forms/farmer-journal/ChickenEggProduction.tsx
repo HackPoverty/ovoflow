@@ -32,10 +32,10 @@ export default function ChickenEggProduction() {
     {errors.fieldDamagedEggs ? <ErrorMessage className="col-span-2">{errors.fieldDamagedEggs.message}</ErrorMessage> : null}
 
     <Label>{t("total")}</Label>
-    <PreviewField className="input justify-end" value={total} />
+    <PreviewField className="input inline-flex items-center justify-end" value={total} />
 
     <Label>{t("net total")}</Label>
-    <PreviewField className="input justify-end" value={net} />
+    <PreviewField className="input inline-flex items-center justify-end" value={net} />
 
     <hr className="border-accent my-2 col-span-2" />
 

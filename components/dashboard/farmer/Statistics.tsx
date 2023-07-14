@@ -27,7 +27,7 @@ async function getStatistics() {
   });
 
   if (data.length == 0) return undefined;
-  const eggs = data.map(datum => (datum.fieldSmallEggs || 0) + (datum.fieldMediumEggs || 0) + (datum.fieldLargeEggs || 0))
+  const eggs = data.map(datum => datum.fieldSmallEggs + datum.fieldMediumEggs + datum.fieldLargeEggs)
   return {
     average: Math.round(eggs.reduce((a, b) => a + b, 0) / eggs.length),
     lastRecordDate: data[0].created

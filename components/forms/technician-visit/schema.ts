@@ -107,7 +107,6 @@ export function useTechnicianVisit() {
     fieldOtherVaccine: z.string().optional(),
   }).superRefine((data, ctx) => {
     const hasVaccines = data.fieldVaccinations.length > 0 || (data.fieldOtherVaccine?.length || 0) > 0
-    console.log({ hasVaccine: data.fieldVaccineGiven, hasVaccines })
     if (data.fieldVaccineGiven && !hasVaccines) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,

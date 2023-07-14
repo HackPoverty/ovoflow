@@ -32,15 +32,15 @@ export default function ChickenStock() {
     <hr className="col-span-2 border-accent items-center my-2" />
 
     <Label>{t("total mortality")}</Label>
-    <PreviewField className="input justify-end" value={totalMortiality} />
+    <PreviewField className="input justify-end inline-flex items-center" value={totalMortiality} />
 
     <Label>{t("mortality percentage")}</Label>
     <div className="join">
-      <PreviewField className="join-item w-full input justify-end" value={percentage} />
+      <PreviewField className="join-item w-full input justify-end inline-flex items-center" value={percentage} />
       <span className="join-item inline-flex items-center p-2 bg-accent text-accent-content">%</span>
     </div>
 
     <Label>{t("closing stock")}</Label>
-    <PreviewField className="input justify-end" value={closingStock} />
+    <PreviewField className="input justify-end inline-flex items-center" value={closingStock} />
   </div>
 }
