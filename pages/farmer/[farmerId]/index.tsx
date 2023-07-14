@@ -32,7 +32,7 @@ export default function FarmerDetail() {
         <main className="flex flex-col gap-6 py-6 flex-1 overflow-y-auto">
           <div className="px-6">
             <Profile farmerId={farmerId} />
-            <Link href={`/checklist/${farmerId}`} className="w-full btn btn-primary mt-2" prefetch={false}>{t("add visit record")}</Link>
+            <Link href={`/farmer/${farmerId}/checklist`} className="w-full btn btn-primary mt-2" prefetch={false}>{t("add visit record")}</Link>
           </div>
           <div className="w-screen">
             <h3 className="px-6">{t("summary")}</h3>
