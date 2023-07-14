@@ -26,11 +26,11 @@ export default function ChickenFeeding() {
     <hr className="border-accent my-2 col-span-2" />
 
     <Label>{t("closing stock")}</Label>
-    <PreviewField className="input justify-end" value={closingStock} />
+    <PreviewField className="input justify-end inline-flex items-center" value={closingStock} />
 
     <Label>{t("feed per bird")}</Label>
     <div className="join">
-      <PreviewField className="w-full join-item input justify-end" value={feedPerBirds} />
+      <PreviewField className="w-full join-item input justify-end inline-flex items-center" value={feedPerBirds} />
       <span className="join-item px-2 inline-flex items-center bg-accent text-accent-content">g</span>
     </div>
   </div>
