@@ -1,6 +1,7 @@
 import { useNavigatorOnline } from "@/hooks/useNavigatorOnline"
 import { AuthorizationError } from "@/lib/error"
-import { Role, decodeToken } from "@/lib/user"
+import { submitOfflineJournals, submitOfflineTechnicals } from "@/lib/offline/background"
+import { FARMER_ROLE, Role, TECHNICIAN_ROLE, decodeToken } from "@/lib/user"
 import NotFound from "@/pages/404"
 import { getCookie } from "cookies-next"
 import { useTranslations } from "next-intl"
@@ -29,6 +30,13 @@ export const PrivateRoute = ({ role, children }: Props) => {
     if (user.role === role) setRender(children)
     else router.replace("/logout")
   }, [router, role, children])
+
+  useEffect(() => {
+    // Submit offline data
+    if (!isOnline) return;
+    if (role === FARMER_ROLE) submitOfflineJournals()
+    if (role === TECHNICIAN_ROLE) submitOfflineTechnicals()
+  }, [role, isOnline])
 
   return <SWRConfig value={{
     onError(err) {

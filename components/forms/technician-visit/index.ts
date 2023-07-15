@@ -14,7 +14,7 @@ export {
   FarmVaccination
 };
 
-export const processFormData = (visit: TechnicianVisitFormSchema, farmerId: string) => {
+export const processTechnical = (visit: TechnicianVisitFormSchema, farmerId: string) => {
   const postdata = {
     ...visit,
     // TODO: Remove this?

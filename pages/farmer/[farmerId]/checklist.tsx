@@ -1,5 +1,5 @@
 import SuccessDialog from "@/components/SuccessDialog";
-import { FarmConfirmation, FarmNote, FarmQuality, FarmRedFlag, FarmVaccination, processFormData } from "@/components/forms/technician-visit";
+import { FarmConfirmation, FarmNote, FarmQuality, FarmRedFlag, FarmVaccination } from "@/components/forms/technician-visit";
 import { TechnicianVisitProvider } from "@/components/forms/technician-visit/context";
 import { TechnicianVisitFormSchema, useTechnicianVisit } from "@/components/forms/technician-visit/schema";
 import Navigation from "@/components/layouts/Navigation";
@@ -11,7 +11,8 @@ import { useNavigatorOnline } from "@/hooks/useNavigatorOnline";
 import { jsonApiPost } from "@/lib/axios";
 import { ServerError } from "@/lib/error";
 import { getLocaleStaticsProps } from "@/lib/i18n";
-import { offlineDB } from "@/lib/offline";
+import { offlineDB } from "@/lib/offline/db";
+import { processTechnical } from "@/lib/process";
 import { TECHNICIAN_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetStaticPaths } from "next";
@@ -30,16 +31,18 @@ export default function Checklist() {
   const t = useTranslations("FarmChecklist")
   const dialog = useRef<HTMLDialogElement>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const isOnline = useNavigatorOnline();
+  const isOnline = useNavigatorOnline()
 
   const { trigger, isMutating } = useSWRMutation("node/technician_visit",
     async (key, { arg }: { arg: TechnicianVisitFormSchema }) => {
       if (isOnline) {
-        const processed = processFormData(arg, farmerId)
-        await jsonApiPost(key, processed)
-      } else await offlineDB.technicianVisit.add({
-        value: arg
-      })
+        jsonApiPost(key, processTechnical(arg, farmerId))
+      } else {
+        await offlineDB.technicianVisit.add({
+          value: arg,
+          farmerId
+        })
+      }
     },
     {
       onSuccess() {
