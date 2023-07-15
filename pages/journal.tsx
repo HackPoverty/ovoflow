@@ -1,5 +1,5 @@
 import SuccessDialog from "@/components/SuccessDialog";
-import { ChickenEggProduction, ChickenFeeding, ChickenStock, processFormData } from "@/components/forms/farmer-journal";
+import { ChickenEggProduction, ChickenFeeding, ChickenStock } from "@/components/forms/farmer-journal";
 import Confirmation from "@/components/forms/farmer-journal/Confirmation";
 import Note from "@/components/forms/farmer-journal/Note";
 import { FarmerJournalSchema, useFarmerJournalFormSchema } from "@/components/forms/farmer-journal/schema";
@@ -12,8 +12,8 @@ import { jsonApiPost } from "@/lib/axios";
 import { ServerError } from "@/lib/error";
 import { getLocaleStaticsProps } from "@/lib/i18n";
 import { offlineDB } from "@/lib/offline/db";
+import { processJournal } from "@/lib/process";
 import { FARMER_ROLE } from "@/lib/user";
-import { JOURNAL_SYNC_TAG, registerBackground } from "@/lib/offline/background";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
@@ -29,15 +29,13 @@ export default function FarmerJournal() {
   const dialog = useRef<HTMLDialogElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const isOnline = useNavigatorOnline();
+  const isOnline = useNavigatorOnline()
 
   const { trigger, isMutating } = useSWRMutation("node/farmer_daily_journal",
     async (key, { arg }: { arg: FarmerJournalSchema }) => {
       if (isOnline) {
-        const processed = processFormData(arg)
-        await jsonApiPost(key, processed)
+        await jsonApiPost(key, processJournal(arg))
       } else {
-        registerBackground(JOURNAL_SYNC_TAG)
         await offlineDB.farmerJournal.add({
           value: arg
         })

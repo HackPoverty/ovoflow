@@ -4,12 +4,13 @@ import Dexie, { Table } from "dexie";
 
 export interface TechnicianVisitFormEntry {
   id?: number;
-  value: TechnicianVisitFormSchema
+  value: TechnicianVisitFormSchema,
+  farmerId: string
 }
 
 export interface FarmerJournalEntry {
   id?: number;
-  value: FarmerJournalSchema
+  value: FarmerJournalSchema,
 }
 
 
@@ -20,7 +21,7 @@ export class OvoflowDexie extends Dexie {
   constructor() {
     super('ovoflow-databhase');
     this.version(1).stores({
-      technicianVisit: '++id, value',
+      technicianVisit: '++id, value, farmerId',
       farmerJournal: '++id, value'
     });
   }

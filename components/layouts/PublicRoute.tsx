@@ -1,5 +1,5 @@
+import { getToken } from "@/lib/auth";
 import { TECHNICIAN_ROLE, decodeToken } from "@/lib/user";
-import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
 
@@ -8,7 +8,7 @@ export default function PublicRoute(props: PropsWithChildren<{}>) {
   const [render, setRender] = useState<ReactNode>(props.children);
 
   useEffect(() => {
-    const token = getCookie("token")?.toString();
+    const token = getToken();
     if (!token) return;
     const user = decodeToken(token).user;
     setRender(null);
