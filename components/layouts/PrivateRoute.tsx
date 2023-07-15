@@ -6,7 +6,7 @@ import NotFound from "@/pages/404"
 import { getCookie } from "cookies-next"
 import { useTranslations } from "next-intl"
 import { useRouter } from "next/router"
-import { PropsWithChildren, ReactNode, useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { SWRConfig } from "swr"
 
 type Props = {
