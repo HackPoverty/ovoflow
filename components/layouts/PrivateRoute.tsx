@@ -19,24 +19,23 @@ export const PrivateRoute = ({ role, children }: Props) => {
   const [render, setRender] = useState<ReactNode>(null);
   const isOnline = useNavigatorOnline();
   const t = useTranslations("Offline")
+  const token = getCookie("token")?.toString();
+  const isAuthorized = token ? decodeToken(token).user.role === role : false;
 
   useEffect(() => {
-    const token = getCookie("token")?.toString();
-    if (!token) {
-      router.replace("/logout")
-      return;
+    if (isAuthorized) {
+      setRender(children)
+    } else {
+      router.replace("/logout");
     }
-    const user = decodeToken(token).user;
-    if (user.role === role) setRender(children)
-    else router.replace("/logout")
-  }, [router, role, children])
+  }, [isAuthorized, children, router])
 
+  // Submit offline data
   useEffect(() => {
-    // Submit offline data
-    if (!isOnline) return;
+    if (!isOnline && !isAuthorized) return;
     if (role === FARMER_ROLE) submitOfflineJournals()
     if (role === TECHNICIAN_ROLE) submitOfflineTechnicals()
-  }, [role, isOnline])
+  }, [role, isOnline, isAuthorized])
 
   return <SWRConfig value={{
     onError(err) {

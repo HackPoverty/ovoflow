@@ -20,9 +20,7 @@ export default function Login() {
           <LanguageDropdown />
         </div>
         <div className="flex-auto gap-4 flex flex-col items-center justify-center">
-          <div className="h-[150px] relative aspect-square">
-            <Image src="/assets/ui/logo.svg" alt="Ovoflow Logo" fill />
-          </div>
+          <Image src="/assets/ui/logo.svg" alt="Ovoflow Logo" width={100} height={200} />
           <h1 className="text-3xl font-bold text-white">ovoflow</h1>
           <div className="self-stretch">
             <LoginForm />
