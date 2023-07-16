@@ -60,7 +60,10 @@ export default function LoginForm() {
     },
   });
 
-  return <form className="flex flex-col gap-4" onSubmit={handleSubmit(data => { if (isOnline) login(data) })}>
+  return <form className="flex flex-col gap-4"
+    onSubmit={handleSubmit(async (data) => {
+      if (isOnline) await login(data)
+    })}>
     {!isOnline && <div className="alert alert-error text-sm"><span>{offlineT("no internet")}</span></div>}
     {error && !isSubmitting && <div className="alert alert-error text-sm"><span>{error}</span></div>}
     <input {...register("username")} className="input" placeholder={t("username")} type="text" required />
