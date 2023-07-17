@@ -1,6 +1,7 @@
 import { getLocaleStaticsProps } from "@/lib/i18n";
 import { decodeToken, TECHNICIAN_ROLE } from "@/lib/user";
 import { getCookie } from "cookies-next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -18,7 +19,9 @@ export default function Index() {
     else router.replace("/technician");
   }, [router])
 
-  return null;
+  return <Head>
+    <title>Ovoflow</title>
+  </Head>;
 }
 
 export const getStaticProps = getLocaleStaticsProps([])
