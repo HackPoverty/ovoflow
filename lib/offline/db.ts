@@ -13,13 +13,14 @@ export interface FarmerJournalEntry {
   value: FarmerJournalSchema,
 }
 
+const DATABASE_NAME = 'ovoflow-database'
 
 export class OvoflowDexie extends Dexie {
   technicianVisit!: Table<TechnicianVisitFormEntry>
   farmerJournal!: Table<FarmerJournalEntry>
 
   constructor() {
-    super('ovoflow-databhase');
+    super(DATABASE_NAME);
     this.version(1).stores({
       technicianVisit: '++id, value, farmerId',
       farmerJournal: '++id, value'

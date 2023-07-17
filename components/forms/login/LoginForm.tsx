@@ -51,7 +51,7 @@ function useLogin() {
 export default function LoginForm() {
   const t = useTranslations("Login")
   const isOnline = useNavigatorOnline()
-  const offlineT = useTranslations("Offline")
+  const offline = useTranslations("Offline")
   const { error, login, isLoggingIn } = useLogin();
   const { register, handleSubmit, formState: { isSubmitting } } = useForm<LoginData>({
     defaultValues: {
@@ -64,7 +64,7 @@ export default function LoginForm() {
     onSubmit={handleSubmit(async (data) => {
       if (isOnline) await login(data)
     })}>
-    {!isOnline && <div className="alert alert-error text-sm"><span>{offlineT("no internet")}</span></div>}
+    {!isOnline && <div className="alert alert-error text-sm"><span>{offline("no internet")}</span></div>}
     {error && !isSubmitting && <div className="alert alert-error text-sm"><span>{error}</span></div>}
     <input {...register("username")} className="input" placeholder={t("username")} type="text" required />
     <input {...register("password")} className="input" placeholder={t("password")} type="password" required />
