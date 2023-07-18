@@ -98,39 +98,37 @@ export default function FarmerJournal() {
 
   const isSubmitting = methods.formState.isSubmitting || isMutating;
 
-  return <>
+  return <PrivateRoute role={FARMER_ROLE}>
     <Head>
       <title>{t("new journal")}</title>
     </Head>
     <Navigation title={step.title} buttonNav={<BackButton />}>
-      <PrivateRoute role={FARMER_ROLE}>
-        <main className="flex-1 flex flex-col overflow-hidden">
-          {error && <div className="text-sm p-2 bg-error">{error}</div>}
-          <div className="bg-primary py-1" style={{ width: `${(currentStepIndex + 1) / steps.length * 100}%` }} />
-          <FormProvider {...methods}>
-            <form className="flex-1 flex flex-col overflow-hidden" onSubmit={onSubmit}>
-              <div className="flex-1 overflow-auto" ref={ref}>
-                {step.form}
-              </div>
-              <div className="grid grid-cols-2 px-6 py-4 gap-2 bg-base-100 border-t-2">
-                <button disabled={isFirstStep || isSubmitting}
-                  className="btn btn-primary btn-outline flex-1"
-                  onClick={onBack}
-                  type="button">{t("back")}</button>
-                <button disabled={isSubmitting} className="btn btn-primary flex-1" type="submit">
-                  {
-                    isSubmitting ? <span className="loading loading-spinner loading-md" /> :
-                      isLastStep ? t("submit") : t("next")
-                  }
-                </button>
-              </div>
-            </form>
-          </FormProvider>
-        </main>
-        <SuccessDialog title={t("submit success")} buttonLabel={t("go to dashboard")} action={() => router.replace("/dashboard")} ref={dialog} />
-      </PrivateRoute>
+      <main className="flex-1 flex flex-col overflow-hidden">
+        {error && <div className="text-sm p-2 bg-error">{error}</div>}
+        <div className="bg-primary py-1" style={{ width: `${(currentStepIndex + 1) / steps.length * 100}%` }} />
+        <FormProvider {...methods}>
+          <form className="flex-1 flex flex-col overflow-hidden" onSubmit={onSubmit}>
+            <div className="flex-1 overflow-auto" ref={ref}>
+              {step.form}
+            </div>
+            <div className="grid grid-cols-2 px-6 py-4 gap-2 bg-base-100 border-t-2">
+              <button disabled={isFirstStep || isSubmitting}
+                className="btn btn-primary btn-outline flex-1"
+                onClick={onBack}
+                type="button">{t("back")}</button>
+              <button disabled={isSubmitting} className="btn btn-primary flex-1" type="submit">
+                {
+                  isSubmitting ? <span className="loading loading-spinner loading-md" /> :
+                    isLastStep ? t("submit") : t("next")
+                }
+              </button>
+            </div>
+          </form>
+        </FormProvider>
+      </main>
+      <SuccessDialog title={t("submit success")} buttonLabel={t("go to dashboard")} action={() => router.replace("/dashboard")} ref={dialog} />
     </Navigation>
-  </>
+  </PrivateRoute>
 }
 
 export const getStaticProps = getLocaleStaticsProps(["FarmerJournal", "Offline"])
