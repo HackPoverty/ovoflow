@@ -16,7 +16,6 @@ import { offlineDB } from "@/lib/offline/db";
 import { processTechnical } from "@/lib/process";
 import { TECHNICIAN_ROLE } from "@/lib/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LocateFixedIcon, LocateIcon, LocateOffIcon } from "lucide-react";
 import { GetStaticPaths } from "next";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
@@ -34,26 +33,18 @@ export default function Checklist() {
   const dialog = useRef<HTMLDialogElement>(null);
   const ref = useRef<HTMLDivElement>(null);
   const isOnline = useNavigatorOnline()
-  const { location, isLoading: isLocationLoading } = useGeolocation();
+  const { location, ...rest } = useGeolocation();
 
   const { trigger, isMutating } = useSWRMutation("node/technician_visit",
     async (key, { arg }: { arg: TechnicianVisitFormSchema }) => {
       if (isOnline) {
-        jsonApiPost(key, processTechnical(arg, farmerId))
+        await jsonApiPost(key, processTechnical(arg, farmerId, location))
       } else {
         await offlineDB.technicianVisit.add({
           value: arg,
-          farmerId
+          farmerId,
+          location
         })
-      }
-    },
-    {
-      onSuccess() {
-        dialog.current?.showModal()
-      },
-      onError(e) {
-        if (e instanceof ServerError)
-          setError(t("submit error"))
       }
     }
   )
@@ -65,7 +56,7 @@ export default function Checklist() {
     { title: t("diseases"), form: <FarmRedFlag />, schema: visit.farmDiseaseSchema },
     { title: t("vaccination"), form: <FarmVaccination />, schema: visit.farmVaccineSchema },
     { title: t("comment"), form: <FarmNote />, schema: visit.technicianCommentSchema },
-    { title: t("review"), form: <FarmConfirmation location={location} />, schema: visit.technicianVisitFormSchema }
+    { title: t("review"), form: <FarmConfirmation location={location} {...rest} />, schema: visit.technicianVisitFormSchema }
   ])
 
   const methods = useForm<TechnicianVisitFormSchema>({
@@ -96,7 +87,15 @@ export default function Checklist() {
       ref.current?.scrollTo({ top: 0 })
       return
     } else {
-      trigger(data)
+      await trigger(data, {
+        onSuccess() {
+          dialog.current?.showModal()
+        },
+        onError(e) {
+          if (e instanceof ServerError)
+            setError(t("submit error"))
+        }
+      })
     }
   })
 
@@ -108,13 +107,12 @@ export default function Checklist() {
     </Head>
     <Navigation title={step.title} buttonNav={<BackButton />}>
       <PrivateRoute role={TECHNICIAN_ROLE}>
-        <div className="bg-base-200">
-          <div className="p-1 bg-primary" style={{ width: `${(currentStepIndex + 1) / steps.length * 100}%` }} />
-          {name ?
-            <div className="px-6 py-2 bg-base-200 font-semibold">
-              {t("owner", { name })}
-            </div> : null}
-        </div>
+        {name ?
+          <div className="px-6 py-2 bg-base-200 font-semibold">
+            {t("owner", { name })}
+          </div> : null}
+        {/* Progress line */}
+        <div className="p-1 bg-primary" style={{ width: `${(currentStepIndex + 1) / steps.length * 100}%` }} />
         <TechnicianVisitProvider technicianVisit={visit}>
           <FormProvider {...methods}>
             {error && <div className="text-sm p-2 bg-error">{error}</div>}
@@ -124,26 +122,14 @@ export default function Checklist() {
                 {step.form}
               </div>
 
-              {/* Location banner */}
-              {location ? <div className="px-4 py-1 bg-success text-sm inline-flex items-center gap-1">
-                <LocateFixedIcon className="w-4 h-4" />
-                {t("location is used")}
-              </div> : isLocationLoading ? <div className="px-4 py-1 bg-base-300 text-sm inline-flex items-center gap-1">
-                <LocateIcon className="w-4 h-4" />
-                {t("location loading")}
-              </div> : <div className="px-4 py-1 bg-error text-sm inline-flex items-center gap-1">
-                <LocateOffIcon className="w-4 h-4" />
-                {t("location not found")}
-              </div>}
-
               {/* Form navigation */}
               <div className="grid grid-flow-col p-4 gap-2 sticky bottom-0 w-full border-t-2">
                 <button disabled={isFirstStep || isSubmitting} className="btn btn-primary btn-outline" onClick={onBack} type="button">
                   {t("back")}
                 </button>
-                <button disabled={isSubmitting || isLastStep && !location} className="btn btn-primary" type="submit">
+                <button disabled={isSubmitting || isMutating} className="btn btn-primary" type="submit">
                   {
-                    isSubmitting ? <span className="loading loading-spinner loading-md" /> :
+                    (isSubmitting || isMutating) ? <span className="loading loading-spinner loading-md" /> :
                       isLastStep ? t("submit") : t("next")
                   }
                 </button>

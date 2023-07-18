@@ -1,5 +1,6 @@
 import { FarmerJournalSchema } from "@/components/forms/farmer-journal/schema";
 import { TechnicianVisitFormSchema } from "@/components/forms/technician-visit/schema";
+import { Location } from "@/hooks/useGeolocation";
 import { FarmerJournal } from "@/types/content";
 import { CaseType, serialize } from "jsonapi-fractal";
 
@@ -30,17 +31,18 @@ export const processJournal = (data: FarmerJournalSchema) => {
   })
 }
 
-export const processTechnical = (visit: TechnicianVisitFormSchema, farmerId: string) => {
+export const processTechnical = (visit: TechnicianVisitFormSchema, farmerId: string, location?: Location) => {
   const postdata = {
     ...visit,
-    // TODO: Remove this?
+    // TODO: Remove the title?
     title: "Technician Journal",
     fieldForFarmer: {
       id: farmerId,
     },
+    fieldGpsCoordinates: location ? `POINT (${location.longitude} ${location.latitude})` : undefined
   }
 
-  return serialize<typeof postdata>(postdata, "node--technician_visit", {
+  return serialize(postdata, "node--technician_visit", {
     changeCase: CaseType.snakeCase,
     relationships: {
       fieldForFarmer: "user--user",

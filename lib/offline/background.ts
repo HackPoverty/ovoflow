@@ -13,7 +13,7 @@ export async function submitOfflineJournals() {
 export async function submitOfflineTechnicals() {
   const data = await offlineDB.technicianVisit.toArray();
   await Promise.all(data.map(async (entry) => {
-    await jsonApiPost("node/technician_visit", processTechnical(entry.value, entry.farmerId))
+    await jsonApiPost("node/technician_visit", processTechnical(entry.value, entry.farmerId, entry.location))
     await offlineDB.technicianVisit.delete(entry.id!);
   }))
 }

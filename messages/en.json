@@ -160,7 +160,7 @@
     "go to dashboard": "Go to farmer detail",
     "required": "Required",
     "location is used": "Your location is currently in use",
-    "location not found": "Could not find your location",
+    "location not found": "Could not find your location, tap to try again",
     "location loading": "Retrieving your location...",
 
     "quality": "Quality",

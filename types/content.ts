@@ -28,7 +28,7 @@ export type GPSCoordinates = {
  */
 export type TechnicianVisit = TechnicianVisitFormSchema & {
   /** GPS coordinates of where the visit was taken */
-  fieldGpsCoordinates: GPSCoordinates | null
+  fieldGpsCoordinates?: GPSCoordinates
 }
 
 export type FarmerJournal = FarmerJournalSchema & {
