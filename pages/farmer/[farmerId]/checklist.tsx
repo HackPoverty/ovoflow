@@ -101,50 +101,48 @@ export default function Checklist() {
 
   const isSubmitting = methods.formState.isSubmitting || isMutating;
 
-  return <>
+  return <PrivateRoute role={TECHNICIAN_ROLE}>
     <Head>
       <title>{t("title")}</title>
     </Head>
     <Navigation title={step.title} buttonNav={<BackButton />}>
-      <PrivateRoute role={TECHNICIAN_ROLE}>
-        {name ?
-          <div className="px-6 py-2 bg-base-200 font-semibold">
-            {t("owner", { name })}
-          </div> : null}
-        {/* Progress line */}
-        <div className="p-1 bg-primary" style={{ width: `${(currentStepIndex + 1) / steps.length * 100}%` }} />
-        <TechnicianVisitProvider technicianVisit={visit}>
-          <FormProvider {...methods}>
-            {error && <div className="text-sm p-2 bg-error">{error}</div>}
-            <form className="flex-1 flex flex-col overflow-hidden" onSubmit={onSubmit}>
-              {/* Form step */}
-              <div className="flex-1 overflow-auto">
-                {step.form}
-              </div>
+      {name ?
+        <div className="px-6 py-2 bg-base-200 font-semibold">
+          {t("owner", { name })}
+        </div> : null}
+      {/* Progress line */}
+      <div className="p-1 bg-primary" style={{ width: `${(currentStepIndex + 1) / steps.length * 100}%` }} />
+      <TechnicianVisitProvider technicianVisit={visit}>
+        <FormProvider {...methods}>
+          {error && <div className="text-sm p-2 bg-error">{error}</div>}
+          <form className="flex-1 flex flex-col overflow-hidden" onSubmit={onSubmit}>
+            {/* Form step */}
+            <div className="flex-1 overflow-auto">
+              {step.form}
+            </div>
 
-              {/* Form navigation */}
-              <div className="grid grid-flow-col p-4 gap-2 sticky bottom-0 w-full border-t-2">
-                <button disabled={isFirstStep || isSubmitting} className="btn btn-primary btn-outline" onClick={onBack} type="button">
-                  {t("back")}
-                </button>
-                <button disabled={isSubmitting || isMutating} className="btn btn-primary" type="submit">
-                  {
-                    (isSubmitting || isMutating) ? <span className="loading loading-spinner loading-md" /> :
-                      isLastStep ? t("submit") : t("next")
-                  }
-                </button>
-              </div>
-            </form>
-          </FormProvider>
-        </TechnicianVisitProvider>
-        <SuccessDialog
-          title={t("submit success")}
-          buttonLabel={t("to the farmer")}
-          action={() => replace(`/farmer/${farmerId}`)}
-          ref={dialog} />
-      </PrivateRoute>
+            {/* Form navigation */}
+            <div className="grid grid-flow-col p-4 gap-2 sticky bottom-0 w-full border-t-2">
+              <button disabled={isFirstStep || isSubmitting} className="btn btn-primary btn-outline" onClick={onBack} type="button">
+                {t("back")}
+              </button>
+              <button disabled={isSubmitting || isMutating} className="btn btn-primary" type="submit">
+                {
+                  (isSubmitting || isMutating) ? <span className="loading loading-spinner loading-md" /> :
+                    isLastStep ? t("submit") : t("next")
+                }
+              </button>
+            </div>
+          </form>
+        </FormProvider>
+      </TechnicianVisitProvider>
+      <SuccessDialog
+        title={t("submit success")}
+        buttonLabel={t("to the farmer")}
+        action={() => replace(`/farmer/${farmerId}`)}
+        ref={dialog} />
     </Navigation>
-  </>
+  </PrivateRoute >
 }
 
 export const getStaticProps = getLocaleStaticsProps(["FarmChecklist", "Offline"])

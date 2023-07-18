@@ -10,25 +10,23 @@ import Image from "next/image";
 export default function Login() {
   const t = useTranslations("Login")
 
-  return <>
+  return <PublicRoute>
     <Head>
       <title>{t("login")}</title>
     </Head>
-    <PublicRoute>
-      <main className={`${styles.fancy} p-6 min-h-screen flex flex-col`}>
-        <div className="self-end">
-          <LanguageDropdown />
+    <main className={`${styles.fancy} p-6 min-h-screen flex flex-col`}>
+      <div className="self-end">
+        <LanguageDropdown />
+      </div>
+      <div className="flex-auto gap-4 flex flex-col items-center justify-center">
+        <Image src="/assets/ui/logo.svg" alt="Ovoflow Logo" width={100} height={200} />
+        <h1 className="text-3xl font-bold text-white">ovoflow</h1>
+        <div className="self-stretch">
+          <LoginForm />
         </div>
-        <div className="flex-auto gap-4 flex flex-col items-center justify-center">
-          <Image src="/assets/ui/logo.svg" alt="Ovoflow Logo" width={100} height={200} />
-          <h1 className="text-3xl font-bold text-white">ovoflow</h1>
-          <div className="self-stretch">
-            <LoginForm />
-          </div>
-        </div>
-      </main>
-    </PublicRoute>
-  </>
+      </div>
+    </main>
+  </PublicRoute>
 }
 
 export const getStaticProps = getLocaleStaticsProps(["Login", "Language", "Offline"])
