@@ -20,7 +20,7 @@ function QualityInput({ name, label }: { name: keyof TechnicianVisitFormSchema, 
   const { control } = useFormContext<TechnicianVisitFormSchema>()
   const { field } = useController({ control, name })
 
-  return <div>
+  return <div className="px-4">
     <Label required>{label}</Label>
     <div className={`flex rounded-lg join w-full`}>
       {
