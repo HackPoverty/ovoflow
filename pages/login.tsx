@@ -8,25 +8,27 @@ import Head from "next/head";
 import Image from "next/image";
 
 export default function Login() {
-  const t = useTranslations("Login")
+  const t = useTranslations("Login");
 
-  return <PublicRoute>
-    <Head>
-      <title>{t("login")}</title>
-    </Head>
-    <main className={`${styles.fancy} p-6 min-h-screen flex flex-col`}>
-      <div className="self-end">
-        <LanguageDropdown />
-      </div>
-      <div className="flex-auto gap-4 flex flex-col items-center justify-center">
-        <Image src="/assets/ui/logo.svg" alt="Ovoflow Logo" width={100} height={200} />
-        <h1 className="text-3xl font-bold text-white">ovoflow</h1>
-        <div className="self-stretch">
-          <LoginForm />
+  return (
+    <PublicRoute>
+      <Head>
+        <title>{t("login")}</title>
+      </Head>
+      <main className={`${styles.fancy} flex min-h-screen flex-col p-6`}>
+        <div className="self-end">
+          <LanguageDropdown />
         </div>
-      </div>
-    </main>
-  </PublicRoute>
+        <div className="flex flex-auto flex-col items-center justify-center gap-4">
+          <Image src="/assets/ui/logo.svg" alt="Ovoflow Logo" width={100} height={200} />
+          <h1 className="text-3xl font-bold text-white">ovoflow</h1>
+          <div className="self-stretch">
+            <LoginForm />
+          </div>
+        </div>
+      </main>
+    </PublicRoute>
+  );
 }
 
-export const getStaticProps = getLocaleStaticsProps(["Login", "Language", "Offline"])
+export const getStaticProps = getLocaleStaticsProps(["Login", "Language", "Offline"]);

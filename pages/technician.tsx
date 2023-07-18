@@ -9,26 +9,33 @@ import { useTranslations } from "next-intl";
 import Head from "next/head";
 
 export default function TechnicianDashboard() {
-  const t = useTranslations("TechnicianDashboard")
+  const t = useTranslations("TechnicianDashboard");
 
-  return <PrivateRoute role={TECHNICIAN_ROLE}>
-    <Head>
-      <title>{t("dashboard")}</title>
-    </Head>
-    <Navigation title={t("dashboard")} drawer={<TechnicianDrawer />}>
-      <main className="py-6 flex flex-1 overflow-y-auto flex-col gap-4">
-        <h1 className="px-4">{t("hello", { name: "technician" })}</h1>
-        <div className="px-4">
-          <h3 className="mb-2">{t("summary")}</h3>
-          <Statistics />
-        </div>
-        <div>
-          <h3 className="px-4 pb-2">{t("recent visited farms")}</h3>
-          <RecentVisitedFarms />
-        </div>
-      </main>
-    </Navigation>
-  </PrivateRoute>
+  return (
+    <PrivateRoute role={TECHNICIAN_ROLE}>
+      <Head>
+        <title>{t("dashboard")}</title>
+      </Head>
+      <Navigation title={t("dashboard")} drawer={<TechnicianDrawer />}>
+        <main className="flex flex-1 flex-col gap-4 overflow-y-auto py-6">
+          <h1 className="px-4">{t("hello", { name: "technician" })}</h1>
+          <div className="px-4">
+            <h3 className="mb-2">{t("summary")}</h3>
+            <Statistics />
+          </div>
+          <div>
+            <h3 className="px-4 pb-2">{t("recent visited farms")}</h3>
+            <RecentVisitedFarms />
+          </div>
+        </main>
+      </Navigation>
+    </PrivateRoute>
+  );
 }
 
-export const getStaticProps = getLocaleStaticsProps(["TechnicianDashboard", "Offline", "Navigation", "FarmersList"])
+export const getStaticProps = getLocaleStaticsProps([
+  "TechnicianDashboard",
+  "Offline",
+  "Navigation",
+  "FarmersList",
+]);

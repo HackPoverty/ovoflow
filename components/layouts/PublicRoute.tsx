@@ -14,7 +14,7 @@ export default function PublicRoute(props: PropsWithChildren<{}>) {
     setRender(null);
     if (user.role === TECHNICIAN_ROLE) router.replace("/technician");
     else router.replace("/technician");
-  }, [router])
+  }, [router]);
 
   return render;
 }

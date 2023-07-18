@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 export type Location = {
   latitude: number;
   longitude: number;
-}
+};
 
 export const useGeolocation = () => {
   const [location, setLocation] = useState<Location | undefined>();
@@ -18,22 +18,25 @@ export const useGeolocation = () => {
     }
 
     setIsLoading(true);
-    geo.getCurrentPosition((location) => {
-      const { latitude, longitude } = location.coords;
-      setLocation({ latitude, longitude });
-      setError(undefined);
-      setIsLoading(false);
-    }, (error) => {
-      setError(error);
-      setIsLoading(false);
-    });
-  }
+    geo.getCurrentPosition(
+      (location) => {
+        const { latitude, longitude } = location.coords;
+        setLocation({ latitude, longitude });
+        setError(undefined);
+        setIsLoading(false);
+      },
+      (error) => {
+        setError(error);
+        setIsLoading(false);
+      },
+    );
+  };
 
   useEffect(() => {
     getLocation();
-  }, [])
+  }, []);
 
-  return { location, error, isLoading, getLocation }
-}
+  return { location, error, isLoading, getLocation };
+};
 
 export type UseGeolocation = ReturnType<typeof useGeolocation>;

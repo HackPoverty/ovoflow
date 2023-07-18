@@ -3,27 +3,26 @@ import { ZodType } from "zod";
 
 export type FormStep = {
   title: string;
-  form: ReactNode,
-  schema: ZodType
-}
+  form: ReactNode;
+  schema: ZodType;
+};
 
 export function useMutistepForm(steps: FormStep[]) {
-  const [currentStepIndex, setCurrentStepIndex] = useState(0)
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
   function next() {
-    setCurrentStepIndex(i => {
-      if (i >= steps.length - 1) return i
-      return i + 1
-    })
+    setCurrentStepIndex((i) => {
+      if (i >= steps.length - 1) return i;
+      return i + 1;
+    });
   }
 
   function back() {
-    setCurrentStepIndex(i => {
-      if (i <= 0) return i
-      return i - 1
-    })
+    setCurrentStepIndex((i) => {
+      if (i <= 0) return i;
+      return i - 1;
+    });
   }
-
 
   return {
     currentStepIndex,
@@ -33,5 +32,5 @@ export function useMutistepForm(steps: FormStep[]) {
     back,
     isFirstStep: currentStepIndex === 0,
     isLastStep: currentStepIndex === steps.length - 1,
-  }
+  };
 }

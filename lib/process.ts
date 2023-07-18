@@ -5,12 +5,12 @@ import { FarmerJournal } from "@/types/content";
 import { CaseType, serialize } from "jsonapi-fractal";
 
 type FarmerJournalSerializedType = FarmerJournal & {
-  title: string,
-}
+  title: string;
+};
 
 export const processJournal = (data: FarmerJournalSchema) => {
   const fieldTotalmortality = data.fieldMortality + data.fieldMortalityprolapse;
-  const totalEggs = data.fieldSmallEggs = data.fieldMediumEggs + data.fieldLargeEggs;
+  const totalEggs = (data.fieldSmallEggs = data.fieldMediumEggs + data.fieldLargeEggs);
   const now = new Date();
   const title = `Daily journal ${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
 
@@ -19,19 +19,27 @@ export const processJournal = (data: FarmerJournalSchema) => {
     title,
     fieldTotalmortality,
     fieldClosingStock: data.fieldInitialstock - fieldTotalmortality,
-    fieldMortalityPercentage_: data.fieldInitialstock ? fieldTotalmortality / data.fieldInitialstock * 100 : undefined,
+    fieldMortalityPercentage_: data.fieldInitialstock
+      ? (fieldTotalmortality / data.fieldInitialstock) * 100
+      : undefined,
     fieldProducedEggs: totalEggs - data.fieldDamagedEggs,
     // FIXME: trailing underscores get ignored by the serializer
     // fieldDamagedEggsPercentage__: totalEggs ? data.fieldDamagedEggs / totalEggs * 100 : undefined,
-    fieldGramsPerBird: data.fieldInitialstock ? data.fieldGivenFeed / data.fieldInitialstock : undefined,
-  }
+    fieldGramsPerBird: data.fieldInitialstock
+      ? data.fieldGivenFeed / data.fieldInitialstock
+      : undefined,
+  };
 
   return serialize(payload, "node--farmer_daily_journal", {
-    changeCase: CaseType.snakeCase
-  })
-}
+    changeCase: CaseType.snakeCase,
+  });
+};
 
-export const processTechnical = (visit: TechnicianVisitFormSchema, farmerId: string, location?: Location) => {
+export const processTechnical = (
+  visit: TechnicianVisitFormSchema,
+  farmerId: string,
+  location?: Location,
+) => {
   const postdata = {
     ...visit,
     // TODO: Remove the title?
@@ -39,13 +47,15 @@ export const processTechnical = (visit: TechnicianVisitFormSchema, farmerId: str
     fieldForFarmer: {
       id: farmerId,
     },
-    fieldGpsCoordinates: location ? `POINT (${location.longitude} ${location.latitude})` : undefined
-  }
+    fieldGpsCoordinates: location
+      ? `POINT (${location.longitude} ${location.latitude})`
+      : undefined,
+  };
 
   return serialize(postdata, "node--technician_visit", {
     changeCase: CaseType.snakeCase,
     relationships: {
       fieldForFarmer: "user--user",
     },
-  })
-}
+  });
+};

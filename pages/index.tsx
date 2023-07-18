@@ -17,11 +17,13 @@ export default function Index() {
     const user = decodeToken(token).user;
     if (user.role === TECHNICIAN_ROLE) router.replace("/technician");
     else router.replace("/technician");
-  }, [router])
+  }, [router]);
 
-  return <Head>
-    <title>Ovoflow</title>
-  </Head>;
+  return (
+    <Head>
+      <title>Ovoflow</title>
+    </Head>
+  );
 }
 
-export const getStaticProps = getLocaleStaticsProps([])
+export const getStaticProps = getLocaleStaticsProps([]);

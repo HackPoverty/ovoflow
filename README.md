@@ -13,7 +13,7 @@
 
   - For `drupal_api`, ask the adminstrator for information
   - For `mapbox_access_token`, register an account from [mapbox](https://account.mapbox.com/auth/signup/) to receive ones
-  
+
 - Start the development server with `npm run dev` and open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
 
 ## Additional information
