@@ -159,6 +159,9 @@
     "submit error": "Could not submit checklist, please try again",
     "go to dashboard": "Go to farmer detail",
     "required": "Required",
+    "location is used": "Your location is currently in use",
+    "location not found": "Could not find your location",
+    "location loading": "Retrieving your location...",
 
     "quality": "Quality",
     "bad": "Bad",
@@ -203,7 +206,9 @@
     "comment": "Comment",
     "comment placeholder": "Some note and concerns... (optional)" ,
     "review": "Review",
-    "save": "Save"
+    "save": "Save",
+
+    "location": "Location"
   },
   "TechnicianVisit": {
     "loading": "Retrieving data from farm visit...",
