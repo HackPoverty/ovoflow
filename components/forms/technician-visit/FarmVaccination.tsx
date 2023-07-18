@@ -11,7 +11,7 @@ export default function FarmVaccination() {
   const t = useTranslations("FarmChecklist")
   const dialogRef = useRef<HTMLDialogElement>(null)
 
-  return <div className="flex flex-col gap-4">
+  return <div className="flex flex-col gap-4 p-4">
     <div className="bg-base-300 p-2 rounded-lg">
       <label className="label cursor-pointer">
         {t("were vaccine given")}

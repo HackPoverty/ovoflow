@@ -12,7 +12,7 @@ export default function FarmRedFlag() {
   const t = useTranslations("FarmChecklist")
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  return <div className="flex flex-col gap-4">
+  return <div className="flex flex-col gap-4 px-4">
     <div>
       <Label required>{t("presense of diseases")}</Label>
       <PresenceOfDiseaseInput />
