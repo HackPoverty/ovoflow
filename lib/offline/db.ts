@@ -1,11 +1,13 @@
 import { FarmerJournalSchema } from "@/components/forms/farmer-journal/schema";
 import { TechnicianVisitFormSchema } from "@/components/forms/technician-visit/schema";
+import { Location } from "@/hooks/useGeolocation";
 import Dexie, { Table } from "dexie";
 
 export interface TechnicianVisitFormEntry {
   id?: number;
   value: TechnicianVisitFormSchema,
-  farmerId: string
+  farmerId: string,
+  location?: Location
 }
 
 export interface FarmerJournalEntry {
@@ -21,8 +23,8 @@ export class OvoflowDexie extends Dexie {
 
   constructor() {
     super(DATABASE_NAME);
-    this.version(1).stores({
-      technicianVisit: '++id, value, farmerId',
+    this.version(2).stores({
+      technicianVisit: '++id, value, farmerId, location',
       farmerJournal: '++id, value'
     });
   }

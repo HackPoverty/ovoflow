@@ -10,7 +10,7 @@ export const useGeolocation = () => {
   const [error, setError] = useState<GeolocationPositionError | undefined>();
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  const getLocation = () => {
     const geo = navigator.geolocation;
     if (!geo) {
       setError(undefined);
@@ -27,7 +27,13 @@ export const useGeolocation = () => {
       setError(error);
       setIsLoading(false);
     });
+  }
+
+  useEffect(() => {
+    getLocation();
   }, [])
 
-  return { location, error, isLoading }
+  return { location, error, isLoading, getLocation }
 }
+
+export type UseGeolocation = ReturnType<typeof useGeolocation>;

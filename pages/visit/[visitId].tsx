@@ -1,4 +1,6 @@
 import ErrorSection from "@/components/error/ErrorSection";
+import { LocationPreview } from "@/components/forms/preview/LocationPreview";
+import { PreviewSectionLabel } from "@/components/forms/preview/PreviewSection";
 import TechnicianVisitPreview from "@/components/forms/preview/TechnicianVisitPreview";
 import Navigation from "@/components/layouts/Navigation";
 import { PrivateRoute } from "@/components/layouts/PrivateRoute";
@@ -24,6 +26,7 @@ type Result = TechnicianVisit & {
 
 export default function VisitDetail() {
   const t = useTranslations("TechnicianVisit")
+  const checklistTranslation = useTranslations("FarmChecklist")
   const { query } = useRouter()
   const visitId = query.visitId as string;
   const formatter = useFormatter()
@@ -49,8 +52,15 @@ export default function VisitDetail() {
               })
             })}</p>
           </div>
-          <main className="p-6 flex-1 overflow-y-auto">
+          <main className="flex-1 overflow-y-auto">
             <TechnicianVisitPreview visit={visit} />
+            {visit.fieldGpsCoordinates ? <>
+              <PreviewSectionLabel label={checklistTranslation("location")} />
+              <LocationPreview location={{
+                latitude: visit.fieldGpsCoordinates.lat,
+                longitude: visit.fieldGpsCoordinates.lon
+              }} />
+            </> : null}
           </main>
         </>}
       </PrivateRoute>

@@ -1,19 +1,27 @@
 import TechnicianVisitPreview from "@/components/forms/preview/TechnicianVisitPreview"
-import { Location } from "@/hooks/useGeolocation"
+import { UseGeolocation } from "@/hooks/useGeolocation"
+import { LocateIcon, LocateOffIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 import { useFormContext } from "react-hook-form"
-import { Map } from "react-map-gl"
-import PreviewSection from "../preview/PreviewSection"
-import { TechnicianVisitFormSchema } from "./schema"
 import { LocationPreview } from "../preview/LocationPreview"
+import { TechnicianVisitFormSchema } from "./schema"
+import { PreviewSectionLabel } from "../preview/PreviewSection"
 
-type Props = {
-  location?: Location
-}
-
-export default function Confirmation({ location }: Props) {
+export default function Confirmation({ location, isLoading, getLocation }: UseGeolocation) {
   const { watch } = useFormContext<TechnicianVisitFormSchema>()
+  const t = useTranslations("FarmChecklist")
   return <>
     <TechnicianVisitPreview visit={watch()} />
-    {location ? <LocationPreview location={location} /> : null}
+    <PreviewSectionLabel label={t("location")} />
+    {isLoading ? <div className="h-[200px] flex flex-col items-center justify-center gap-4 bg-info/30">
+      <LocateIcon />
+      {t("location loading")}
+    </div>
+      : !location ?
+        <div className="h-[200px] flex flex-col items-center justify-center gap-4 bg-error/50" onClick={getLocation}>
+          <LocateOffIcon />
+          {t("location not found")}
+        </div>
+        : <LocationPreview location={location} />}
   </>
 }
