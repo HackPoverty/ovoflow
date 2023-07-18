@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo '🎨🧑‍🎨🏗️👷 Styling and building your project before pushing'
+
+npm run check-format || (
+  echo '🚨🚨 Styling check failed. 
+        Run npm run format, add changes and commit again.';
+  false;
+)
+
+npm run build || (
+  echo '🚨🚨 Build failed. Please review the error';
+  false;
+)
+
+echo '👍👍 Styling and building passed. Ready to push'
