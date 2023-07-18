@@ -102,20 +102,17 @@ export default function FarmerJournal() {
     <Head>
       <title>{t("new journal")}</title>
     </Head>
-    <Navigation title={t("new journal")} buttonNav={<BackButton />}>
+    <Navigation title={step.title} buttonNav={<BackButton />}>
       <PrivateRoute role={FARMER_ROLE}>
         <main className="flex-1 flex flex-col overflow-hidden">
           {error && <div className="text-sm p-2 bg-error">{error}</div>}
-          <div className="px-6 py-4 shadow">
-            <p className="text-neutral">{t("step", { now: currentStepIndex + 1, total: steps.length })}</p>
-            <h1>{step.title}</h1>
-          </div>
+          <div className="bg-primary py-1" style={{ width: `${(currentStepIndex + 1) / steps.length * 100}%` }} />
           <FormProvider {...methods}>
             <form className="flex-1 flex flex-col overflow-hidden" onSubmit={onSubmit}>
               <div className="flex-1 overflow-auto" ref={ref}>
                 {step.form}
               </div>
-              <div className="grid grid-cols-2 px-6 py-4 gap-2 shadow bg-base-100">
+              <div className="grid grid-cols-2 px-6 py-4 gap-2 bg-base-100 border-t-2">
                 <button disabled={isFirstStep || isSubmitting}
                   className="btn btn-primary btn-outline flex-1"
                   onClick={onBack}

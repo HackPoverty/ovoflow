@@ -159,6 +159,9 @@
     "submit error": "Não foi possível enviar a lista de verificação, tente novamente",
     "go to dashboard": "Ir para detalhes do fazendeiro",
     "required": "Obrigatório",
+    "location is used": "A localização já está sendo usada",
+    "location not found": "Localização não encontrada",
+    "location loading": "Recuperando localização...",
 
     "quality": "Qualidade",
     "bad": "Ruim",
@@ -203,7 +206,8 @@
     "comment": "Comente",
     "comment placeholder": "Algumas notas e preocupações... (opcional)",
     "review": "Análise",
-    "save": "Salvar"
+    "save": "Salvar",
+    "location": "Localização"
   },
   "TechnicianVisit": {
     "loading": "Recuperando dados da visita à fazenda...",
