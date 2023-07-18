@@ -6,13 +6,7 @@ import FarmVaccination from "./FarmVaccination";
 import FarmNote from "./Note";
 import { TechnicianVisitFormSchema } from "./schema";
 
-export {
-  FarmConfirmation,
-  FarmNote,
-  FarmQuality,
-  FarmRedFlag,
-  FarmVaccination
-};
+export { FarmConfirmation, FarmNote, FarmQuality, FarmRedFlag, FarmVaccination };
 
 export const processTechnical = (visit: TechnicianVisitFormSchema, farmerId: string) => {
   const postdata = {
@@ -22,12 +16,12 @@ export const processTechnical = (visit: TechnicianVisitFormSchema, farmerId: str
     fieldForFarmer: {
       id: farmerId,
     },
-  }
+  };
 
   return serialize<typeof postdata>(postdata, "node--technician_visit", {
     changeCase: CaseType.snakeCase,
     relationships: {
       fieldForFarmer: "user--user",
     },
-  })
-}
+  });
+};

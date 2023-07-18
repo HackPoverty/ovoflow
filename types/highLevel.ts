@@ -11,13 +11,13 @@ type Entity<T> = {
 } & T;
 
 /** Counterpart to Drupal's User Interface */
-export type User<T> = Entity<T> & {  
+export type User<T> = Entity<T> & {
   /** The username of the user */
   name: string;
-}
+};
 
 /** Counterpart to Drupal's Node Interface */
-export type Node<T> = Entity<T> & {  
+export type Node<T> = Entity<T> & {
   /** The title of the piece of content */
   title: string;
-}
+};

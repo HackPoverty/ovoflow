@@ -204,7 +204,7 @@
 
     "vaccination": "Vaccination",
     "comment": "Comment",
-    "comment placeholder": "Some note and concerns... (optional)" ,
+    "comment placeholder": "Some note and concerns... (optional)",
     "review": "Review",
     "save": "Save",
 
@@ -216,7 +216,7 @@
       "message": "Could not load farm visit data",
       "try again": "Try again"
     },
-    "farm visit":"{name}'s Farm Visit",
+    "farm visit": "{name}'s Farm Visit",
     "default farm visit": "Farm Visit",
     "visit": "visit on {date}"
   }

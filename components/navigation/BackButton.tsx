@@ -1,10 +1,12 @@
-import { ArrowLeft } from 'lucide-react'
-import { useRouter } from 'next/router'
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/router";
 
 export default function BackButton() {
-  const router = useRouter()
+  const router = useRouter();
 
-  return <button className="btn btn-circle btn-ghost" onClick={router.back}>
-    <ArrowLeft />
-  </button>
+  return (
+    <button className="btn-ghost btn-circle btn" onClick={router.back}>
+      <ArrowLeft />
+    </button>
+  );
 }
