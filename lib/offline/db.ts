@@ -16,6 +16,7 @@ export interface FarmerJournalEntry {
 }
 
 const DATABASE_NAME = 'ovoflow-database'
+const DATABASE_VERSION = 2
 
 export class OvoflowDexie extends Dexie {
   technicianVisit!: Table<TechnicianVisitFormEntry>
@@ -23,7 +24,7 @@ export class OvoflowDexie extends Dexie {
 
   constructor() {
     super(DATABASE_NAME);
-    this.version(2).stores({
+    this.version(DATABASE_VERSION).stores({
       technicianVisit: '++id, value, farmerId, location',
       farmerJournal: '++id, value'
     });
